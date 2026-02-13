@@ -1,7 +1,7 @@
 /**
  * Screener API client
  */
-import apiClient from './axios';
+import apiClient, { API_BASE_URL } from './axios';
 
 export const screenerAPI = {
   /**
@@ -111,7 +111,7 @@ export const screenerAPI = {
    */
   streamScan: (preset = 'moderate', onProgress, onComplete, onError) => {
     const eventSource = new EventSource(
-      `http://localhost:8000/api/v1/screener/scan/stream/${preset}`
+      `${API_BASE_URL}/api/v1/screener/scan/stream/${preset}`
     );
 
     eventSource.onmessage = (event) => {
@@ -257,7 +257,7 @@ export const screenerAPI = {
    */
   streamScanAll: (onProgress, onComplete, onError) => {
     const eventSource = new EventSource(
-      `http://localhost:8000/api/v1/screener/scan/stream/all`
+      `${API_BASE_URL}/api/v1/screener/scan/stream/all`
     );
 
     eventSource.onmessage = (event) => {

@@ -3,8 +3,7 @@
  * Handles broker connections and portfolio data
  */
 import axios from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { API_BASE_URL } from './axios';
 const API_PREFIX = `${API_BASE_URL}/api/v1/portfolio`;
 
 export const portfolioAPI = {

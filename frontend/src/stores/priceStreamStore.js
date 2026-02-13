@@ -8,8 +8,7 @@
  * - Connection status
  */
 import { create } from 'zustand';
-
-const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8000';
+import { WS_BASE_URL } from '../api/axios';
 
 // Use module-level variables for WebSocket (not in store state)
 let ws = null;

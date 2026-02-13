@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Card from '../common/Card';
 import { getAlerts, getProviders, getWebhookStats, updateAlertStatus, deleteAlert, clearAlerts } from '../../api/alerts';
 import { listAlerts as listUserAlerts, listNotifications, markNotificationRead, clearNotifications } from '../../api/userAlerts';
+import { API_BASE_URL } from '../../api/axios';
 import AlertCard from './AlertCard';
 import AlertBuilder from './AlertBuilder';
 import UserAlertsList from './UserAlertsList';
@@ -650,7 +651,7 @@ export default function AlertsTab({ onSelectAlert }) {
                 <div className="bg-gray-50 rounded-lg p-4 max-w-lg mx-auto text-left">
                   <h4 className="font-medium text-gray-800 mb-2">Webhook URL:</h4>
                   <code className="block bg-gray-800 text-green-400 p-3 rounded text-sm break-all">
-                    POST http://localhost:8000/api/v1/webhooks/receive/&#123;provider&#125;
+                    POST {API_BASE_URL}/api/v1/webhooks/receive/&#123;provider&#125;
                   </code>
                   <p className="text-sm text-gray-500 mt-2">
                     Replace &#123;provider&#125; with your signal provider name (e.g., "tradingbot")

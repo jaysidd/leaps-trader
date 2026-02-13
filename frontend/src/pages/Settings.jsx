@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { settingsAPI } from '../api/settings';
 import tradingAPI from '../api/trading';
+import { API_BASE_URL } from '../api/axios';
 import AutoTradingSettings from '../components/settings/AutoTradingSettings';
 
 // Tab configuration
@@ -1176,7 +1177,7 @@ function SystemTab() {
   const [checking, setChecking] = useState(false);
   const [restarting, setRestarting] = useState(false);
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+  const API_BASE = API_BASE_URL;
 
   const testConnection = async () => {
     setChecking(true);

@@ -15,7 +15,11 @@ function getApiBaseUrl() {
   // Local development fallback
   return 'http://localhost:8000';
 }
-const API_BASE_URL = getApiBaseUrl();
+export const API_BASE_URL = getApiBaseUrl();
+
+// WebSocket URL — derive from API base (https → wss, http → ws)
+export const WS_BASE_URL = import.meta.env.VITE_WS_URL ||
+  API_BASE_URL.replace(/^http/, 'ws');
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
