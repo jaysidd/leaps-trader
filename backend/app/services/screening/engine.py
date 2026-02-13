@@ -214,7 +214,7 @@ class ScreeningEngine:
                 result['failed_at'] = 'fundamentals_gate'
                 return result
 
-            # Check gate: ≥4 PASS of 5, ≥5 KNOWN of 5
+            # Check gate: ≥4 PASS of 5, ≥4 KNOWN of 5
             if not fund_stage.passes_gate(GATE_CONFIGS["fundamental"]):
                 logger.info(f"{symbol}: Failed fundamental gate")
                 result['failed_at'] = 'fundamentals_gate'
@@ -268,7 +268,7 @@ class ScreeningEngine:
                 result['failed_at'] = 'technical_gate'
                 return result
 
-            # Check gate: ≥4 PASS of 7, ≥6 KNOWN of 7
+            # Check gate: ≥3 PASS of 7, ≥5 KNOWN of 7
             if not tech_stage.passes_gate(GATE_CONFIGS["technical"]):
                 logger.info(f"{symbol}: Failed technical gate")
                 result['failed_at'] = 'technical_gate'
@@ -331,11 +331,23 @@ class ScreeningEngine:
                 result['failed_at'] = 'options_gate'
                 return result
 
-            # Check gate: ≥3 PASS of 4, ≥4 KNOWN of 4
+            # Check gate: ≥2 PASS of 4, ≥2 KNOWN of 4
+            # Soft-pass: if LEAPS exist but we have insufficient market data
+            # (Alpaca snapshots unavailable — common off-hours / rate limits),
+            # allow through with a penalty.  The downstream signal engine and
+            # AI validator will re-evaluate options quality with fresh data.
             if not opt_stage.passes_gate(GATE_CONFIGS["options"]):
-                logger.info(f"{symbol}: Failed options gate")
-                result['failed_at'] = 'options_gate'
-                return result
+                cov = opt_stage.coverage
+                if cov.known_count == 0 and leaps_available:
+                    # LEAPS exist but zero options market data — soft pass
+                    logger.info(
+                        f"{symbol}: Options gate soft-pass (LEAPS available, no market data)"
+                    )
+                    result['options_soft_pass'] = True
+                else:
+                    logger.info(f"{symbol}: Failed options gate (known={cov.known_count}, pass={cov.pass_count})")
+                    result['failed_at'] = 'options_gate'
+                    return result
 
             result['passed_stages'].append('options')
 

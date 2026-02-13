@@ -761,8 +761,9 @@ class OptionsAnalysis:
 
             # 1. IV (max 30) — lower is better for LEAPS buyers
             # Threshold: < 70% — growth stocks typically have 40-70% IV
+            # Note: IV=0.0 from Alpaca means "not populated" (no snapshot data), treat as UNKNOWN
             iv = option_data.get('implied_volatility')
-            if iv is not None:
+            if iv is not None and iv > 0:
                 criteria['iv_ok'] = (
                     CriterionResult.PASS if iv < 0.70
                     else CriterionResult.FAIL
@@ -778,9 +779,12 @@ class OptionsAnalysis:
                 criteria['iv_ok'] = CriterionResult.UNKNOWN
 
             # 2. Liquidity (max 25) — 100 OI minimum for LEAPS (inherently less liquid)
+            # Note: Alpaca contract data often returns OI=0 when the field isn't populated
+            # (especially for LEAPS outside market hours). Treat OI=0 with no bid/ask as UNKNOWN.
             open_interest = option_data.get('open_interest')
             volume = option_data.get('volume', 0) or 0
-            if open_interest is not None:
+            has_market_data = (bid is not None and bid > 0) or (ask is not None and ask > 0)
+            if open_interest is not None and (open_interest > 0 or has_market_data):
                 criteria['liquidity_ok'] = (
                     CriterionResult.PASS if open_interest > 100
                     else CriterionResult.FAIL

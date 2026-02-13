@@ -24,7 +24,7 @@
 |---|-------|-------|--------|
 | 3 | Synchronous Anthropic client blocks event loop | `services/ai/claude_service.py` | Needs `AsyncAnthropic` migration. Event loop stalls during AI calls, affects all concurrent requests. |
 | 4 | Earnings risk scoring silently fails | `signal_engine.py`, `claude_service.py` | Event loop mismatch in worker thread. Earnings catalyst data missing from signals. |
-| 5 | `asyncio.create_task()` from worker thread for Telegram | `auto_trader.py`, `position_monitor.py` | Not thread-safe. Telegram notifications may silently fail. |
+| 5 | ~~`asyncio.create_task()` from worker thread for Telegram~~ | `auto_trader.py`, `position_monitor.py` | **FIXED 2026-02-13** — Replaced broken import + `create_task` with `get_telegram_bot()` + `asyncio.run_coroutine_threadsafe`. |
 | 6 | Multi-snapshot shape mismatch | `alpaca_service.py` | spread/volume always None in bulk option snapshot path. Affects option liquidity checks. |
 | 7 | No CI/CD pipeline | — | No automated testing on commit/PR. Regressions go undetected until manual discovery. |
 | 8 | No frontend tests at all | `frontend/src/` | 50+ components, 8 stores, 18 API clients with zero unit tests. |
@@ -73,6 +73,8 @@
 - **Auto-scan fix**: (1) Settings key mismatch — frontend `automation.auto_scan_*` vs backend `auto_scan_*` caused saves to silently fail. (2) Job now runs fresh screening engine per-preset and saves results, instead of only reading stale saved results.
 - **Robust scanning overhaul**: (1) Dynamic FMP screener universe (267→1128 stocks). (2) Removed all [:25]/[:50] result caps. (3) Continuous interval scanning (30min default) with market-hours guard. (4) Relaxed defaults: revenue 20→10%, earnings 15→5%, technical gate min_known 6→5. (5) Settings UI for scan mode + interval.
 - **Auto-scan defaults fix**: auto_scan_enabled was `false` by default with no UI toggle, so auto-scan never ran on Railway. Fixed via one-time seed migration + Autopilot UI controls. Added Redis log sink + /api/v1/logs endpoint + Logs page + Sentry SDK integration.
+- **System health monitoring dashboard** (2026-02-13): Full health monitoring system — Redis-based scheduler job tracking (10 jobs), dependency health checks (DB/Redis/Alpaca/Scheduler), `/api/v1/health` dashboard API (5 endpoints), frontend Health page with auto-refresh, Telegram health alerts on status degradation, enhanced `/health` endpoint for Railway probes (returns 503 only when critical). Also fixed broken `_send_telegram` in auto_trader.py and `_send_roll_alert` in position_monitor.py (both imported from non-existent `app.services.notifications.telegram_service` module). New files: health_monitor.py, health.py router, Health.jsx. Modified: main.py, telegram_bot.py, auto_trader.py, position_monitor.py, App.jsx, Sidebar.jsx.
+- **Screening pipeline 0-results fix** (2026-02-13): Auto-scan returned 0 stocks for conservative + blue_chip_leaps due to 3 compounding issues: (1) Options gate min_known=3 impossible without Alpaca snapshots (fixed→2, plus soft-pass when LEAPS exist but 0 known), (2) Sector filter excluded Financial Services + Consumer Defensive (added both), (3) IV=0.0 and OI=0 from uninitialized data treated as real (now UNKNOWN). Also added skip_sector_filter to conservative + blue_chip_leaps presets, and diagnostic failure-breakdown logging in auto_scan_job. Files: types.py, options.py, fundamental.py, engine.py, screener.py, main.py.
 
 ---
 
@@ -83,4 +85,4 @@
 | #39 | Comprehensive test coverage for trading pipeline | Partially addressed — 5 test files exist, auto_trader + order_executor still uncovered |
 | — | Synchronous Anthropic → AsyncAnthropic | Not started — requires client swap + testing |
 | — | Earnings risk scoring event loop mismatch | Not started — needs investigation |
-| — | Telegram create_task thread safety | Not started — needs asyncio-safe alternative |
+| — | Telegram create_task thread safety | **FIXED 2026-02-13** — Used `asyncio.run_coroutine_threadsafe` in both auto_trader.py and position_monitor.py |

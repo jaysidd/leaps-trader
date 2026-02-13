@@ -723,6 +723,29 @@ class TelegramBotService:
         )
         return await self.send_message(chat_id, formatted_message)
 
+    async def broadcast_to_allowed_users(self, message: str) -> int:
+        """
+        Send a message to all allowed user IDs (for system alerts).
+
+        Returns:
+            Count of successful sends
+        """
+        if not self.application or not self._running:
+            return 0
+
+        sent = 0
+        for chat_id in self.allowed_users:
+            try:
+                await self.application.bot.send_message(
+                    chat_id=str(chat_id),
+                    text=message,
+                    parse_mode="Markdown",
+                )
+                sent += 1
+            except Exception as e:
+                logger.error(f"Failed to send health alert to {chat_id}: {e}")
+        return sent
+
 
 # Global instance
 _telegram_bot: Optional[TelegramBotService] = None

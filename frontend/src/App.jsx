@@ -21,6 +21,7 @@ const BotPerformance = lazy(() => import('./pages/BotPerformance'));
 const Backtesting = lazy(() => import('./pages/Backtesting'));
 const Autopilot = lazy(() => import('./pages/Autopilot'));
 const Logs = lazy(() => import('./pages/Logs'));
+const Health = lazy(() => import('./pages/Health'));
 
 // Layout components (always loaded)
 import ErrorBoundary from './components/ErrorBoundary';
@@ -87,6 +88,7 @@ function App() {
                   <Route path="/autopilot" element={<ErrorBoundary><Autopilot /></ErrorBoundary>} />
                   <Route path="/backtesting" element={<ErrorBoundary><Backtesting /></ErrorBoundary>} />
                   <Route path="/logs" element={<ErrorBoundary><Logs /></ErrorBoundary>} />
+                  <Route path="/health" element={<ErrorBoundary><Health /></ErrorBoundary>} />
                   <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
                 </Routes>
               </Suspense>

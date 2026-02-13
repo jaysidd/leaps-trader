@@ -18,7 +18,7 @@ from app.services.scoring.types import (
 class FundamentalAnalysis:
     """Analyze fundamental metrics"""
 
-    # High-growth sectors for LEAPS targeting
+    # Sectors eligible for LEAPS targeting
     GROWTH_SECTORS = [
         'Technology',
         'Healthcare',
@@ -26,6 +26,8 @@ class FundamentalAnalysis:
         'Communication Services',
         'Industrials',
         'Energy',  # Including renewables
+        'Financial Services',  # V, MA, JPM, GS — valid LEAPS targets
+        'Consumer Defensive',  # WMT, COST, PG, KO — blue chip staples
     ]
 
     @staticmethod

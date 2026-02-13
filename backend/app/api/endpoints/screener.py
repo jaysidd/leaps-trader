@@ -440,7 +440,8 @@ LEAPS_PRESETS = {
         "debt_to_equity_max": 150,
         "rsi_min": 30,
         "rsi_max": 70,
-        "iv_max": 80
+        "iv_max": 80,
+        "skip_sector_filter": True,  # Large-caps across ALL sectors are valid LEAPS targets
     },
     "moderate": {
         "description": "Mid caps ($1B+), good growth, balanced risk",
@@ -549,7 +550,8 @@ LEAPS_PRESETS = {
         "rsi_max": 65,
         "iv_max": 60,
         "dte_min": 365,
-        "dte_max": 730
+        "dte_max": 730,
+        "skip_sector_filter": True,  # Mega-caps across ALL sectors are valid LEAPS targets
     },
 
     # ==========================================================================

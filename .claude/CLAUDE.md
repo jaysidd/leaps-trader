@@ -79,7 +79,9 @@ FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zust
 - LEAPS DTE threshold: 250 days (not 365) — real-world expirations can be 9-10 months out
 - Backtrader subclass params: MUST include ALL base params (dict replaces, not merges)
 - Flush Redis FMP cache after field mapping changes: `r.keys('fmp:*')` then `r.delete(*keys)`
-- Screening gate thresholds (types.py): fundamental 4/5 PASS + 4/5 KNOWN, technical 3/7 + 5/7, options 2/4 + 3/4
+- Screening gate thresholds (types.py): fundamental 4/5 PASS + 4/5 KNOWN, technical 3/7 + 5/7, options 2/4 + 2/4
+- Options gate soft-pass: if LEAPS exist but 0 criteria are KNOWN (no Alpaca snapshot data), allow through — downstream signal engine re-evaluates
+- Alpaca option snapshots often return empty off-hours / rate limited — IV=0.0 and OI=0 treated as UNKNOWN, not PASS/FAIL
 - Options IV gate threshold: 70% — LEAPS with IV above 70% are overpaying for time value
 - Options liquidity minimum: 100 OI — minimum open interest for acceptable LEAPS liquidity
 - Composite score minimum: 20 (engine.py) — low bar since 4-stage gates already filter heavily

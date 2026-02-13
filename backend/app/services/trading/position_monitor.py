@@ -582,7 +582,12 @@ class PositionMonitor:
     def _send_roll_alert(self, trade: ExecutedTrade, dte: int):
         """Send LEAPS roll alert via Telegram (non-blocking, best-effort)."""
         try:
-            from app.services.notifications.telegram_service import telegram_service
+            from app.services.telegram_bot import get_telegram_bot
+            import asyncio
+
+            bot = get_telegram_bot()
+            if not bot or not bot._running:
+                return
 
             message = (
                 f"⚠️ LEAPS Roll Alert\n"
@@ -592,7 +597,16 @@ class PositionMonitor:
                 f"Strike: ${trade.option_strike}\n"
                 f"Consider rolling to a later expiry."
             )
-            telegram_service.send_message(message)
+
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                return
+
+            for uid in bot.allowed_users:
+                asyncio.run_coroutine_threadsafe(
+                    bot.send_message(str(uid), message), loop
+                )
             logger.info(f"PositionMonitor: roll alert sent for {trade.symbol} (DTE={dte})")
         except Exception as e:
             logger.debug(f"PositionMonitor: could not send roll alert: {e}")

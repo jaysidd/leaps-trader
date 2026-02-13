@@ -744,10 +744,23 @@ class AutoTrader:
 
     @staticmethod
     def _send_telegram(message: str):
-        """Best-effort Telegram notification."""
+        """Best-effort Telegram notification (thread-safe)."""
         try:
-            from app.services.notifications.telegram_service import telegram_service
-            telegram_service.send_message(message)
+            from app.services.telegram_bot import get_telegram_bot
+            bot = get_telegram_bot()
+            if not bot or not bot._running:
+                return
+
+            import asyncio
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                return  # No event loop available
+
+            for uid in bot.allowed_users:
+                asyncio.run_coroutine_threadsafe(
+                    bot.send_message(str(uid), message), loop
+                )
         except Exception as e:
             logger.debug(f"AutoTrader: telegram notification failed: {e}")
 

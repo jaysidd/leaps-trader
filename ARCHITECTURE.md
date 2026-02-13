@@ -16,7 +16,7 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 
 ## System Map
 
-### Frontend Pages (13 unique pages, 14 routes)
+### Frontend Pages (14 unique pages, 15 routes)
 
 | Route | Page Component | Purpose |
 |-------|---------------|---------|
@@ -32,9 +32,10 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 | `/backtesting` | Backtesting | Strategy backtesting with equity curves and trade logs |
 | `/autopilot` | Autopilot | Monitoring dashboard: market gauges, pipeline status, position calculator, activity feed |
 | `/logs` | Logs | Real-time application logs viewer (Redis ring buffer, level/search/module filtering) |
+| `/health` | Health | System health dashboard: dependency checks, scheduler jobs, auto-scan & bot status |
 | `/settings` | Settings | App config, bot rules, API credentials, automation schedules |
 
-### Backend API Routers (22 groups)
+### Backend API Routers (23 groups)
 
 | Prefix | Router File | Purpose |
 |--------|------------|---------|
@@ -59,6 +60,7 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 | `/api/v1/webhooks` | webhooks.py | External webhook ingestion |
 | `/api/v1/autopilot` | autopilot.py | Autopilot status, activity log, market state, position calculator (4 endpoints) |
 | `/api/v1/logs` | logs.py | Application log viewer from Redis ring buffer (level/search/module filtering) |
+| `/api/v1/health` | health.py | System health dashboard, dependency checks, scheduler job status (5 endpoints) |
 | `/ws` | ws_endpoints.py | Real-time price streaming WebSocket |
 
 ### Backend Services
@@ -219,7 +221,7 @@ Config (symbol, strategy, dates, capital) → POST /run → DB record → asynci
 
 ---
 
-## Background Jobs (9 APScheduler jobs)
+## Background Jobs (10 APScheduler jobs)
 
 | Job ID | Interval | Function | Purpose |
 |--------|----------|----------|---------|
@@ -232,6 +234,7 @@ Config (symbol, strategy, dates, capital) → POST /run → DB record → asynci
 | bot_daily_reset | cron 9:30 ET M-F | bot_daily_reset_job | Reset daily counters at market open |
 | bot_health_check | 5 min | bot_health_check_job | Verify bot state consistency |
 | auto_scan | interval 30min (or cron 8:30 CT) | auto_scan_job | Run configured scan presets with dynamic FMP universe → save + queue to signal processing. **Smart mode**: market-adaptive preset selection via preset_selector + top-N candidate filter |
+| health_alert | 10 min | health_alert_job | Check system health, send Telegram alerts on status degradation (healthy→degraded/critical) |
 
 ---
 
@@ -381,3 +384,27 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Modified**: `requirements.txt` — Added `sentry-sdk[fastapi]>=2.0.0`.
 - **Modified**: `App.jsx` — Added `/logs` route.
 - **Modified**: `Sidebar.jsx` — Added Logs to Tools nav section.
+
+### 2026-02-13 — System Health Monitoring Dashboard
+- **New service**: `services/health_monitor.py` — Centralized health tracking via Redis: scheduler job timing/status, dependency checks (DB/Redis/Alpaca/Scheduler), dashboard aggregation, overdue detection, Telegram alert logic with cooldown.
+- **New API**: `api/endpoints/health.py` — 5 endpoints: /dashboard, /dependencies, /jobs, /jobs/{id}, POST /check.
+- **New page**: `frontend/src/pages/Health.jsx` — Health dashboard with overall status banner, 4 dependency cards, scheduler jobs table (color-coded), auto-scan + trading bot panels, Telegram status, 15s auto-refresh.
+- **New job**: `health_alert_job` (10 min) — Checks system health, sends Telegram alerts on status transitions (healthy→degraded, degraded→critical) with 30min cooldown.
+- **Modified**: `main.py` — Enhanced `/health` endpoint with real dependency checks (returns 503 only when critical), instrumented all 9 scheduler jobs with timing/status tracking, registered health router, added health_alert_job.
+- **Modified**: `telegram_bot.py` — Added `broadcast_to_allowed_users(message)` for system alerts.
+- **Fixed**: `auto_trader._send_telegram` (line 746) — Was importing from non-existent `app.services.notifications.telegram_service`. Now uses `get_telegram_bot()` + `asyncio.run_coroutine_threadsafe`.
+- **Fixed**: `position_monitor._send_roll_alert` — Same broken import fix as auto_trader.
+- **Modified**: `App.jsx` — Added `/health` route.
+- **Modified**: `Sidebar.jsx` — Added Health to Tools nav section.
+
+### 2026-02-13 — Screening Pipeline Fix (0 Results)
+- **Root cause**: Auto-scan consistently returned 0 stocks for `conservative` and `blue_chip_leaps` presets due to 3 compounding issues:
+  1. Options gate `min_known=3` impossible to meet when Alpaca snapshots are unavailable (off-hours/rate limits) — only IV+OI from contract data (often 0/unpopulated), spread+premium require bid/ask.
+  2. Sector filter excluded Financial Services and Consumer Defensive — blocking V, MA, JPM, WMT, COST, PG, KO from conservative/blue-chip scans.
+  3. IV=0.0 and OI=0 from uninitialized Alpaca data treated as real measurements instead of UNKNOWN.
+- **Fixed**: `scoring/types.py` — Options gate `min_known` 3→2.
+- **Fixed**: `screening/engine.py` — Options gate soft-pass: if LEAPS contracts exist but 0 criteria are KNOWN (no snapshot data), allow through with `options_soft_pass=True` flag for downstream re-evaluation.
+- **Fixed**: `analysis/options.py` — IV=0.0 now treated as UNKNOWN (not a real measurement). OI=0 with no bid/ask data treated as UNKNOWN (contract data often doesn't populate OI).
+- **Fixed**: `analysis/fundamental.py` — Added "Financial Services" and "Consumer Defensive" to GROWTH_SECTORS.
+- **Fixed**: `screener.py` — Added `skip_sector_filter: True` to `conservative` and `blue_chip_leaps` presets.
+- **Added**: `main.py` — Diagnostic failure-breakdown logging in auto_scan_job (aggregates `failed_at` counts per preset).

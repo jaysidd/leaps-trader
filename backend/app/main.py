@@ -2,6 +2,7 @@
 LEAPS Trader - FastAPI Application
 """
 import asyncio
+import time
 from datetime import datetime, timedelta
 
 from fastapi import FastAPI, Depends, Request
@@ -29,6 +30,8 @@ from app.api.endpoints import backtesting as backtesting_endpoints
 from app.api.endpoints import scan_processing
 from app.api.endpoints import autopilot as autopilot_endpoints
 from app.api.endpoints import logs as logs_endpoints
+from app.api.endpoints import health as health_endpoints
+from app.services.health_monitor import health_monitor
 from app.services.data_fetcher.finviz import initialize_finviz_service
 from app.services.settings_service import settings_service
 from app.services.data_fetcher.tastytrade import initialize_tastytrade_service
@@ -327,6 +330,13 @@ app.include_router(
     tags=["logs"],
 )
 
+# Health monitoring dashboard
+app.include_router(
+    health_endpoints.router,
+    prefix="/api/v1/health",
+    tags=["health"],
+)
+
 
 @app.get("/")
 async def root():
@@ -340,11 +350,29 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "service": "leaps-trader-api"
-    }
+    """
+    Enhanced health check — pings all critical dependencies.
+    Returns 200 for healthy/degraded, 503 only when truly critical (DB/Redis down).
+    Cached 60s to keep Railway's 30s probe fast.
+    """
+    try:
+        deps = await health_monitor.check_all_dependencies()
+        overall = health_monitor._compute_overall_status(
+            deps, health_monitor.get_all_jobs_health(), health_monitor._get_bot_info()
+        )
+        status_code = 503 if overall == "critical" else 200
+        return JSONResponse(
+            status_code=status_code,
+            content={
+                "status": overall,
+                "service": "leaps-trader-api",
+                "uptime_seconds": round(health_monitor.get_uptime_seconds(), 0),
+                "dependencies": deps,
+            },
+        )
+    except Exception as e:
+        logger.error(f"Health check error: {e}")
+        return {"status": "healthy", "service": "leaps-trader-api"}
 
 
 @app.exception_handler(Exception)
@@ -355,6 +383,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 async def check_alerts_job():
     """Background job to check all active alerts"""
+    _start = time.monotonic()
+    _status, _error = "ok", None
     db = SessionLocal()
     try:
         triggered = await asyncio.to_thread(alert_service.check_all_alerts, db)
@@ -362,15 +392,20 @@ async def check_alerts_job():
             logger.info(f"Alert check complete: {len(triggered)} alerts triggered")
     except Exception as e:
         logger.error(f"Error in alert check job: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("alert_checker", _status, time.monotonic() - _start, _error)
 
 
 async def check_signals_job():
     """Background job to process signal queue and generate trading signals.
     After signal generation, auto-analyzes high-confidence signals with AI
     and sends Telegram strong buy alerts for conviction ≥ 7."""
+    _start = time.monotonic()
+    _status, _error = "ok", None
+
     from zoneinfo import ZoneInfo
     from datetime import datetime
 
@@ -471,13 +506,17 @@ async def check_signals_job():
 
     except Exception as e:
         logger.error(f"Error in signal check job: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("signal_checker", _status, time.monotonic() - _start, _error)
 
 
 async def calculate_mri_job():
     """Background job to calculate and store MRI snapshot"""
+    _start = time.monotonic()
+    _status, _error = "ok", None
     db = SessionLocal()
     try:
         from app.services.command_center import get_macro_signal_service
@@ -486,13 +525,17 @@ async def calculate_mri_job():
         logger.info(f"MRI calculated: {mri.get('mri_score')} ({mri.get('regime')})")
     except Exception as e:
         logger.error(f"Error in MRI calculation job: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("mri_calculator", _status, time.monotonic() - _start, _error)
 
 
 async def capture_market_snapshots_job():
     """Background job to capture Polymarket market snapshots for time-series"""
+    _start = time.monotonic()
+    _status, _error = "ok", None
     db = SessionLocal()
     try:
         from app.services.command_center import get_polymarket_service
@@ -537,13 +580,17 @@ async def capture_market_snapshots_job():
         logger.info(f"Market snapshots captured: {snapshots_created} markets")
     except Exception as e:
         logger.error(f"Error in market snapshot job: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("market_snapshot_capture", _status, time.monotonic() - _start, _error)
 
 
 async def calculate_catalysts_job():
     """Background job to calculate and store catalyst snapshots (Macro Intelligence)"""
+    _start = time.monotonic()
+    _status, _error = "ok", None
     db = SessionLocal()
     try:
         from app.services.command_center import get_catalyst_service
@@ -558,13 +605,18 @@ async def calculate_catalysts_job():
             logger.debug("Catalysts: No significant change, skipped storage")
     except Exception as e:
         logger.error(f"Error in catalyst calculation job: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("catalyst_calculator", _status, time.monotonic() - _start, _error)
 
 
 async def monitor_positions_job():
     """Background job to monitor open positions for SL/TP/trailing stop exits (every 1 min)."""
+    _start = time.monotonic()
+    _status, _error = "ok", None
+
     from zoneinfo import ZoneInfo
     from datetime import datetime
 
@@ -589,35 +641,45 @@ async def monitor_positions_job():
             logger.info(f"Position monitor: {result['exits']} exits executed")
     except Exception as e:
         logger.error(f"Position monitor error: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("position_monitor", _status, time.monotonic() - _start, _error)
 
 
 async def bot_daily_reset_job():
     """Background job to reset daily counters at market open (9:30 AM ET)."""
+    _start = time.monotonic()
+    _status, _error = "ok", None
     db = SessionLocal()
     try:
         from app.services.trading.auto_trader import auto_trader
         await asyncio.to_thread(auto_trader.daily_reset, db)
     except Exception as e:
         logger.error(f"Bot daily reset error: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("bot_daily_reset", _status, time.monotonic() - _start, _error)
 
 
 async def bot_health_check_job():
     """Background job to verify bot state consistency (every 5 min)."""
+    _start = time.monotonic()
+    _status, _error = "ok", None
     db = SessionLocal()
     try:
         from app.services.trading.auto_trader import auto_trader
         await asyncio.to_thread(auto_trader.run_health_check, db)
     except Exception as e:
         logger.error(f"Bot health check error: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("bot_health_check", _status, time.monotonic() - _start, _error)
 
 
 @app.post("/restart", dependencies=[Depends(require_trading_auth)])
@@ -653,6 +715,8 @@ async def auto_scan_job(skip_market_check: bool = False):
     Args:
         skip_market_check: If True, bypass market-hours/weekend/holiday guards (for testing).
     """
+    _start = time.monotonic()
+    _status, _error = "ok", None
     from app.services.settings_service import settings_service
 
     enabled = settings_service.get_setting("automation.auto_scan_enabled")
@@ -803,6 +867,7 @@ async def auto_scan_job(skip_market_check: bool = False):
 
                 # Run screening engine in batches (same as stream_scan endpoint)
                 all_passed = []
+                fail_counts: dict = {}  # Diagnostic: aggregate failure reasons
                 batch_size = 15
 
                 for i in range(0, len(stock_universe), batch_size):
@@ -817,10 +882,21 @@ async def auto_scan_job(skip_market_check: bool = False):
                         for r in batch_results:
                             if r.get('passed_all', False):
                                 all_passed.append(r)
+                            else:
+                                fa = r.get('failed_at', 'unknown')
+                                fail_counts[fa] = fail_counts.get(fa, 0) + 1
 
                 all_passed.sort(key=lambda x: x.get('composite_score', 0), reverse=True)
                 # No artificial cap — save all passing stocks
                 total_scanned += len(stock_universe)
+
+                # ── Diagnostic: log failure breakdown ──
+                if fail_counts:
+                    sorted_fails = sorted(fail_counts.items(), key=lambda x: -x[1])
+                    breakdown = ", ".join(f"{k}={v}" for k, v in sorted_fails)
+                    logger.info(
+                        f"[AutoScan] Preset '{preset}': failure breakdown ({sum(fail_counts.values())} failed): {breakdown}"
+                    )
 
                 logger.info(f"[AutoScan] Preset '{preset}': {len(all_passed)} stocks passed screening")
 
@@ -1020,15 +1096,41 @@ async def auto_scan_job(skip_market_check: bool = False):
 
     except Exception as e:
         logger.error(f"[AutoScan] Job error: {e}")
+        _status, _error = "error", str(e)
         db.rollback()
     finally:
         db.close()
+        health_monitor.record_job_run("auto_scan", _status, time.monotonic() - _start, _error)
+
+
+async def health_alert_job():
+    """Send Telegram alert if system health degrades (every 10 min)."""
+    _start = time.monotonic()
+    _status, _error = "ok", None
+    try:
+        dashboard = await health_monitor.get_dashboard()
+        current_status = dashboard.get("overall_status", "unknown")
+
+        if health_monitor.should_alert(current_status):
+            message = health_monitor.format_alert_message(dashboard)
+            bot = get_telegram_bot()
+            if bot and bot._running:
+                sent = await bot.broadcast_to_allowed_users(message)
+                if sent:
+                    logger.info(f"Health alert sent ({current_status}) to {sent} users")
+                health_monitor.record_alert_sent(current_status)
+    except Exception as e:
+        logger.error(f"Health alert job error: {e}")
+        _status, _error = "error", str(e)
+    finally:
+        health_monitor.record_job_run("health_alert", _status, time.monotonic() - _start, _error)
 
 
 @app.on_event("startup")
 async def startup_event():
     """Run on application startup"""
     logger.info("Starting LEAPS Trader API...")
+    health_monitor.record_startup()
     # Mask credentials in database URL before logging
     db_url = str(app_settings.DATABASE_URL)
     if "@" in db_url:
@@ -1236,11 +1338,23 @@ async def startup_event():
             )
             auto_scan_schedule = f"every {scan_interval}min (market hours)"
 
+        # Health alert: every 10 minutes — sends Telegram on status degradation
+        scheduler.add_job(
+            health_alert_job,
+            'interval',
+            minutes=10,
+            id='health_alert',
+            replace_existing=True,
+            misfire_grace_time=600,
+            max_instances=1,
+            next_run_time=now + timedelta(seconds=300),  # First check 5min after startup
+        )
+
         scheduler.start()
         logger.info(
             "Schedulers started (alerts: 5min, signals: 5min, positions: 1min, "
             "bot_reset: 9:30ET, health: 5min, MRI: 15min, snapshots: 30min, "
-            f"catalysts: 60min, auto_scan: {auto_scan_schedule})"
+            f"catalysts: 60min, auto_scan: {auto_scan_schedule}, health_alert: 10min)"
         )
     except Exception as e:
         logger.error(f"Failed to start alert scheduler: {e}")

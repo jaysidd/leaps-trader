@@ -95,10 +95,13 @@ class StageResult:
 
 # Gate configurations — tightened to reduce noise and improve signal quality.
 # Previously: fundamental 3/5, technical 3/7, options 2/4 — far too permissive.
+# Options min_known lowered to 2: Alpaca snapshots often fail (rate limits, off-hours),
+# leaving spread_ok + premium_ok as UNKNOWN. IV + OI from contract data are sufficient
+# for a meaningful pass/fail decision.
 GATE_CONFIGS = {
     "fundamental": GateConfig(min_pass=4, min_known=4, total=5),
     "technical":   GateConfig(min_pass=3, min_known=5, total=7),
-    "options":     GateConfig(min_pass=2, min_known=3, total=4),
+    "options":     GateConfig(min_pass=2, min_known=2, total=4),
 }
 
 
