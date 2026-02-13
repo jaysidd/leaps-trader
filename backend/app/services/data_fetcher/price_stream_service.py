@@ -17,9 +17,12 @@ try:
     from alpaca.data.live import StockDataStream
     from alpaca.data.enums import DataFeed
     ALPACA_STREAM_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     ALPACA_STREAM_AVAILABLE = False
-    logger.warning("alpaca-py live streaming not available")
+    logger.warning(f"alpaca-py live streaming not available: {e}")
+except Exception as e:
+    ALPACA_STREAM_AVAILABLE = False
+    logger.error(f"alpaca-py live streaming unexpected error: {e}")
 
 # Map string feed names to DataFeed enum
 FEED_MAP = {

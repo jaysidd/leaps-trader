@@ -30,9 +30,12 @@ try:
     )
     from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
     ALPACA_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     ALPACA_AVAILABLE = False
-    logger.warning("alpaca-py not installed. Install with: pip install alpaca-py")
+    logger.warning(f"alpaca-py data module import failed: {e}")
+except Exception as e:
+    ALPACA_AVAILABLE = False
+    logger.error(f"alpaca-py data module unexpected error during import: {e}")
 
 
 class AlpacaService:
