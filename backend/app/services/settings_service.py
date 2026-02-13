@@ -572,14 +572,53 @@ class SettingsService:
                     db.commit()
 
             logger.info(f"API key for {service_name} updated successfully")
-            return {
-                "success": True,
-                "message": f"API key for {service_info['display_name']} updated. Restart server to apply."
-            }
+
+            # Live-reinitialize Alpaca services when their keys change
+            reinit_msg = ""
+            if service_name in ("alpaca_api_key", "alpaca_secret_key"):
+                reinit_msg = self._reinit_alpaca_services(service_name, env_key, api_key)
+
+            msg = f"API key for {service_info['display_name']} updated."
+            if reinit_msg:
+                msg += f" {reinit_msg}"
+            else:
+                msg += " Restart server to apply."
+
+            return {"success": True, "message": msg}
 
         except Exception as e:
             logger.error(f"Error updating API key for {service_name}: {e}")
             return {"success": False, "error": str(e)}
+
+    def _reinit_alpaca_services(self, service_name: str, env_key: str, api_key: str) -> str:
+        """
+        Live-reinitialize Alpaca data + trading singletons when API keys change.
+        Returns a human-readable status message.
+        """
+        try:
+            from app.services.data_fetcher.alpaca_service import alpaca_service
+            from app.services.trading.alpaca_trading_service import alpaca_trading_service
+
+            kwargs = {}
+            if env_key == "ALPACA_API_KEY":
+                kwargs["api_key"] = api_key
+            elif env_key == "ALPACA_SECRET_KEY":
+                kwargs["secret_key"] = api_key
+
+            data_ok = alpaca_service.reinitialize(**kwargs)
+            trade_ok = alpaca_trading_service.reinitialize(**kwargs)
+
+            if data_ok and trade_ok:
+                return "Alpaca services reinitialized successfully."
+            elif data_ok:
+                return "Alpaca data service reinitialized. Trading service needs both keys."
+            elif trade_ok:
+                return "Alpaca trading service reinitialized. Data service needs both keys."
+            else:
+                return "Both Alpaca keys needed — set the other key to activate."
+        except Exception as e:
+            logger.warning(f"Failed to reinitialize Alpaca services: {e}")
+            return "Restart server to apply."
 
     def record_api_usage(self, service_name: str, success: bool = True, error: str = None) -> None:
         """Record API usage for tracking"""

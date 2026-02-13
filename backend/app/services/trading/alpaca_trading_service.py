@@ -44,10 +44,20 @@ class AlpacaTradingService:
         self._paper_mode = settings.ALPACA_PAPER
 
         self._client = None
+        self._try_init()
+
+    def _try_init(self):
+        """Attempt to initialize the trading client. Safe to call multiple times."""
+        if self._client is not None:
+            return  # Already initialized
 
         if not ALPACA_TRADING_AVAILABLE:
             logger.error("Alpaca Trading SDK not available")
             return
+
+        # Re-read keys from settings in case they were set after module import
+        self.api_key = settings.ALPACA_API_KEY
+        self.secret_key = settings.ALPACA_SECRET_KEY
 
         if not self.api_key or not self.secret_key:
             logger.warning("Alpaca API keys not configured")
@@ -62,9 +72,6 @@ class AlpacaTradingService:
                 api_key=self.api_key,
                 secret_key=self.secret_key,
                 paper=self._paper_mode,
-                retry_attempts=3,
-                retry_wait_seconds=2,
-                retry_exception_codes=[429, 500, 502, 503, 504],
             )
             # Alpaca SDK doesn't expose a timeout parameter; patch the underlying
             # requests.Session so every HTTP call has a hard deadline.
@@ -83,8 +90,23 @@ class AlpacaTradingService:
 
     @property
     def is_available(self) -> bool:
-        """Check if trading service is properly configured"""
+        """Check if trading service is properly configured. Tries lazy init if not yet ready."""
+        if self._client is None and ALPACA_TRADING_AVAILABLE:
+            self._try_init()  # Lazy retry in case keys were set after module import
         return ALPACA_TRADING_AVAILABLE and self._client is not None
+
+    def reinitialize(self, api_key: str = None, secret_key: str = None):
+        """
+        Reinitialize with new credentials. Called when API keys are updated
+        via the Settings UI at runtime.
+        """
+        if api_key:
+            self.api_key = api_key
+        if secret_key:
+            self.secret_key = secret_key
+        self._client = None
+        self._try_init()
+        return self.is_available
 
     @property
     def is_paper_mode(self) -> bool:
