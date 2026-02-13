@@ -83,6 +83,9 @@ class Settings(BaseSettings):
     # Auto-generated on first run if empty. Persist in .env to survive restarts.
     CREDENTIAL_ENCRYPTION_KEY: str = ""
 
+    # Sentry error tracking (optional — set DSN env var on Railway to enable)
+    SENTRY_DSN: str = ""
+
     # Deployment
     FRONTEND_URL: str = ""  # Production frontend URL (Railway domain), added to CORS automatically
 

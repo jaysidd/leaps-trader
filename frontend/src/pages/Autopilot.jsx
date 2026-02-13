@@ -159,6 +159,11 @@ export default function Autopilot() {
   const [togglingAccount, setTogglingAccount] = useState(false);
   const [togglingMode, setTogglingMode] = useState(false);
   const [togglingScan, setTogglingScan] = useState(false);
+  const [togglingAutoScan, setTogglingAutoScan] = useState(false);
+
+  // Auto-scan preset selector
+  const [availablePresets, setAvailablePresets] = useState([]);
+  const [savingPresets, setSavingPresets] = useState(false);
 
   // Confirmation dialogs
   const [confirmDialog, setConfirmDialog] = useState(null);
@@ -216,10 +221,31 @@ export default function Autopilot() {
     }
   }, []);
 
+  // Fetch available screening presets for auto-scan selector
+  const fetchPresets = useCallback(async () => {
+    try {
+      const resp = await apiClient.get('/api/v1/screener/presets');
+      const data = resp.data;
+      // Flatten grouped presets into a flat list of { id, name }
+      const flat = [];
+      if (data?.presets) {
+        for (const group of data.presets) {
+          for (const p of (group.presets || [])) {
+            flat.push({ id: p.id, name: p.name });
+          }
+        }
+      }
+      setAvailablePresets(flat);
+    } catch {
+      // Silently fail — presets are optional
+    }
+  }, []);
+
   // Initial load
   useEffect(() => {
     fetchStatus();
     fetchActivity();
+    fetchPresets();
   }, []);
 
   // Polling: status every 15s, activity every 30s
@@ -333,6 +359,38 @@ export default function Autopilot() {
     }
   }, [status, fetchStatus]);
 
+  const handleAutoScanToggle = useCallback(async () => {
+    setTogglingAutoScan(true);
+    try {
+      const current = status?.auto_scan_enabled || false;
+      await apiClient.put('/api/v1/settings/key/automation.auto_scan_enabled', { value: !current });
+      await fetchStatus();
+    } catch (err) {
+      setError('Failed to toggle auto-scan: ' + (err.message || ''));
+    } finally {
+      setTogglingAutoScan(false);
+    }
+  }, [status, fetchStatus]);
+
+  const handlePresetToggle = useCallback(async (presetId) => {
+    setSavingPresets(true);
+    try {
+      const currentPresets = status?.auto_scan_presets || [];
+      let newPresets;
+      if (currentPresets.includes(presetId)) {
+        newPresets = currentPresets.filter(p => p !== presetId);
+      } else {
+        newPresets = [...currentPresets, presetId];
+      }
+      await apiClient.put('/api/v1/settings/key/automation.auto_scan_presets', { value: JSON.stringify(newPresets) });
+      await fetchStatus();
+    } catch (err) {
+      setError('Failed to update auto-scan presets: ' + (err.message || ''));
+    } finally {
+      setSavingPresets(false);
+    }
+  }, [status, fetchStatus]);
+
   const handleSmartScanToggle = useCallback(async () => {
     setTogglingScan(true);
     try {
@@ -397,6 +455,8 @@ export default function Autopilot() {
   const isPaper = status?.paper_mode !== false;
   const executionMode = status?.execution_mode || 'signal_only';
   const smartScanOn = status?.smart_scan_enabled || false;
+  const autoScanOn = status?.auto_scan_enabled || false;
+  const selectedPresets = status?.auto_scan_presets || [];
 
   // Market state: comes from /market-state endpoint as {condition, snapshot: {mri, regime, fear_greed, ...}}
   const snapshot = marketState?.snapshot || status?.market_snapshot || {};
@@ -504,6 +564,30 @@ export default function Autopilot() {
               />
             </div>
 
+            {/* Auto-Scan Toggle */}
+            <div className="flex items-center gap-3">
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Auto-Scan</p>
+                <p className="text-xs text-gray-500 dark:text-gray-500">
+                  {autoScanOn ? 'ON' : 'OFF'}
+                  {selectedPresets.length > 0 && ` \u2022 ${selectedPresets.length} presets`}
+                </p>
+              </div>
+              <button
+                onClick={handleAutoScanToggle}
+                disabled={togglingAutoScan}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  autoScanOn ? 'bg-green-600' : 'bg-gray-600'
+                } ${togglingAutoScan ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    autoScanOn ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+
             {/* Smart Scan Toggle */}
             <div className="flex items-center gap-3">
               <div>
@@ -585,14 +669,15 @@ export default function Autopilot() {
         </div>
 
         {/* ================================================================= */}
-        {/* C. ACTIVE PRESETS                                                 */}
+        {/* C. ACTIVE PRESETS + AUTO-SCAN PRESET SELECTOR                     */}
         {/* ================================================================= */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-            Active Presets
-          </h2>
-          {smartScanOn ? (
-            <div>
+          {/* Smart Scan presets (AI-selected) */}
+          {smartScanOn && (
+            <div className="mb-4">
+              <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                Smart Scan Presets (AI-Selected)
+              </h2>
               <div className="flex flex-wrap gap-2 mb-2">
                 {activePresets.length > 0 ? activePresets.map((p) => (
                   <span
@@ -609,11 +694,45 @@ export default function Autopilot() {
                 <p className="text-sm text-gray-500 dark:text-gray-400 italic">{presetReasoning}</p>
               )}
             </div>
-          ) : (
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Manual presets active. Enable Smart Scan to auto-select presets based on market conditions.
-            </p>
           )}
+
+          {/* Auto-Scan preset selector (manual) */}
+          <div>
+            <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+              Auto-Scan Presets
+              {!autoScanOn && <span className="ml-2 text-xs font-normal text-gray-500">(Enable Auto-Scan to activate)</span>}
+            </h2>
+            <p className="text-xs text-gray-500 dark:text-gray-500 mb-3">
+              Select which screening presets run automatically every 30 minutes during market hours.
+              {smartScanOn && ' When Smart Scan is ON, these are overridden by AI-selected presets.'}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {availablePresets.length > 0 ? availablePresets.map((p) => {
+                const isSelected = selectedPresets.includes(p.id);
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => handlePresetToggle(p.id)}
+                    disabled={savingPresets}
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors border ${
+                      isSelected
+                        ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 border-green-300 dark:border-green-700'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    } ${savingPresets ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  >
+                    {isSelected && '\u2713 '}{p.name}
+                  </button>
+                );
+              }) : (
+                <span className="text-gray-500 dark:text-gray-400 text-sm">Loading presets...</span>
+              )}
+            </div>
+            {selectedPresets.length > 0 && (
+              <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                {selectedPresets.length} preset{selectedPresets.length !== 1 ? 's' : ''} selected: {selectedPresets.join(', ')}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* ================================================================= */}

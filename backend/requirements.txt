@@ -23,3 +23,4 @@ cryptography>=42.0.0
 pyotp>=2.9.0
 qrcode[pil]>=7.4
 backtrader>=1.9.78
+sentry-sdk[fastapi]>=2.0.0

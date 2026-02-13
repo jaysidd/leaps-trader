@@ -28,6 +28,7 @@ from app.api.endpoints import bot as bot_endpoints
 from app.api.endpoints import backtesting as backtesting_endpoints
 from app.api.endpoints import scan_processing
 from app.api.endpoints import autopilot as autopilot_endpoints
+from app.api.endpoints import logs as logs_endpoints
 from app.services.data_fetcher.finviz import initialize_finviz_service
 from app.services.settings_service import settings_service
 from app.services.data_fetcher.tastytrade import initialize_tastytrade_service
@@ -43,6 +44,24 @@ from app.api.endpoints.app_auth import router as app_auth_router, verify_token, 
 scheduler = AsyncIOScheduler()
 
 app_settings = get_settings()
+
+# ── Sentry error tracking (optional — set SENTRY_DSN env var) ─────────────
+import sentry_sdk
+if app_settings.SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=app_settings.SENTRY_DSN,
+        traces_sample_rate=0.1,
+        environment="production",
+    )
+    logger.info("Sentry error tracking enabled")
+
+# ── Redis log sink (structured logs → Redis ring buffer) ──────────────────
+from app.services.log_sink import redis_log_sink
+try:
+    logger.add(redis_log_sink, level="INFO", format="{message}")
+    logger.info("Redis log sink registered")
+except Exception as e:
+    logger.warning(f"Failed to register Redis log sink: {e}")
 
 # Create FastAPI app
 app = FastAPI(
@@ -299,6 +318,13 @@ app.include_router(
     autopilot_endpoints.router,
     prefix="/api/v1/autopilot",
     tags=["autopilot"],
+)
+
+# Logs endpoint (Redis log buffer viewer)
+app.include_router(
+    logs_endpoints.router,
+    prefix="/api/v1/logs",
+    tags=["logs"],
 )
 
 

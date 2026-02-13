@@ -62,6 +62,22 @@ async def get_autopilot_status(db: Session = Depends(get_db)):
             "automation.smart_scan_enabled"
         ) or False
 
+        auto_scan_enabled = settings_service.get_setting(
+            "automation.auto_scan_enabled"
+        ) or False
+        auto_scan_presets_raw = settings_service.get_setting(
+            "automation.auto_scan_presets"
+        ) or []
+        # Ensure it's a list (could be a JSON string from settings)
+        if isinstance(auto_scan_presets_raw, str):
+            import json as _json
+            try:
+                auto_scan_presets = _json.loads(auto_scan_presets_raw)
+            except (ValueError, TypeError):
+                auto_scan_presets = []
+        else:
+            auto_scan_presets = auto_scan_presets_raw if isinstance(auto_scan_presets_raw, list) else []
+
         # ── Bot Configuration (singleton) ─────────────────────────────
         config = db.query(BotConfiguration).first()
         config_data = {}
@@ -145,6 +161,8 @@ async def get_autopilot_status(db: Session = Depends(get_db)):
 
         return {
             "smart_scan_enabled": smart_scan_enabled,
+            "auto_scan_enabled": auto_scan_enabled,
+            "auto_scan_presets": auto_scan_presets,
             **config_data,
             "current_condition": condition,
             "active_presets": active_presets,

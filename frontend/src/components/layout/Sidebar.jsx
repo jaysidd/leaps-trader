@@ -45,6 +45,7 @@ const NAV_SECTIONS = [
       { to: '/trade-journal', icon: '📒', label: 'Journal' },
       { to: '/bot-performance', icon: '📊', label: 'Bot Stats' },
       { to: '/backtesting', icon: '🔬', label: 'Backtest' },
+      { to: '/logs', icon: '📜', label: 'Logs' },
     ],
   },
 ];

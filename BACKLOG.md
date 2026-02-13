@@ -72,6 +72,7 @@
 - **Position monitor timezone fix**: Fixed aware/naive datetime subtraction bug on line 421
 - **Auto-scan fix**: (1) Settings key mismatch — frontend `automation.auto_scan_*` vs backend `auto_scan_*` caused saves to silently fail. (2) Job now runs fresh screening engine per-preset and saves results, instead of only reading stale saved results.
 - **Robust scanning overhaul**: (1) Dynamic FMP screener universe (267→1128 stocks). (2) Removed all [:25]/[:50] result caps. (3) Continuous interval scanning (30min default) with market-hours guard. (4) Relaxed defaults: revenue 20→10%, earnings 15→5%, technical gate min_known 6→5. (5) Settings UI for scan mode + interval.
+- **Auto-scan defaults fix**: auto_scan_enabled was `false` by default with no UI toggle, so auto-scan never ran on Railway. Fixed via one-time seed migration + Autopilot UI controls. Added Redis log sink + /api/v1/logs endpoint + Logs page + Sentry SDK integration.
 
 ---
 

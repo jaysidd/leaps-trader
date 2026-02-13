@@ -139,13 +139,13 @@ DEFAULT_SETTINGS = {
 
     # Auto-scan automation
     "automation.auto_scan_enabled": {
-        "value": "false",
+        "value": "true",
         "value_type": "bool",
         "category": "automation",
-        "description": "Enable daily automated scanning at scheduled time"
+        "description": "Enable automated scanning at scheduled interval during market hours"
     },
     "automation.auto_scan_presets": {
-        "value": "[]",
+        "value": "[\"moderate\", \"momentum\", \"conservative\"]",
         "value_type": "json",
         "category": "automation",
         "description": "JSON array of scan preset names to auto-run (e.g. [\"iv_crush\", \"momentum\"])"
@@ -298,8 +298,16 @@ class SettingsService:
             return json.dumps(value)
         return str(value)
 
+    # Keys whose defaults should be force-applied once (e.g. auto_scan was
+    # originally seeded as "false" and needs correcting on existing installs).
+    # After the first force-update, the user can toggle them freely via the UI.
+    _FORCE_UPDATE_DEFAULTS = {
+        "automation.auto_scan_enabled": "true",
+        "automation.auto_scan_presets": '["moderate", "momentum", "conservative"]',
+    }
+
     def seed_defaults(self) -> None:
-        """Seed default settings if they don't exist"""
+        """Seed default settings if they don't exist, and force-update specific keys once."""
         with self._get_db() as db:
             try:
                 for key, config in DEFAULT_SETTINGS.items():
@@ -313,6 +321,26 @@ class SettingsService:
                             description=config.get("description", "")
                         )
                         db.add(setting)
+
+                # Force-update keys that were seeded with wrong defaults
+                # Uses a sentinel flag so this only runs once per deployment
+                sentinel_key = "_internal.auto_scan_defaults_v2"
+                sentinel = db.query(AppSettings).filter(AppSettings.key == sentinel_key).first()
+                if not sentinel:
+                    for key, new_value in self._FORCE_UPDATE_DEFAULTS.items():
+                        existing = db.query(AppSettings).filter(AppSettings.key == key).first()
+                        if existing:
+                            existing.value = new_value
+                            logger.info(f"Force-updated '{key}' to '{new_value}'")
+                    # Write sentinel so we don't repeat on next restart
+                    db.add(AppSettings(
+                        key=sentinel_key,
+                        value="applied",
+                        value_type="string",
+                        category="_internal",
+                        description="One-time migration flag for auto-scan defaults"
+                    ))
+
                 db.commit()
                 logger.info("Default settings seeded successfully")
             except Exception as e:

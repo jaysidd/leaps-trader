@@ -16,7 +16,7 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 
 ## System Map
 
-### Frontend Pages (12 unique pages, 13 routes)
+### Frontend Pages (13 unique pages, 14 routes)
 
 | Route | Page Component | Purpose |
 |-------|---------------|---------|
@@ -31,9 +31,10 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 | `/bot-performance` | BotPerformance | Trading bot metrics, performance charts, error tracking |
 | `/backtesting` | Backtesting | Strategy backtesting with equity curves and trade logs |
 | `/autopilot` | Autopilot | Monitoring dashboard: market gauges, pipeline status, position calculator, activity feed |
+| `/logs` | Logs | Real-time application logs viewer (Redis ring buffer, level/search/module filtering) |
 | `/settings` | Settings | App config, bot rules, API credentials, automation schedules |
 
-### Backend API Routers (21 groups)
+### Backend API Routers (22 groups)
 
 | Prefix | Router File | Purpose |
 |--------|------------|---------|
@@ -57,6 +58,7 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 | `/api/v1/alerts` | user_alerts.py | Price/technical alerts |
 | `/api/v1/webhooks` | webhooks.py | External webhook ingestion |
 | `/api/v1/autopilot` | autopilot.py | Autopilot status, activity log, market state, position calculator (4 endpoints) |
+| `/api/v1/logs` | logs.py | Application log viewer from Redis ring buffer (level/search/module filtering) |
 | `/ws` | ws_endpoints.py | Real-time price streaming WebSocket |
 
 ### Backend Services
@@ -366,3 +368,16 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Modified**: `settings_service.py` — New setting: automation.smart_scan_enabled
 - **Modified**: `App.jsx` — New /autopilot route + nav link
 - **Modified**: `Settings.jsx` — Smart scan toggle in AutomationTab
+
+### 2026-02-13 — Auto-Scan Fix + Logs Viewer + Sentry Integration
+- **Fixed**: Auto-scan not firing on Railway — `automation.auto_scan_enabled` defaulted to `false` with no UI toggle. Added one-time migration in `seed_defaults()` to force-update existing DB values via sentinel key `_internal.auto_scan_defaults_v2`.
+- **New service**: `services/log_sink.py` — Loguru custom sink pushing structured JSON logs to Redis list `app:logs` (5000 entry ring buffer via LPUSH+LTRIM).
+- **New API**: `api/endpoints/logs.py` — GET /api/v1/logs with level/search/module filtering and configurable limit.
+- **New page**: `frontend/src/pages/Logs.jsx` — Real-time log viewer with auto-refresh (5s), level filters, free-text search, module filter, color-coded monospace entries, follow-tail mode.
+- **Modified**: `autopilot.py` — /status endpoint now returns `auto_scan_enabled` and `auto_scan_presets` fields.
+- **Modified**: `Autopilot.jsx` — Added Auto-Scan master toggle (green) and multi-select preset pills fetched from GET /screener/presets.
+- **Modified**: `main.py` — Registered Redis log sink, logs router, and optional Sentry SDK init (via SENTRY_DSN env var).
+- **Modified**: `config.py` — Added `SENTRY_DSN` setting.
+- **Modified**: `requirements.txt` — Added `sentry-sdk[fastapi]>=2.0.0`.
+- **Modified**: `App.jsx` — Added `/logs` route.
+- **Modified**: `Sidebar.jsx` — Added Logs to Tools nav section.
