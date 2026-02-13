@@ -1100,6 +1100,24 @@ async def auto_scan_job(skip_market_check: bool = False):
         logger.error(f"[AutoScan] Job error: {e}")
         _status, _error = "error", str(e)
         db.rollback()
+
+        # Log scan_failed event so UI doesn't show orphaned "scan started"
+        try:
+            from app.models.autopilot_log import AutopilotLog
+            fail_db = SessionLocal()
+            try:
+                fail_db.add(AutopilotLog(
+                    event_type="scan_failed",
+                    market_condition=smart_selection["condition"] if smart_selection else None,
+                    market_snapshot=smart_selection["market_snapshot"] if smart_selection else None,
+                    presets_selected=presets if 'presets' in dir() else None,
+                    details={"error": str(e)},
+                ))
+                fail_db.commit()
+            finally:
+                fail_db.close()
+        except Exception:
+            pass
     finally:
         db.close()
         health_monitor.record_job_run("auto_scan", _status, time.monotonic() - _start, _error)
@@ -1152,6 +1170,35 @@ async def startup_event():
         settings_service.seed_api_status()
         settings_service.seed_sector_mappings()
         logger.info("Database and settings initialized")
+
+        # Clean up orphaned scan_started events from deploys that killed mid-scan
+        try:
+            from app.models.autopilot_log import AutopilotLog
+            from sqlalchemy import func
+            cleanup_db = SessionLocal()
+            try:
+                # Find scan_started events with no matching scan_complete/scan_failed after them
+                orphaned = cleanup_db.query(AutopilotLog).filter(
+                    AutopilotLog.event_type == "scan_started",
+                ).all()
+                cleaned = 0
+                for started in orphaned:
+                    # Check if there's a completion event after this start
+                    has_completion = cleanup_db.query(AutopilotLog).filter(
+                        AutopilotLog.event_type.in_(["scan_complete", "scan_failed"]),
+                        AutopilotLog.timestamp > started.timestamp,
+                    ).first()
+                    if not has_completion:
+                        started.event_type = "scan_interrupted"
+                        started.details = {"reason": "Process restarted before scan completed"}
+                        cleaned += 1
+                if cleaned:
+                    cleanup_db.commit()
+                    logger.info(f"Cleaned up {cleaned} orphaned scan_started events")
+            finally:
+                cleanup_db.close()
+        except Exception as e:
+            logger.warning(f"Scan cleanup skipped: {e}")
     except Exception as e:
         logger.warning(f"Settings initialization skipped: {e}")
 
