@@ -90,8 +90,9 @@ class AppPasswordMiddleware(BaseHTTPMiddleware):
 
         # Check token from header or query param (EventSource/SSE can't set headers)
         token = request.headers.get("X-App-Token", "") or request.query_params.get("token", "")
-        if not verify_token(token):
-            logger.warning(f"Auth blocked: {method} {path}")
+        is_valid = verify_token(token)
+        logger.info(f"[AUTH_MW] token='{token[:20]}...' valid={is_valid} path={path}")
+        if not is_valid:
             return JSONResponse(
                 status_code=401,
                 content={"detail": "Authentication required. Please log in."},
