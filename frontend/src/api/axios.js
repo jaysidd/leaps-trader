@@ -3,7 +3,19 @@
  */
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+function getApiBaseUrl() {
+  // Build-time env var (set in Railway frontend service)
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  // Runtime: if running on Railway/production, use the backend domain
+  if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
+    return 'https://leaps-trader-backend-production.up.railway.app';
+  }
+  // Local development fallback
+  return 'http://localhost:8000';
+}
+const API_BASE_URL = getApiBaseUrl();
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
