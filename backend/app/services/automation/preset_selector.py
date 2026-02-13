@@ -4,6 +4,9 @@ Market-Adaptive Preset Selector — The conductor's brain.
 Reads cached market intelligence (MRI, regime, Fear & Greed, Trade Readiness)
 and selects appropriate screening presets for current market conditions.
 
+Uses a WEIGHTED SCORING system — all signals contribute proportionally
+instead of any single signal vetoing the classification.
+
 Uses ONLY cached data — never triggers new API calls. Fast (<10ms).
 """
 from typing import Dict, Any, Optional, List
@@ -49,6 +52,29 @@ MARKET_CONDITIONS = {
     },
 }
 
+# ---------------------------------------------------------------------------
+# Signal weights for composite scoring
+# ---------------------------------------------------------------------------
+# Each signal contributes to an overall market score on a -100 to +100 scale.
+# Positive = bullish, Negative = bearish.  Weights sum to 1.0.
+
+SIGNAL_WEIGHTS = {
+    "regime":      0.35,  # Market regime (VIX/SPY/SMA) — most reliable directional signal
+    "mri":         0.30,  # Macro Risk Index (Polymarket) — macro headwinds/tailwinds
+    "fear_greed":  0.20,  # CNN Fear & Greed — sentiment gauge
+    "readiness":   0.15,  # Trade Readiness — catalyst/liquidity composite
+}
+
+# Score → condition thresholds (on the -100 to +100 scale)
+CONDITION_THRESHOLDS = {
+    "aggressive_bull": 50,   # Score >= 50 → aggressive
+    "moderate_bull":   20,   # Score >= 20 → moderate bull
+    "neutral":          0,   # Score >=  0 → neutral
+    "cautious":       -20,   # Score >= -20 → cautious
+    "defensive":      -50,   # Score >= -50 → defensive
+    # Below -50 with extreme signals → skip
+}
+
 
 class PresetSelector:
     """Select screening presets based on current market conditions."""
@@ -65,23 +91,24 @@ class PresetSelector:
             market_snapshot: dict — raw intelligence values
         """
         snapshot = await self._gather_market_snapshot(db)
-        condition = self._classify_condition(snapshot)
+        score, signal_scores = self._compute_composite_score(snapshot)
+        condition = self._classify_condition(score, snapshot)
         mapping = MARKET_CONDITIONS[condition]
 
-        reasoning = self._build_reasoning(condition, snapshot)
+        reasoning = self._build_reasoning(condition, score, signal_scores, snapshot)
 
         result = {
             "condition": condition,
             "presets": mapping["presets"],
             "max_positions": mapping["max_positions"],
             "reasoning": reasoning,
-            "market_snapshot": snapshot,
+            "market_snapshot": {**snapshot, "composite_score": round(score, 1)},
         }
 
         logger.info(
-            f"[PresetSelector] {condition} → {mapping['presets']} "
+            f"[PresetSelector] {condition} (score={score:.1f}) → {mapping['presets']} "
             f"(MRI={snapshot.get('mri', '?')}, regime={snapshot.get('regime', '?')}, "
-            f"F&G={snapshot.get('fear_greed', '?')})"
+            f"F&G={snapshot.get('fear_greed', '?')}, readiness={snapshot.get('readiness_label', '?')})"
         )
 
         return result
@@ -164,83 +191,160 @@ class PresetSelector:
 
         return snapshot
 
-    def _classify_condition(self, snapshot: Dict[str, Any]) -> str:
+    def _compute_composite_score(self, snapshot: Dict[str, Any]) -> tuple:
         """
-        Map market intelligence snapshot to a condition label.
+        Compute a weighted composite market score from all intelligence signals.
 
-        Priority order (most specific → most general):
-        1. Extreme fear → skip
-        2. Risk-off → defensive
-        3. Bearish regime → defensive
-        4. Cautious signals → cautious
-        5. Neutral → neutral
-        6. Moderate bull → moderate_bull
-        7. Aggressive bull → aggressive_bull
+        Each signal is normalized to a -100 to +100 scale:
+          - Positive = bullish sentiment
+          - Negative = bearish sentiment
+
+        Returns:
+            (composite_score, signal_scores_dict)
         """
-        mri = snapshot.get("mri")
-        mri_regime = snapshot.get("mri_regime")
+        signal_scores = {}
+        available_weight = 0.0
+
+        # 1. Market Regime → -100 to +100
         regime = snapshot.get("regime")
-        fear_greed = snapshot.get("fear_greed")
+        if regime is not None:
+            confidence = snapshot.get("regime_confidence")
+            conf_multiplier = min(confidence / 100.0, 1.0) if confidence else 0.7
+            regime_map = {
+                "bullish": 80,
+                "neutral": 0,
+                "bearish": -80,
+            }
+            raw = regime_map.get(regime, 0)
+            signal_scores["regime"] = raw * conf_multiplier
+            available_weight += SIGNAL_WEIGHTS["regime"]
+        else:
+            signal_scores["regime"] = None
+
+        # 2. MRI → -100 to +100 (INVERTED: low MRI = bullish, high MRI = bearish)
+        mri = snapshot.get("mri")
+        if mri is not None:
+            # MRI 0-100: 0 = max bullish, 50 = neutral, 100 = max bearish
+            # Convert to: +100 = bullish, -100 = bearish
+            signal_scores["mri"] = (50 - mri) * 2  # MRI=0→+100, MRI=50→0, MRI=100→-100
+            available_weight += SIGNAL_WEIGHTS["mri"]
+        else:
+            signal_scores["mri"] = None
+
+        # 3. Fear & Greed → -100 to +100
+        fg = snapshot.get("fear_greed")
+        if fg is not None:
+            # F&G 0-100: 0 = extreme fear (bearish), 50 = neutral, 100 = extreme greed (bullish)
+            signal_scores["fear_greed"] = (fg - 50) * 2  # F&G=0→-100, F&G=50→0, F&G=100→+100
+            available_weight += SIGNAL_WEIGHTS["fear_greed"]
+        else:
+            signal_scores["fear_greed"] = None
+
+        # 4. Trade Readiness → -100 to +100
         readiness = snapshot.get("readiness")
         readiness_label = snapshot.get("readiness_label")
+        if readiness is not None:
+            # Readiness 0-100: 0 = best (risk-on/green), 100 = worst (risk-off/red)
+            # Convert to: +100 = bullish, -100 = bearish
+            signal_scores["readiness"] = (50 - readiness) * 2
+            available_weight += SIGNAL_WEIGHTS["readiness"]
+        elif readiness_label is not None:
+            # Fallback: just use the label
+            label_map = {"green": 60, "yellow": 0, "red": -60}
+            signal_scores["readiness"] = label_map.get(readiness_label, 0)
+            available_weight += SIGNAL_WEIGHTS["readiness"]
+        else:
+            signal_scores["readiness"] = None
 
-        # Use safe defaults if data is missing
-        if mri is None:
-            mri = 50  # Assume transition
-        if fear_greed is None:
-            fear_greed = 50  # Assume neutral
-        if regime is None:
-            regime = "neutral"
+        # Compute weighted composite, normalizing by available weight
+        if available_weight == 0:
+            return 0.0, signal_scores
 
-        # 1. Extreme fear: MRI risk_off + F&G < 15
-        if mri > 66 and fear_greed < 15:
+        composite = 0.0
+        for signal_name, weight in SIGNAL_WEIGHTS.items():
+            score = signal_scores.get(signal_name)
+            if score is not None:
+                # Re-normalize weight proportionally to available signals
+                normalized_weight = weight / available_weight
+                composite += score * normalized_weight
+
+        return composite, signal_scores
+
+    def _classify_condition(self, score: float, snapshot: Dict[str, Any]) -> str:
+        """
+        Map composite score to a market condition.
+
+        Uses the composite score as primary classifier, with hard overrides
+        only for extreme danger signals (MRI > 80 + extreme fear).
+        """
+        mri = snapshot.get("mri")
+        fear_greed = snapshot.get("fear_greed")
+
+        # Hard override: skip ONLY in extreme panic (MRI > 80 AND F&G < 10)
+        # This is the ONLY single-signal override — reserved for true emergencies
+        if mri is not None and fear_greed is not None:
+            if mri > 80 and fear_greed < 10:
+                return "skip"
+
+        # Score-based classification (all signals contribute proportionally)
+        if score >= CONDITION_THRESHOLDS["aggressive_bull"]:
+            return "aggressive_bull"
+        elif score >= CONDITION_THRESHOLDS["moderate_bull"]:
+            return "moderate_bull"
+        elif score >= CONDITION_THRESHOLDS["neutral"]:
+            return "neutral"
+        elif score >= CONDITION_THRESHOLDS["cautious"]:
+            return "cautious"
+        elif score >= CONDITION_THRESHOLDS["defensive"]:
+            return "defensive"
+        else:
             return "skip"
 
-        # 2. Defensive: MRI risk_off OR regime bearish OR F&G < 25
-        if mri > 66 or regime == "bearish" or fear_greed < 25:
-            return "defensive"
-
-        # 3. Cautious: readiness yellow OR MRI leaning risk_off (50-66)
-        if readiness_label == "yellow" or (50 <= mri <= 66):
-            return "cautious"
-
-        # 4. Neutral: regime neutral + MRI transition
-        if regime == "neutral" and 33 <= mri <= 66:
-            return "neutral"
-
-        # 5. Aggressive bull: regime bullish + MRI risk_on + F&G > 60
-        if regime == "bullish" and mri < 33 and fear_greed > 60:
-            return "aggressive_bull"
-
-        # 6. Moderate bull: regime bullish + MRI transition
-        if regime == "bullish":
-            return "moderate_bull"
-
-        # 7. Default: neutral
-        return "neutral"
-
-    def _build_reasoning(self, condition: str, snapshot: Dict[str, Any]) -> str:
+    def _build_reasoning(self, condition: str, composite_score: float,
+                         signal_scores: Dict[str, Any], snapshot: Dict[str, Any]) -> str:
         """Build a human-readable explanation of why this condition was selected."""
         parts = []
 
+        # Composite score
+        parts.append(f"Composite: {composite_score:+.1f}/100")
+
+        # Individual signals with their contributions
         regime = snapshot.get("regime", "unknown")
         confidence = snapshot.get("regime_confidence", "?")
-        parts.append(f"Regime: {regime} (confidence {confidence})")
+        regime_score = signal_scores.get("regime")
+        regime_str = f"Regime: {regime} ({confidence}%)"
+        if regime_score is not None:
+            regime_str += f" → {regime_score:+.0f}"
+        parts.append(regime_str)
 
         mri = snapshot.get("mri")
         mri_regime = snapshot.get("mri_regime", "unknown")
+        mri_score = signal_scores.get("mri")
         if mri is not None:
-            parts.append(f"MRI: {mri:.0f} ({mri_regime})")
+            mri_str = f"MRI: {mri:.0f} ({mri_regime})"
+            if mri_score is not None:
+                mri_str += f" → {mri_score:+.0f}"
+            parts.append(mri_str)
 
         fg = snapshot.get("fear_greed")
+        fg_score = signal_scores.get("fear_greed")
         if fg is not None:
             label = "fear" if fg < 30 else "greed" if fg > 70 else "neutral"
-            parts.append(f"F&G: {fg:.0f} ({label})")
+            fg_str = f"F&G: {fg:.0f} ({label})"
+            if fg_score is not None:
+                fg_str += f" → {fg_score:+.0f}"
+            parts.append(fg_str)
+        else:
+            parts.append("F&G: unavailable")
 
         readiness = snapshot.get("readiness")
         r_label = snapshot.get("readiness_label", "unknown")
+        r_score = signal_scores.get("readiness")
         if readiness is not None:
-            parts.append(f"Readiness: {readiness:.0f} ({r_label})")
+            r_str = f"Readiness: {readiness:.0f} ({r_label})"
+            if r_score is not None:
+                r_str += f" → {r_score:+.0f}"
+            parts.append(r_str)
 
         desc = MARKET_CONDITIONS[condition]["description"]
         return f"{desc} | {' | '.join(parts)}"

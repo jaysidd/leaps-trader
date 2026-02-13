@@ -309,8 +309,8 @@ class MarketDataService:
 
                     return result
                 else:
-                    logger.error(f"Fear & Greed API returned status {response.status}")
-                    return None
+                    logger.warning(f"Fear & Greed API returned status {response.status}, using fallback")
+                    return await self._get_fear_greed_fallback()
 
         except Exception as e:
             logger.error(f"Error fetching Fear & Greed index: {e}")

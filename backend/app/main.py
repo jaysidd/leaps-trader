@@ -790,9 +790,11 @@ async def auto_scan_job(skip_market_check: bool = False):
 
             presets = smart_selection["presets"]
             auto_process = True  # Always auto-process in smart mode
+            snap = smart_selection['market_snapshot']
             logger.info(
-                f"[AutoScan] Smart mode: {smart_selection['condition']} → {presets} "
-                f"(MRI={smart_selection['market_snapshot'].get('mri', '?')})"
+                f"[AutoScan] Smart mode: {smart_selection['condition']} "
+                f"(score={snap.get('composite_score', '?')}) → {presets} | "
+                f"{smart_selection.get('reasoning', '')}"
             )
         except Exception as e:
             logger.error(f"[AutoScan] Smart scan error, falling back to manual presets: {e}")
