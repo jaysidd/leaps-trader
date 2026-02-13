@@ -74,6 +74,11 @@ class Settings(BaseSettings):
     # Set APP_PASSWORD to require login before accessing the app. If empty, app is open (local dev).
     APP_PASSWORD: str = ""
 
+    # TOTP 2FA (Google Authenticator / Authy)
+    # Generate with: python3 -c "import pyotp; print(pyotp.random_base32())"
+    # Set TOTP_SECRET to enable 2FA. If empty, only password is required.
+    TOTP_SECRET: str = ""
+
     # Credential Encryption - Fernet key for encrypting stored broker passwords
     # Auto-generated on first run if empty. Persist in .env to survive restarts.
     CREDENTIAL_ENCRYPTION_KEY: str = ""
