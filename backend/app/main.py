@@ -61,43 +61,45 @@ app.add_middleware(
 )
 
 # ── App-wide password protection middleware ──────────────────────────────────
-# Skips: health check, auth endpoints, docs, OPTIONS (CORS preflight), WebSocket
+from starlette.middleware.base import BaseHTTPMiddleware
+
 _AUTH_SKIP_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json", "/api/v1/auth/")
 
 
-@app.middleware("http")
-async def app_password_middleware(request: Request, call_next):
-    """Block unauthenticated requests when APP_PASSWORD is set."""
-    app_pw = _get_app_password()
-    # Skip if no password configured
-    if not app_pw:
+class AppPasswordMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        app_pw = _get_app_password()
+        if not app_pw:
+            return await call_next(request)
+
+        path = request.url.path
+        method = request.method
+
+        # Always allow CORS preflight
+        if method == "OPTIONS":
+            return await call_next(request)
+
+        # Allow public paths
+        if any(path == p or path.startswith(p) for p in _AUTH_SKIP_PATHS):
+            return await call_next(request)
+
+        # Allow WebSocket
+        if path.startswith("/ws"):
+            return await call_next(request)
+
+        # Check token from header or query param (EventSource/SSE can't set headers)
+        token = request.headers.get("X-App-Token", "") or request.query_params.get("token", "")
+        if not verify_token(token):
+            logger.warning(f"Auth blocked: {method} {path}")
+            return JSONResponse(
+                status_code=401,
+                content={"detail": "Authentication required. Please log in."},
+            )
+
         return await call_next(request)
-    path = request.url.path
-    method = request.method
 
-    # Always allow CORS preflight
-    if method == "OPTIONS":
-        return await call_next(request)
 
-    # Allow public paths
-    if any(path == p or path.startswith(p) for p in _AUTH_SKIP_PATHS):
-        return await call_next(request)
-
-    # Allow WebSocket (they do their own auth or are internal)
-    if path.startswith("/ws"):
-        return await call_next(request)
-
-    # Check token from header or query param (EventSource/SSE can't set headers)
-    token = request.headers.get("X-App-Token", "") or request.query_params.get("token", "")
-    is_valid = verify_token(token)
-    logger.warning(f"Auth middleware: {method} {path} | pw_len={len(app_pw)} token_present={bool(token)} valid={is_valid}")
-    if not is_valid:
-        return JSONResponse(
-            status_code=401,
-            content={"detail": "Authentication required. Please log in."},
-        )
-
-    return await call_next(request)
+app.add_middleware(AppPasswordMiddleware)
 
 
 # ── Rate limiting (simple in-memory, per-IP) ────────────────────────────────
