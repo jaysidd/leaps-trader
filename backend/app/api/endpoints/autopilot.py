@@ -231,8 +231,14 @@ async def get_market_state(db: Session = Depends(get_db)):
     try:
         selector = get_preset_selector()
         snapshot = await selector._gather_market_snapshot(db)
-        condition = selector._classify_condition(snapshot)
-        return {"condition": condition, "snapshot": snapshot}
+        score, signal_scores = selector._compute_composite_score(snapshot)
+        condition = selector._classify_condition(score, snapshot)
+        return {
+            "condition": condition,
+            "composite_score": round(score, 1),
+            "signal_scores": {k: round(v, 1) if v is not None else None for k, v in signal_scores.items()},
+            "snapshot": snapshot,
+        }
 
     except Exception as e:
         logger.error(f"Market state error: {e}")
