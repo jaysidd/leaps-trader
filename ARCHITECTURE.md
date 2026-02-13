@@ -416,3 +416,11 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Fixed**: `alpaca_service.py` — Added `_try_init()` lazy-init, `reinitialize()`, improved import error logging (logs actual exception instead of generic "not installed").
 - **Fixed**: `settings_service.py` — Auto-reinitializes Alpaca data + trading singletons when API keys updated via Settings UI (no restart required).
 - **Fixed**: `price_stream_service.py` — Improved import error logging.
+
+### 2026-02-13 — PresetSelector Weighted Scoring Overhaul
+- **Root cause**: Old priority-chain classification in `preset_selector.py` let a single `readiness_label="yellow"` (trade readiness score 34-66, very common) veto bullish regime + low MRI, permanently locking scanner into `cautious` → only conservative + blue_chip_leaps. Bullish signals (regime, MRI) could never reach `moderate_bull` or `aggressive_bull` checks.
+- **Rewritten**: `preset_selector.py` — Replaced priority-chain with weighted composite scoring system. All 4 signals (regime 35%, MRI 30%, F&G 20%, readiness 15%) contribute proportionally to a -100/+100 composite score. Score thresholds: ≥50 aggressive_bull, ≥20 moderate_bull, ≥0 neutral, ≥-20 cautious, ≥-50 defensive. Only hard override: extreme panic (MRI>80 + F&G<10) → skip. Missing signals excluded from weighting (remaining signals re-normalized). Added `_compute_composite_score()` method.
+- **Fixed**: `market_data.py` — CNN Fear & Greed API non-200 responses (status 418 = bot detection) now fall through to VIX-based fallback calculation instead of returning None. F&G signal now almost always available.
+- **Fixed**: `autopilot.py` — `/market-state` endpoint updated for new `_classify_condition(score, snapshot)` signature. Response now includes `composite_score` and `signal_scores` breakdown.
+- **Modified**: `main.py` — Auto-scan Smart mode logging now shows composite score and full reasoning string.
+- **Result**: With MRI=34.5, regime=bullish, F&G=70 (VIX fallback), readiness=yellow → composite +21.7 → `moderate_bull` (was `cautious`). Scanner now selects ["moderate", "blue_chip_leaps", "swing_breakout"] instead of just ["conservative", "blue_chip_leaps"].

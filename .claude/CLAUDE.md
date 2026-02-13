@@ -97,6 +97,9 @@ FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zust
 - alpaca-py + pandas 3.0: pandas 3.0 dropped pytz as dependency, but alpaca-py data module still requires it — must explicitly add `pytz` to requirements.txt
 - alpaca-py 0.43.x: TradingClient no longer accepts `retry_attempts`, `retry_wait_seconds`, `retry_exception_codes` — removed in newer versions
 - Alpaca service singletons: Both `alpaca_service` and `alpaca_trading_service` have `reinitialize()` for live credential updates and lazy `_try_init()` on `is_available` check
+- PresetSelector uses WEIGHTED composite scoring (-100 to +100): regime 35%, MRI 30%, F&G 20%, readiness 15%. Score thresholds: ≥50 aggressive_bull, ≥20 moderate_bull, ≥0 neutral, ≥-20 cautious, ≥-50 defensive. No single signal can veto the classification (except extreme panic MRI>80 + F&G<10).
+- CNN Fear & Greed API returns 418 (bot detection) — `get_fear_greed_index()` falls through to VIX-based fallback via `_get_fear_greed_fallback()`. F&G should almost always be available now.
+- PresetSelector `_classify_condition()` takes TWO args `(score, snapshot)` — any external callers (autopilot.py) must call `_compute_composite_score()` first
 
 ## Reference Documents
 
