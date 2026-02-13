@@ -93,6 +93,10 @@ FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zust
 - DB endpoints: use `Depends(get_db)` not manual `SessionLocal()` to prevent connection leaks
 - FMP screener universe cached 4h in Redis (`fmp:screener_universe:*`) — flush after changing screener params
 - Auto-scan runs in interval mode (default 30min) with market-hours guard — requires server restart to change mode
+- Railway pip cache: Changing requirements.txt content busts the cache. If all lines show "cached 0ms" in build logs, a dep change wasn't detected.
+- alpaca-py + pandas 3.0: pandas 3.0 dropped pytz as dependency, but alpaca-py data module still requires it — must explicitly add `pytz` to requirements.txt
+- alpaca-py 0.43.x: TradingClient no longer accepts `retry_attempts`, `retry_wait_seconds`, `retry_exception_codes` — removed in newer versions
+- Alpaca service singletons: Both `alpaca_service` and `alpaca_trading_service` have `reinitialize()` for live credential updates and lazy `_try_init()` on `is_available` check
 
 ## Reference Documents
 

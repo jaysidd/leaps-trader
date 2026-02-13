@@ -408,3 +408,11 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Fixed**: `analysis/fundamental.py` — Added "Financial Services" and "Consumer Defensive" to GROWTH_SECTORS.
 - **Fixed**: `screener.py` — Added `skip_sector_filter: True` to `conservative` and `blue_chip_leaps` presets.
 - **Added**: `main.py` — Diagnostic failure-breakdown logging in auto_scan_job (aggregates `failed_at` counts per preset).
+
+### 2026-02-13 — Fix Alpaca SDK on Railway
+- **Root cause**: `alpaca.data` module failed to import on Railway due to missing `pytz` dependency (pandas 3.0 dropped pytz, but alpaca-py still requires it). Additionally, `TradingClient.__init__()` crashed with invalid `retry_attempts` parameter (removed in alpaca-py 0.43.x). Railway's Nixpacks build cache also served stale pip installs.
+- **Fixed**: `requirements.txt` — Pinned `alpaca-py==0.43.2` (busted stale cache), added `pytz>=2024.1`.
+- **Fixed**: `alpaca_trading_service.py` — Removed invalid `retry_attempts`, `retry_wait_seconds`, `retry_exception_codes` from TradingClient init. Added `_try_init()` lazy-init pattern + `reinitialize()` for live credential updates.
+- **Fixed**: `alpaca_service.py` — Added `_try_init()` lazy-init, `reinitialize()`, improved import error logging (logs actual exception instead of generic "not installed").
+- **Fixed**: `settings_service.py` — Auto-reinitializes Alpaca data + trading singletons when API keys updated via Settings UI (no restart required).
+- **Fixed**: `price_stream_service.py` — Improved import error logging.
