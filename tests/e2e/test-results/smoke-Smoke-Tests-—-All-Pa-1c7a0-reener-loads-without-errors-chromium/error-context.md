@@ -1,0 +1,50 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - link "📈 LEAPS Trader" [ref=e7] [cursor=pointer]:
+        - /url: /command-center
+        - generic [ref=e8]: 📈
+        - generic [ref=e9]: LEAPS Trader
+      - generic [ref=e10]:
+        - link "🎯Command Center" [ref=e11] [cursor=pointer]:
+          - /url: /command-center
+        - link "🔍Screener" [ref=e12] [cursor=pointer]:
+          - /url: /screener
+        - link "📋Saved Scans" [ref=e13] [cursor=pointer]:
+          - /url: /saved-scans
+        - link "🔔Signals 2" [ref=e14] [cursor=pointer]:
+          - /url: /signals
+          - text: 🔔Signals
+          - generic [ref=e15]: "2"
+        - link "💼Portfolio" [ref=e16] [cursor=pointer]:
+          - /url: /portfolio
+        - link "🧠Macro Intel" [ref=e17] [cursor=pointer]:
+          - /url: /macro-intelligence
+        - link "🗺️Heat Map" [ref=e18] [cursor=pointer]:
+          - /url: /heatmap
+        - link "📒Journal" [ref=e19] [cursor=pointer]:
+          - /url: /trade-journal
+        - link "📊Bot Stats" [ref=e20] [cursor=pointer]:
+          - /url: /bot-performance
+        - link "🔬Backtest" [ref=e21] [cursor=pointer]:
+          - /url: /backtesting
+        - link "⚙️Settings" [ref=e22] [cursor=pointer]:
+          - /url: /settings
+      - button "Switch to Light Mode" [ref=e24]:
+        - img [ref=e25]
+  - generic [ref=e28]:
+    - generic [ref=e29]: NEWS
+    - generic [ref=e30]: No news available
+  - generic [ref=e32]:
+    - img "warning" [ref=e34]: ⚠️
+    - heading "Something went wrong" [level=2] [ref=e35]
+    - paragraph [ref=e36]: An unexpected error occurred. You can try again or reload the page.
+    - group [ref=e37]:
+      - generic "Error details" [ref=e38] [cursor=pointer]
+    - generic [ref=e39]:
+      - button "Try Again" [ref=e40]
+      - button "Reload Page" [ref=e41]
+```

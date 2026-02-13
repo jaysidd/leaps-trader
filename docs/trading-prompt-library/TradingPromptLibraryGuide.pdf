@@ -1,0 +1,8882 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [ 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R 23 0 R 25 0 R 27 0 R 29 0 R 31 0 R 33 0 R 35 0 R 37 0 R 39 0 R 41 0 R 43 0 R 45 0 R 47 0 R 49 0 R 51 0 R 53 0 R 55 0 R 57 0 R 59 0 R 61 0 R 63 0 R ] /Count 29 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 3332 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(1) Tj
+ET
+BT
+/F2 22.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Trading Prompt Library Guide \(Stocks & Options\)) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 710.00 m 558.00 710.00 l S
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 698.00 Tm
+(Educational reference only - not financial advice. Examples are synthetic and) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 684.00 Tm
+(simplified.) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(Goal: explain what each prompt is trying to capture, when it tends to work, how it) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 650.00 Tm
+(fails, what data is required, and how to interpret the outputs.) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 630.00 Tm
+(Generated: 2026-02-03) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 580.00 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 585.40 Tm
+(How to Use) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 585.40 Tm
+(Key Rule) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 602.00 m 558.00 602.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 580.00 m 558.00 580.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 602.00 m 54.00 580.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+255.60 602.00 m 255.60 580.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 602.00 m 558.00 580.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 546.00 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 565.40 Tm
+(Provide required data fields) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 565.40 Tm
+(If data is missing, the assistant must respond with NEEDED) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 553.40 Tm
+(DATA \(no guessing\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 580.00 m 54.00 546.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+255.60 580.00 m 255.60 546.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 580.00 m 558.00 546.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 512.00 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 531.40 Tm
+(Trade selection) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 531.40 Tm
+(Only accept setups with confluence score >= needed_score) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 519.40 Tm
+(and confidence >= min_confidence.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 546.00 m 54.00 512.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+255.60 546.00 m 255.60 512.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 546.00 m 558.00 512.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 478.00 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 497.40 Tm
+(Risk first) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 497.40 Tm
+(Stops must be structural + volatility-aware \(ATR\). Define) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 261.60 485.40 Tm
+(invalidation explicitly.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 512.00 m 54.00 478.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+255.60 512.00 m 255.60 478.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 512.00 m 558.00 478.00 l S
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 468.00 Tm
+(Disclaimer: Institutions combine signals with position sizing, execution, and risk controls. A) Tj
+ET
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 454.00 Tm
+(prompt template is not an edge by itself.) Tj
+ET
+
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 2731 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(2) Tj
+ET
+BT
+/F2 22.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Index) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 710.00 m 558.00 710.00 l S
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 698.00 Tm
+(This guide is organized by asset class, horizon, and style.) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 678.00 Tm
+(Stocks) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 656.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 656.00 Tm
+(Intraday - Trend: ORB+VWAP, VWAP Pullback Trend, HOD/LOD Break) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 640.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 640.50 Tm
+(Intraday - Mean Reversion: VWAP Stretch MR, Band Re-entry MR, Gap Fill MR) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 625.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 625.00 Tm
+(Swing - Trend: Base Breakout, Pullback-to-MA, VCP Breakout) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 609.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 609.50 Tm
+(Swing - Mean Reversion: Oversold Bounce, Pairs/Ratio Z-Score) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 590.00 Tm
+(Options) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 568.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 568.00 Tm
+(Intraday - Trend: Defined-Risk Debit Spread, 0DTE/1DTE Defined Risk \(index/ETF only\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 552.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 552.50 Tm
+(Intraday - Mean Reversion: Credit Spread Fade, Iron Condor \(range only\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 537.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 537.00 Tm
+(Swing - Trend: Debit vs Diagonal, Protective Put/Collar) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 521.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 521.50 Tm
+(Swing - Mean Reversion: High-IV Mean Reversion \(defined risk\), Earnings Volatility) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 508.00 Tm
+(Crush \(event-driven\)) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 488.50 Tm
+(Meta / Utilities) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 466.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 466.50 Tm
+(Regime Selector \(trend vs range vs mixed\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 451.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 451.00 Tm
+(Multi-Symbol Scanner \(pick 1 best setup across a watchlist\)) Tj
+ET
+
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 5361 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(3) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Intraday - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(ORB + VWAP Trend Continuation) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Finds a trend-following intraday setup using an Opening Range Break \(ORB\) confirmed by VWAP) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(+ volume + market proxy alignment.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(A classic momentum template: price breaks the opening range in the direction of the) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(higher-timeframe trend, then continues after a brief pullback. VWAP helps separate true) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(continuation from chop.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Define opening range from the first completed M15 candle after cash open.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Trade only in the H1 trend direction \(EMA stack + structure\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Require break AND close beyond ORH/ORL \(avoid wick-only breaks\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Prefer a pullback/retest \(OR level or VWAP\) before entry.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Stops: beyond pullback swing + ATR buffer; exits: partial + trail.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 426.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Regime) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Trending day or post-open expansion; avoid midday chop unless) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 433.90 Tm
+(volatility is expanding.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 426.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 426.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 426.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 392.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 411.90 Tm
+(VWAP) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 411.90 Tm
+(Longs generally above VWAP; shorts generally below VWAP.) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 399.90 Tm
+(Reclaims/loses matter.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 426.50 m 54.00 392.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 426.50 m 235.44 392.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 426.50 m 558.00 392.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 370.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 377.90 Tm
+(Volume) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 377.90 Tm
+(Break candle volume > ~1.2x 20-bar avg \(or RVOL elevated\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 392.50 m 54.00 370.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 392.50 m 235.44 370.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 392.50 m 558.00 370.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 348.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 355.90 Tm
+(Risk) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 355.90 Tm
+(RR >= rr_min and stop invalidates the thesis \(not random\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 370.50 m 54.00 348.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 370.50 m 235.44 348.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 370.50 m 558.00 348.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 314.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 333.90 Tm
+(Common failure) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 333.90 Tm
+(False breakouts near major weekly levels or during low) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 321.90 Tm
+(liquidity.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 348.50 m 54.00 314.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 348.50 m 235.44 314.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 348.50 m 558.00 314.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 304.50 Tm
+(Example \(synthetic\)) Tj
+ET
+
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 2484 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(4) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 528.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 538.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 566.00 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 546.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 694.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 578.97 m
+120.53 588.79 l
+149.07 583.88 l
+177.60 591.25 l
+206.13 593.70 l
+234.67 596.16 l
+263.20 598.62 l
+291.73 623.18 l
+320.27 637.91 l
+348.80 628.09 l
+377.33 640.37 l
+405.87 657.56 l
+434.40 647.74 l
+462.93 672.30 l
+491.47 687.03 l
+520.00 677.21 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 578.97 m
+120.53 584.91 l
+149.07 584.91 l
+177.60 587.13 l
+206.13 589.06 l
+234.67 593.22 l
+263.20 595.59 l
+291.73 605.09 l
+320.27 616.37 l
+348.80 624.69 l
+377.33 635.38 l
+405.87 649.63 l
+434.40 655.56 l
+462.93 663.88 l
+491.47 678.13 l
+520.00 687.03 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 576.00 Tm
+(VWAP) Tj
+ET
+0.900 0.950 1.000 rg
+92.00 578.97 428.00 9.82 re f
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 98.00 578.79 Tm
+(Opening Range) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+295.73 623.18 m
+295.73 625.39 293.94 627.18 291.73 627.18 c
+289.52 627.18 287.73 625.39 287.73 623.18 c
+287.73 620.97 289.52 619.18 291.73 619.18 c
+293.94 619.18 295.73 620.97 295.73 623.18 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 297.73 629.18 Tm
+(Break+Close) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+352.80 628.09 m
+352.80 630.30 351.01 632.09 348.80 632.09 c
+346.59 632.09 344.80 630.30 344.80 628.09 c
+344.80 625.88 346.59 624.09 348.80 624.09 c
+351.01 624.09 352.80 625.88 352.80 628.09 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 354.80 634.09 Tm
+(Pullback) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+381.33 640.37 m
+381.33 642.58 379.54 644.37 377.33 644.37 c
+375.12 644.37 373.33 642.58 373.33 640.37 c
+373.33 638.16 375.12 636.37 377.33 636.37 c
+379.54 636.37 381.33 638.16 381.33 640.37 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 383.33 646.37 Tm
+(Entry) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 520.00 Tm
+(Price breaks the opening range, then pulls back before continuing. VWAP stays supportive in a bullish) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 508.00 Tm
+(trend.) Tj
+ET
+
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 16 0 R >>
+endobj
+16 0 obj
+<< /Length 5379 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(5) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Intraday - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(VWAP Pullback Trend \(Trend-Day Playbook\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Enters on pullbacks to VWAP/short EMA in the direction of the H1 trend, using) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(contraction-then-expansion volume behavior.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(A continuation setup: in strong intraday trends, price often mean-reverts to VWAP/20EMA,) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(then resumes. The edge is not VWAP itself, but the combination of trend + pullback) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(quality + volume confirmation + room to run.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm H1 trend \(EMA 20/50 stack + HH/HL or LH/LL\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Wait for pullback into VWAP or M15 20EMA with reduced volume/volatility.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Enter on a clear trigger close back in trend direction \(HL for longs / LH for shorts\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Avoid entries directly into nearby resistance/support within ~0.25-0.5x ATR.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Scale out and trail using structure \(prior swing highs/lows\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Trend) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Clear H1 trend; if mixed -> skip.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 404.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Pullback) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(Shallow and controlled; no waterfall moves unless you have) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 411.90 Tm
+(reversal evidence.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 404.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 370.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 389.90 Tm
+(Trigger) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 389.90 Tm
+(Close back above VWAP/20EMA \(long\) or below \(short\) with) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 377.90 Tm
+(intent.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 404.50 m 54.00 370.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 404.50 m 235.44 370.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 404.50 m 558.00 370.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 348.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 355.90 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 355.90 Tm
+(Prefer liquid names; wide spreads distort VWAP and entries.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 370.50 m 54.00 348.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 370.50 m 235.44 348.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 370.50 m 558.00 348.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 314.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 333.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 333.90 Tm
+(Trend exhaustion: late-day parabolic moves that snap back) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 321.90 Tm
+(through VWAP.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 348.50 m 54.00 314.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 348.50 m 235.44 314.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 348.50 m 558.00 314.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 304.50 Tm
+(Example \(synthetic\)) Tj
+ET
+
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 18 0 R >>
+endobj
+18 0 obj
+<< /Length 2364 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(6) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 528.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 538.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 566.00 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 546.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 694.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 578.97 m
+120.53 600.58 l
+149.07 622.19 l
+177.60 638.40 l
+206.13 654.61 l
+234.67 643.81 l
+263.20 633.00 l
+291.73 641.10 l
+320.27 651.91 l
+348.80 662.72 l
+377.33 651.91 l
+405.87 646.51 l
+434.40 657.31 l
+462.93 670.82 l
+491.47 681.63 l
+520.00 687.03 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 578.97 m
+120.53 592.41 l
+149.07 605.84 l
+177.60 617.60 l
+206.13 628.69 l
+234.67 633.84 l
+263.20 645.04 l
+291.73 653.44 l
+320.27 659.60 l
+348.80 664.64 l
+377.33 664.08 l
+405.87 664.64 l
+434.40 669.67 l
+462.93 675.83 l
+491.47 681.99 l
+520.00 687.03 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 576.00 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+210.13 654.61 m
+210.13 656.82 208.34 658.61 206.13 658.61 c
+203.92 658.61 202.13 656.82 202.13 654.61 c
+202.13 652.40 203.92 650.61 206.13 650.61 c
+208.34 650.61 210.13 652.40 210.13 654.61 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 212.13 660.61 Tm
+(Impulse) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+381.33 651.91 m
+381.33 654.12 379.54 655.91 377.33 655.91 c
+375.12 655.91 373.33 654.12 373.33 651.91 c
+373.33 649.70 375.12 647.91 377.33 647.91 c
+379.54 647.91 381.33 649.70 381.33 651.91 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 383.33 657.91 Tm
+(Pullback) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+438.40 657.31 m
+438.40 659.52 436.61 661.31 434.40 661.31 c
+432.19 661.31 430.40 659.52 430.40 657.31 c
+430.40 655.11 432.19 653.31 434.40 653.31 c
+436.61 653.31 438.40 655.11 438.40 657.31 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 440.40 663.31 Tm
+(Trigger Close) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 520.00 Tm
+(In a trend day, pullbacks to VWAP/20EMA can offer defined-risk continuation entries when the trigger) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 508.00 Tm
+(candle confirms.) Tj
+ET
+
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 20 0 R >>
+endobj
+20 0 obj
+<< /Length 7249 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(7) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Intraday - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(HOD/LOD Break + Tight-Risk Momentum) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Momentum breakout template: consolidation under HOD \(or above LOD\) with volume contraction,) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(then break with volume expansion in trend direction.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(This is a structure + liquidity setup. HOD/LOD levels are where many stops and breakout) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(orders cluster; the goal is to trade only the breakouts that occur after tight) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(consolidation and with strong participation.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Identify HOD/LOD and the most recent tight consolidation near it.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Trade only in the direction of the H1 trend and market proxy alignment.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Require a close beyond the level; prefer increasing volume on the trigger candle.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Stop outside the breakout range + ATR buffer; avoid oversized stops.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(If the breakout fails quickly and returns inside the range -> exit \(failed breakout\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Compression) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Range tightens into the level; wicks are controlled.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 416.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Volume) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(Break candle volume expands vs recent consolidation candles.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 416.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 394.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 401.90 Tm
+(VWAP) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 401.90 Tm
+(Often supportive/confirming, but HOD/LOD is the primary level.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 416.50 m 54.00 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 416.50 m 235.44 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 416.50 m 558.00 394.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 372.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 379.90 Tm
+(Room) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 379.90 Tm
+(Enough distance to next major level for RR >= rr_min.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 394.50 m 54.00 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 394.50 m 235.44 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 394.50 m 558.00 372.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 338.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 357.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 357.90 Tm
+(False breaks in low volume or right into major weekly) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 345.90 Tm
+(resistance.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 372.50 m 54.00 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 372.50 m 235.44 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 372.50 m 558.00 338.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 328.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 100.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 110.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 138.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 118.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 266.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 151.47 m
+120.53 166.91 l
+149.07 182.34 l
+177.60 197.78 l
+206.13 208.07 l
+234.67 218.36 l
+263.20 220.94 l
+291.73 219.39 l
+320.27 220.42 l
+348.80 219.91 l
+377.33 221.45 l
+405.87 222.48 l
+434.40 224.54 l
+462.93 246.67 l
+491.47 259.53 l
+520.00 254.39 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 151.47 m
+120.53 161.39 l
+149.07 171.30 l
+177.60 181.22 l
+206.13 189.82 l
+234.67 197.75 l
+263.20 203.89 l
+291.73 216.36 l
+320.27 226.19 l
+348.80 233.08 l
+377.33 237.43 l
+405.87 240.07 l
+434.40 241.21 l
+462.93 245.93 l
+491.47 253.30 l
+520.00 259.53 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 148.50 Tm
+(VWAP) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+92.00 224.54 m 520.00 224.54 l S
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 400.00 227.54 Tm
+(HOD) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+409.87 222.48 m
+409.87 224.69 408.08 226.48 405.87 226.48 c
+403.66 226.48 401.87 224.69 401.87 222.48 c
+401.87 220.27 403.66 218.48 405.87 218.48 c
+408.08 218.48 409.87 220.27 409.87 222.48 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 411.87 228.48 Tm
+(Compression) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+466.93 246.67 m
+466.93 248.88 465.14 250.67 462.93 250.67 c
+460.72 250.67 458.93 248.88 458.93 246.67 c
+458.93 244.46 460.72 242.67 462.93 242.67 c
+465.14 242.67 466.93 244.46 466.93 246.67 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 468.93 252.67 Tm
+(Break+Close) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(Price compresses beneath HOD, then breaks and closes above with momentum.) Tj
+ET
+
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 22 0 R >>
+endobj
+22 0 obj
+<< /Length 5421 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(8) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Intraday - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(VWAP Stretch Reversion \(Range Regime Only\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Mean reversion template that fades extreme distance from VWAP only when the regime is) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(range-like \(not a strong trend day\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(VWAP acts as a gravity point in balanced markets. The idea is to wait for a true stretch) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(\(distance vs ATR\), see rejection/exhaustion, and then target a controlled revert back) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(toward VWAP.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(First confirm the day is not strongly trending \(low ADX or choppy structure around) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 566.50 Tm
+(VWAP/EMAs\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 551.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 551.00 Tm
+(Quantify stretch using ATR multiples \(e.g., 1.5-2.5x ATR away from VWAP\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 535.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 535.50 Tm
+(Require rejection evidence: long wick, failed continuation, divergence, or volume) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 522.00 Tm
+(climax then fade.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 506.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 506.50 Tm
+(Target VWAP as primary take-profit; scale out and manage time risk.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 491.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 491.00 Tm
+(If price keeps trending away from VWAP -> invalidation \(do not average down\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 471.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 433.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 438.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 438.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 558.00 455.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 558.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 54.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 455.50 m 235.44 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 455.50 m 558.00 433.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 411.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 418.90 Tm
+(Regime gate) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 418.90 Tm
+(If trend is strong, stretching can keep stretching \(skip\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 54.00 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 433.50 m 235.44 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 433.50 m 558.00 411.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 377.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 396.90 Tm
+(Stretch) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 396.90 Tm
+(Distance from VWAP is large vs ATR; small deviations are) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 384.90 Tm
+(noise.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 411.50 m 54.00 377.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 411.50 m 235.44 377.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 411.50 m 558.00 377.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 355.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 362.90 Tm
+(Confirmation) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 362.90 Tm
+(Rejection candle + momentum divergence improves quality.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 377.50 m 54.00 355.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 377.50 m 235.44 355.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 377.50 m 558.00 355.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 333.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 340.90 Tm
+(Exit) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 340.90 Tm
+(Primary target is VWAP; consider time stop \(e.g., 4 candles\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 355.50 m 54.00 333.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 355.50 m 235.44 333.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 355.50 m 558.00 333.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 311.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 318.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 318.90 Tm
+(Trying to fade the first pullback of a new trend day.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 333.50 m 54.00 311.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 333.50 m 235.44 311.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 333.50 m 558.00 311.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 301.50 Tm
+(Example \(synthetic\)) Tj
+ET
+
+endstream
+endobj
+23 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 24 0 R >>
+endobj
+24 0 obj
+<< /Length 2211 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(9) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 528.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 538.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 566.00 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 546.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 694.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 678.72 m
+124.92 645.47 l
+157.85 620.53 l
+190.77 603.91 l
+223.69 587.28 l
+256.62 578.97 l
+289.54 591.44 l
+322.46 612.22 l
+355.38 637.16 l
+388.31 653.78 l
+421.23 670.41 l
+454.15 678.72 l
+487.08 687.03 l
+520.00 682.88 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 687.03 m
+124.92 665.63 l
+157.85 647.80 l
+190.77 633.53 l
+223.69 620.70 l
+256.62 595.02 l
+289.54 581.11 l
+322.46 578.97 l
+355.38 587.53 l
+388.31 604.65 l
+421.23 628.19 l
+454.15 650.65 l
+487.08 669.91 l
+520.00 681.68 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 576.00 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.860 0.180 0.170 RG
+260.62 578.97 m
+260.62 581.18 258.82 582.97 256.62 582.97 c
+254.41 582.97 252.62 581.18 252.62 578.97 c
+252.62 576.76 254.41 574.97 256.62 574.97 c
+258.82 574.97 260.62 576.76 260.62 578.97 c
+B
+BT
+/F3 8.50 Tf
+0.860 0.180 0.170 rg
+1 0 0 1 262.62 584.97 Tm
+(Stretch) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+293.54 591.44 m
+293.54 593.65 291.75 595.44 289.54 595.44 c
+287.33 595.44 285.54 593.65 285.54 591.44 c
+285.54 589.23 287.33 587.44 289.54 587.44 c
+291.75 587.44 293.54 589.23 293.54 591.44 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 295.54 597.44 Tm
+(Rejection) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+359.38 637.16 m
+359.38 639.37 357.59 641.16 355.38 641.16 c
+353.18 641.16 351.38 639.37 351.38 637.16 c
+351.38 634.95 353.18 633.16 355.38 633.16 c
+357.59 633.16 359.38 634.95 359.38 637.16 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 361.38 643.16 Tm
+(Revert) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 520.00 Tm
+(Price stretches away from VWAP, prints rejection, and mean-reverts back toward VWAP in a range regime.) Tj
+ET
+
+endstream
+endobj
+25 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 26 0 R >>
+endobj
+26 0 obj
+<< /Length 7331 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(10) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Intraday - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Bollinger/Keltner Band Re-entry Fade) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Mean reversion entry: price closes outside a volatility band, then closes back inside) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(\(re-entry\) near a key level; target mid-band/VWAP.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Bands are a visualization of volatility. The re-entry condition \(outside then back) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(inside\) is a simple way to avoid fading every touch and instead wait for exhaustion and) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(re-acceptance.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Use only when the higher timeframe is not strongly trending \(range-like behavior\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Trigger: close outside band followed by a close back inside \(re-entry\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Add confluence: prior day high/low, volume profile nodes, or obvious) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 535.50 Tm
+(support/resistance.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 520.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 520.00 Tm
+(Target: mid-band and/or VWAP; stop beyond the extreme + ATR buffer.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 504.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 504.50 Tm
+(Avoid fading strong breakouts where bands expand and price rides the band.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 485.00 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 447.00 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 452.40 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 452.40 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 469.00 m 558.00 469.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 447.00 m 558.00 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 469.00 m 54.00 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 469.00 m 235.44 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 469.00 m 558.00 447.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 425.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 432.40 Tm
+(Regime gate) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 432.40 Tm
+(Bands work best in ranges; in trends, price can walk the band.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 447.00 m 54.00 425.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 447.00 m 235.44 425.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 447.00 m 558.00 425.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 403.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 410.40 Tm
+(Signal) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 410.40 Tm
+(Outside close then inside close \(not just a wick\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 425.00 m 54.00 403.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 425.00 m 235.44 403.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 425.00 m 558.00 403.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 381.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 388.40 Tm
+(Confluence) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 388.40 Tm
+(Key level nearby improves odds and defines risk.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 403.00 m 54.00 381.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 403.00 m 235.44 381.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 403.00 m 558.00 381.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 359.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 366.40 Tm
+(Target) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 366.40 Tm
+(Mid-band/VWAP is a natural mean-reversion magnet.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 381.00 m 54.00 359.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 381.00 m 235.44 359.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 381.00 m 558.00 359.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 337.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 344.40 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 344.40 Tm
+(Selling the first breakout candle of a new impulse trend.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 359.00 m 54.00 337.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 359.00 m 235.44 337.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 359.00 m 558.00 337.00 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 327.00 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 99.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 109.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 137.00 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 117.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 265.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 242.59 m
+130.91 258.03 l
+169.82 242.59 l
+208.73 227.16 l
+247.64 211.72 l
+286.55 180.84 l
+325.45 149.97 l
+364.36 173.12 l
+403.27 196.28 l
+442.18 227.16 l
+481.09 250.31 l
+520.00 258.03 l
+S
+[] 0 d
+1.30 w
+1.000 1.000 1.000 rg
+0.860 0.180 0.170 RG
+329.45 149.97 m
+329.45 152.18 327.66 153.97 325.45 153.97 c
+323.25 153.97 321.45 152.18 321.45 149.97 c
+321.45 147.76 323.25 145.97 325.45 145.97 c
+327.66 145.97 329.45 147.76 329.45 149.97 c
+B
+BT
+/F3 8.50 Tf
+0.860 0.180 0.170 rg
+1 0 0 1 331.45 155.97 Tm
+(Close Outside) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+368.36 173.12 m
+368.36 175.33 366.57 177.12 364.36 177.12 c
+362.15 177.12 360.36 175.33 360.36 173.12 c
+360.36 170.92 362.15 169.12 364.36 169.12 c
+366.57 169.12 368.36 170.92 368.36 173.12 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 370.36 179.12 Tm
+(Re-entry) Tj
+ET
+1.20 w
+0.450 0.500 0.580 RG
+[2.00 2.00] 0 d
+102.00 240.54 m
+139.09 249.97 l
+176.18 246.82 l
+213.27 240.54 l
+250.36 231.11 l
+287.45 207.54 l
+324.55 179.25 l
+361.64 162.75 l
+398.73 158.03 l
+435.82 172.18 l
+472.91 202.82 l
+510.00 228.75 l
+S
+[] 0 d
+1.20 w
+0.450 0.500 0.580 RG
+[2.00 2.00] 0 d
+102.00 240.54 m
+139.09 249.97 l
+176.18 246.82 l
+213.27 240.54 l
+250.36 231.11 l
+287.45 207.54 l
+324.55 179.25 l
+361.64 162.75 l
+398.73 158.03 l
+435.82 172.18 l
+472.91 202.82 l
+510.00 228.75 l
+S
+[] 0 d
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 108.00 249.00 Tm
+(Upper/Lower Band) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 91.00 Tm
+(Price closes outside the lower band, then re-enters. In a range regime, the next move often reverts) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 79.00 Tm
+(toward the mean.) Tj
+ET
+
+endstream
+endobj
+27 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 28 0 R >>
+endobj
+28 0 obj
+<< /Length 7360 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(11) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Intraday - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Gap Fill Mean Reversion \(Conditional\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Conditional gap-fill framework using premarket levels + VWAP + rejection so you do not) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(blindly fade a real trend gap.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Many gaps partially fill because early uncertainty resolves and liquidity returns, but) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(not all gaps fill. This template tries to separate 'gap-and-go' from 'gap-and-fade' by) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(demanding failure to hold key premarket/opening levels.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Measure the gap: today open vs yesterday close; note premarket high/low \(PMH/PML\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(If gapping up, look for failure to hold above PMH/ORH and a close back below VWAP.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(If gapping down, look for failure below PML/ORL and a close back above VWAP.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Target: partial fill areas and/or full fill to yesterday close; scale out.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(High caution around news-driven gaps and earnings \(gap behavior changes\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 426.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Gap context) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Small gaps fill more often than large news gaps; ask for) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 433.90 Tm
+(catalyst if unknown.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 426.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 426.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 426.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 404.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 411.90 Tm
+(Trigger) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 411.90 Tm
+(Reclaim/lose VWAP + rejection \(not just drift\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 426.50 m 54.00 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 426.50 m 235.44 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 426.50 m 558.00 404.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 382.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 389.90 Tm
+(Level) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 389.90 Tm
+(Premarket + opening range levels define invalidation.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 404.50 m 54.00 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 404.50 m 235.44 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 404.50 m 558.00 382.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 360.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 367.90 Tm
+(Target) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 367.90 Tm
+(Define partial-fill and full-fill objectives.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 382.50 m 54.00 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 382.50 m 235.44 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 382.50 m 558.00 360.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 338.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 345.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 345.90 Tm
+(Fading a gap-and-go trend that never looks back.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 360.50 m 54.00 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 360.50 m 235.44 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 360.50 m 558.00 338.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 328.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 100.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 110.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 138.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 118.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 266.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 151.47 m
+134.80 151.47 l
+177.60 151.47 l
+220.40 259.53 l
+263.20 237.92 l
+306.00 216.31 l
+348.80 194.69 l
+391.60 176.68 l
+434.40 158.67 l
+477.20 151.47 l
+520.00 155.07 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 151.47 m
+134.80 151.47 l
+177.60 151.47 l
+220.40 259.53 l
+263.20 248.73 l
+306.00 237.92 l
+348.80 227.11 l
+391.60 206.40 l
+434.40 186.59 l
+477.20 170.38 l
+520.00 160.47 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 148.50 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+224.40 259.53 m
+224.40 261.74 222.61 263.53 220.40 263.53 c
+218.19 263.53 216.40 261.74 216.40 259.53 c
+216.40 257.32 218.19 255.53 220.40 255.53 c
+222.61 255.53 224.40 257.32 224.40 259.53 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 226.40 265.53 Tm
+(Gap) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.860 0.180 0.170 RG
+267.20 237.92 m
+267.20 240.13 265.41 241.92 263.20 241.92 c
+260.99 241.92 259.20 240.13 259.20 237.92 c
+259.20 235.71 260.99 233.92 263.20 233.92 c
+265.41 233.92 267.20 235.71 267.20 237.92 c
+B
+BT
+/F3 8.50 Tf
+0.860 0.180 0.170 rg
+1 0 0 1 269.20 243.92 Tm
+(Fail) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+481.20 151.47 m
+481.20 153.68 479.41 155.47 477.20 155.47 c
+474.99 155.47 473.20 153.68 473.20 151.47 c
+473.20 149.26 474.99 147.47 477.20 147.47 c
+479.41 147.47 481.20 149.26 481.20 151.47 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 483.20 157.47 Tm
+(Fill) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(A gap up fails to hold above early levels and drifts back to fill the gap. VWAP helps confirm the) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 80.50 Tm
+(fade.) Tj
+ET
+
+endstream
+endobj
+29 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 30 0 R >>
+endobj
+30 0 obj
+<< /Length 6696 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(12) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Swing - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Breakout From Base \(Weekly/Daily Structure\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Swing trend template: identify a multi-week base, then trade the breakout in the direction) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(of the higher-timeframe trend with volume/RS confirmation.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Base breakouts are common in systematic and discretionary trend approaches: a period of) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(balance \(base\) resolves into expansion \(breakout\). The main risk is false breakouts when) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(volume/participation is weak or when breaking into overhead supply.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Use Weekly to define primary trend \(HH/HL for longs; LH/LL for shorts\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Find a multi-week base with tightening volatility on Daily.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Trigger: Daily close beyond base boundary with volume expansion and/or strong RS vs) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 535.50 Tm
+(SPY.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 520.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 520.00 Tm
+(Stop: below last contraction low \(long\) + ATR buffer; target: multiples of risk +) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 506.50 Tm
+(trail.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 491.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 491.00 Tm
+(Avoid entering right before earnings unless it is explicitly an earnings play.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 471.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 433.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 438.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 438.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 558.00 455.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 558.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 54.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 455.50 m 235.44 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 455.50 m 558.00 433.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 411.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 418.90 Tm
+(Trend) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 418.90 Tm
+(Weekly trend aligned; otherwise breakout is lower quality.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 54.00 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 433.50 m 235.44 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 433.50 m 558.00 411.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 389.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 396.90 Tm
+(Base quality) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 396.90 Tm
+(Tight range + volatility contraction; clean boundaries.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 411.50 m 54.00 389.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 411.50 m 235.44 389.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 411.50 m 558.00 389.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 367.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 374.90 Tm
+(Volume/RS) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 374.90 Tm
+(Breakout should show participation or RS improvement.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 389.50 m 54.00 367.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 389.50 m 235.44 367.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 389.50 m 558.00 367.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 345.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 352.90 Tm
+(Event risk) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 352.90 Tm
+(Earnings within a few days can invalidate backtests.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 367.50 m 54.00 345.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 367.50 m 235.44 345.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 367.50 m 558.00 345.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 323.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 330.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 330.90 Tm
+(Breakout into heavy supply; quick reversal back into base.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 345.50 m 54.00 323.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 345.50 m 235.44 323.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 345.50 m 558.00 323.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 313.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 85.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 95.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 123.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 103.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 251.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 136.47 m
+118.75 160.22 l
+145.50 183.97 l
+172.25 195.84 l
+199.00 183.97 l
+225.75 178.03 l
+252.50 186.34 l
+279.25 193.47 l
+306.00 197.03 l
+332.75 192.28 l
+359.50 195.84 l
+386.25 198.22 l
+413.00 197.03 l
+439.75 199.41 l
+466.50 221.97 l
+493.25 231.47 l
+520.00 244.53 l
+S
+[] 0 d
+0.920 0.980 0.940 rg
+92.00 178.03 428.00 21.38 re f
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 98.00 189.41 Tm
+(Base Range) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+470.50 221.97 m
+470.50 224.18 468.71 225.97 466.50 225.97 c
+464.29 225.97 462.50 224.18 462.50 221.97 c
+462.50 219.76 464.29 217.97 466.50 217.97 c
+468.71 217.97 470.50 219.76 470.50 221.97 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 472.50 227.97 Tm
+(Breakout) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 77.50 Tm
+(A multi-week base resolves upward; the breakout candle expands and leaves the base range.) Tj
+ET
+
+endstream
+endobj
+31 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 32 0 R >>
+endobj
+32 0 obj
+<< /Length 7040 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(13) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Swing - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Pullback-to-MA Trend Continuation) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Continuation entry on pullback to Daily 20/50 EMA area with volume contraction and a) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(reversal/trigger close.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(In persistent trends, pullbacks to short/medium moving averages act as a structured) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(location to re-enter. The goal is to avoid chasing breakouts and instead buy/sell when) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(risk can be defined against structure.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm trend: price on correct side of 50EMA and structure supports continuation.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Wait for pullback into 20/50EMA area with reduced volatility and/or volume.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Trigger: reversal close + higher low \(long\) or lower high \(short\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Stop: beyond pullback swing + ATR buffer; partial at 2R; trail with swings.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Avoid deep pullbacks that break structure \(those are potential trend changes\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Location) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Pullback lands into MA zone \(not mid-air\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 416.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Structure) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(HL/LH forms; do not enter before stabilization.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 416.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 394.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 401.90 Tm
+(Trend health) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 401.90 Tm
+(Avoid late-stage parabolic trends without base support.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 416.50 m 54.00 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 416.50 m 235.44 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 416.50 m 558.00 394.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 372.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 379.90 Tm
+(Targets) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 379.90 Tm
+(Plan trail method \(20EMA or swing points\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 394.50 m 54.00 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 394.50 m 235.44 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 394.50 m 558.00 372.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 350.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 357.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 357.90 Tm
+(MA breaks and turns into resistance/support flip failure.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 372.50 m 54.00 350.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 372.50 m 235.44 350.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 372.50 m 558.00 350.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 340.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 112.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 122.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 150.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 130.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 278.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 163.47 m
+122.57 175.47 l
+153.14 193.49 l
+183.71 211.50 l
+214.29 223.50 l
+244.86 235.51 l
+275.43 229.51 l
+306.00 217.50 l
+336.57 211.50 l
+367.14 217.50 l
+397.71 229.51 l
+428.29 247.52 l
+458.86 259.53 l
+489.43 253.52 l
+520.00 271.53 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 163.47 m
+122.57 170.33 l
+153.14 179.48 l
+183.71 189.20 l
+214.29 206.35 l
+244.86 223.50 l
+275.43 233.80 l
+306.00 235.51 l
+336.57 232.08 l
+367.14 226.93 l
+397.71 226.93 l
+428.29 235.51 l
+458.86 249.23 l
+489.43 259.53 l
+520.00 271.53 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 160.50 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+340.57 211.50 m
+340.57 213.71 338.78 215.50 336.57 215.50 c
+334.36 215.50 332.57 213.71 332.57 211.50 c
+332.57 209.29 334.36 207.50 336.57 207.50 c
+338.78 207.50 340.57 209.29 340.57 211.50 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 342.57 217.50 Tm
+(Pullback) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+401.71 229.51 m
+401.71 231.72 399.92 233.51 397.71 233.51 c
+395.51 233.51 393.71 231.72 393.71 229.51 c
+393.71 227.30 395.51 225.51 397.71 225.51 c
+399.92 225.51 401.71 227.30 401.71 229.51 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 403.71 235.51 Tm
+(Reversal) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 104.50 Tm
+(Price trends above the moving average, pulls back into the MA zone, then resumes after a reversal) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(candle.) Tj
+ET
+
+endstream
+endobj
+33 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 34 0 R >>
+endobj
+34 0 obj
+<< /Length 6813 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(14) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Swing - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Volatility Contraction Pattern \(VCP\) Breakout) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Swing breakout template emphasizing volatility contraction and volume dry-up before a) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(breakout and expansion.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(VCP-style setups attempt to capture the transition from compression to expansion. The) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(pattern is useful as a checklist: does the stock repeatedly contract \(smaller pullbacks\)) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(and then break out with participation?) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Look for multiple contractions: each pullback range is smaller than the prior.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Volume should generally dry up during the base/handle portion.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Trigger: breakout close above the final contraction high.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Stop: below the final contraction low + ATR buffer.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Manage: partial at 2R and trail using 20EMA or swing lows.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Contractions) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Ranges visibly narrow; fewer shakeouts over time.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 416.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Volume) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(Dry-up during consolidation, expansion on breakout.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 416.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 394.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 401.90 Tm
+(Trend) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 401.90 Tm
+(Usually best when the higher timeframe trend is up.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 416.50 m 54.00 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 416.50 m 235.44 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 416.50 m 558.00 394.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 360.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 379.90 Tm
+(Entry timing) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 379.90 Tm
+(Prefer close confirmation; avoid early entries before) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 367.90 Tm
+(breakout.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 394.50 m 54.00 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 394.50 m 235.44 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 394.50 m 558.00 360.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 338.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 345.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 345.90 Tm
+(Breakout on weak volume that stalls and re-enters the base.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 360.50 m 54.00 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 360.50 m 235.44 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 360.50 m 558.00 338.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 328.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 100.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 110.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 138.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 118.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 266.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 151.47 m
+122.57 228.66 l
+153.14 190.06 l
+183.71 244.09 l
+214.29 205.50 l
+244.86 236.38 l
+275.43 213.22 l
+306.00 228.66 l
+336.57 220.94 l
+367.14 232.52 l
+397.71 224.80 l
+428.29 230.20 l
+458.86 227.88 l
+489.43 242.55 l
+520.00 259.53 l
+S
+[] 0 d
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+432.29 230.20 m
+432.29 232.41 430.49 234.20 428.29 234.20 c
+426.08 234.20 424.29 232.41 424.29 230.20 c
+424.29 227.99 426.08 226.20 428.29 226.20 c
+430.49 226.20 432.29 227.99 432.29 230.20 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 434.29 236.20 Tm
+(Contraction) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+493.43 242.55 m
+493.43 244.76 491.64 246.55 489.43 246.55 c
+487.22 246.55 485.43 244.76 485.43 242.55 c
+485.43 240.34 487.22 238.55 489.43 238.55 c
+491.64 238.55 493.43 240.34 493.43 242.55 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 495.43 248.55 Tm
+(Breakout) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+265.20 234.00 m 408.00 222.60 l S
+1.00 w
+0.450 0.500 0.580 RG
+265.20 188.40 m 408.00 199.80 l S
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 273.36 239.70 Tm
+(Range narrows) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(Contractions narrow, then price breaks out and expands upward.) Tj
+ET
+
+endstream
+endobj
+35 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 36 0 R >>
+endobj
+36 0 obj
+<< /Length 7428 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(15) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Swing - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Oversold Bounce \(Multi-factor Mean Reversion\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Mean reversion bounce setup that requires extension + stabilization \(no blind) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(knife-catching\). Targets a revert toward the mean \(20EMA / breakdown level\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Mean reversion works when a move is overextended relative to recent volatility and a) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(stabilization signal appears. The goal is not to predict bottoms; it is to wait for) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(evidence that downside momentum is weakening and risk can be defined.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Quantify extension: distance below 20EMA/50EMA and/or large ATR multiples.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Require stabilization: higher low, strong close, reclaim prior day high, or divergence.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Avoid binary event risk \(earnings\) unless intentionally trading it.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Target: mean reversion to 20EMA and/or key breakdown level.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Time stop: if the bounce does not materialize within N days, exit.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Extension) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Move is unusually large vs ATR; 'mild red' is not oversold.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 404.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Stabilization) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(You need a reversal signal; otherwise you are averaging into a) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 411.90 Tm
+(trend.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 404.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 382.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 389.90 Tm
+(Market regime) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 389.90 Tm
+(Broad-market selloffs can keep pushing \(reduce size/skip\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 404.50 m 54.00 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 404.50 m 235.44 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 404.50 m 558.00 382.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 360.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 367.90 Tm
+(Targets) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 367.90 Tm
+(Mean \(20EMA\) is primary; scale out into resistance.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 382.50 m 54.00 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 382.50 m 235.44 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 382.50 m 558.00 360.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 338.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 345.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 345.90 Tm
+(News-driven downtrends where mean reversion never happens.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 360.50 m 54.00 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 360.50 m 235.44 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 360.50 m 558.00 338.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 328.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 100.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 110.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 138.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 118.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 266.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 259.53 m
+127.67 242.91 l
+163.33 226.28 l
+199.00 201.34 l
+234.67 176.41 l
+270.33 159.78 l
+306.00 151.47 l
+341.67 159.78 l
+377.33 176.41 l
+413.00 193.03 l
+448.67 209.66 l
+484.33 201.34 l
+520.00 217.97 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 259.53 m
+127.67 250.05 l
+163.33 240.57 l
+199.00 228.72 l
+234.67 215.93 l
+270.33 193.18 l
+306.00 172.32 l
+341.67 157.16 l
+377.33 151.47 l
+413.00 155.26 l
+448.67 166.63 l
+484.33 178.01 l
+520.00 191.28 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 148.50 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.860 0.180 0.170 RG
+310.00 151.47 m
+310.00 153.68 308.21 155.47 306.00 155.47 c
+303.79 155.47 302.00 153.68 302.00 151.47 c
+302.00 149.26 303.79 147.47 306.00 147.47 c
+308.21 147.47 310.00 149.26 310.00 151.47 c
+B
+BT
+/F3 8.50 Tf
+0.860 0.180 0.170 rg
+1 0 0 1 312.00 157.47 Tm
+(Capitulation) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+345.67 159.78 m
+345.67 161.99 343.88 163.78 341.67 163.78 c
+339.46 163.78 337.67 161.99 337.67 159.78 c
+337.67 157.57 339.46 155.78 341.67 155.78 c
+343.88 155.78 345.67 157.57 345.67 159.78 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 347.67 165.78 Tm
+(Reversal) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+417.00 193.03 m
+417.00 195.24 415.21 197.03 413.00 197.03 c
+410.79 197.03 409.00 195.24 409.00 193.03 c
+409.00 190.82 410.79 189.03 413.00 189.03 c
+415.21 189.03 417.00 190.82 417.00 193.03 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 419.00 199.03 Tm
+(Revert-to-Mean) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(Price extends far below the mean, stabilizes, then reverts upward toward the moving average.) Tj
+ET
+
+endstream
+endobj
+37 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 38 0 R >>
+endobj
+38 0 obj
+<< /Length 7005 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(16) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Stocks - Swing - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Pairs / Ratio Z-Score Mean Reversion) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Relative-value mean reversion: trade the ratio between two correlated assets when the ratio) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(is statistically stretched \(z-score extreme\) and reverts.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Pairs trading is about relative moves, not absolute direction. It is commonly used to) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(reduce market beta and focus on idiosyncratic reversion. The main risk is correlation) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(breakdown or a structural regime change.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Pick a peer or benchmark with stable historical correlation.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Compute ratio = A / B and its z-score over a chosen lookback.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Enter when |z| is extreme and begins to turn \(avoid 'catching the extreme'\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Size legs in a market-neutral way \(dollar-neutral or beta-neutral\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Exit when z-score mean reverts \(near 0\) or invalidates beyond stop threshold.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Correlation) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(If correlation is unstable, z-score signals degrade.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 416.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Data) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(Use clean adjusted data \(splits/dividends\) for equities.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 416.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 382.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 401.90 Tm
+(Stops) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 401.90 Tm
+(Define stop on z-score and on fundamental breaks \(earnings) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 389.90 Tm
+(shocks\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 416.50 m 54.00 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 416.50 m 235.44 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 416.50 m 558.00 382.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 360.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 367.90 Tm
+(Crowding) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 367.90 Tm
+(Highly crowded pairs can gap violently on news.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 382.50 m 54.00 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 382.50 m 235.44 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 382.50 m 558.00 360.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 338.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 345.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 345.90 Tm
+(A regime shift where the relationship permanently changes.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 360.50 m 54.00 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 360.50 m 235.44 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 360.50 m 558.00 338.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 328.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 100.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 110.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 138.50 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 118.50 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 266.50 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 227.11 m
+127.67 205.50 l
+163.33 183.89 l
+199.00 162.27 l
+234.67 151.47 l
+270.33 162.27 l
+306.00 183.89 l
+341.67 205.50 l
+377.33 237.92 l
+413.00 248.73 l
+448.67 259.53 l
+484.33 237.92 l
+520.00 216.31 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 234.32 m
+127.67 219.91 l
+163.33 205.50 l
+199.00 191.09 l
+234.67 165.88 l
+270.33 151.47 l
+306.00 151.47 l
+341.67 165.88 l
+377.33 194.69 l
+413.00 223.51 l
+448.67 248.73 l
+484.33 259.53 l
+520.00 252.33 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 148.50 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.860 0.180 0.170 RG
+238.67 151.47 m
+238.67 153.68 236.88 155.47 234.67 155.47 c
+232.46 155.47 230.67 153.68 230.67 151.47 c
+230.67 149.26 232.46 147.47 234.67 147.47 c
+236.88 147.47 238.67 149.26 238.67 151.47 c
+B
+BT
+/F3 8.50 Tf
+0.860 0.180 0.170 rg
+1 0 0 1 240.67 157.47 Tm
+(z <= -Z) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+381.33 237.92 m
+381.33 240.13 379.54 241.92 377.33 241.92 c
+375.12 241.92 373.33 240.13 373.33 237.92 c
+373.33 235.71 375.12 233.92 377.33 233.92 c
+379.54 233.92 381.33 235.71 381.33 237.92 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 383.33 243.92 Tm
+(Revert) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(A ratio stretches \(z-score extreme\) and then mean-reverts back toward its average.) Tj
+ET
+
+endstream
+endobj
+39 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 40 0 R >>
+endobj
+40 0 obj
+<< /Length 6561 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(17) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Intraday - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Defined-Risk Directional Debit Spread) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Defined-risk intraday options structure aligned to an underlying trend trigger \(ORB/VWAP) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(pullback/HOD break\). Requires a chain snapshot to avoid hallucinated strikes.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(A debit spread reduces cost \(and IV exposure\) compared to a naked long call/put, while) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(keeping max loss defined. It is often used when you want directional exposure but want) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(to limit premium paid.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(First, confirm the underlying trigger \(trend setup\) - do not trade options without an) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 566.50 Tm
+(underlying edge.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 551.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 551.00 Tm
+(Choose expiry \(commonly ~7-21 DTE for non-0DTE\) and a liquid strike region.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 535.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 535.50 Tm
+(Buy a call/put and sell a further OTM option to cap cost and risk.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 520.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 520.00 Tm
+(Max loss is the debit paid; manage via profit targets and time stops \(intraday\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 504.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 504.50 Tm
+(Exit if underlying invalidates; options price alone can mislead.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 485.00 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 447.00 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 452.40 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 452.40 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 469.00 m 558.00 469.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 447.00 m 558.00 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 469.00 m 54.00 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 469.00 m 235.44 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 469.00 m 558.00 447.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 425.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 432.40 Tm
+(Chain required) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 432.40 Tm
+(Without chain \(bid/ask/OI/IV\), do not output strikes.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 447.00 m 54.00 425.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 447.00 m 235.44 425.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 447.00 m 558.00 425.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 403.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 410.40 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 410.40 Tm
+(Tight bid/ask and sufficient OI/volume.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 425.00 m 54.00 403.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 425.00 m 235.44 403.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 425.00 m 558.00 403.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 381.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 388.40 Tm
+(Delta) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 388.40 Tm
+(Common long-leg delta ~0.45-0.65 \(context dependent\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 403.00 m 54.00 381.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 403.00 m 235.44 381.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 403.00 m 558.00 381.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 359.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 366.40 Tm
+(Risk) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 366.40 Tm
+(Max loss within risk_per_trade_pct; define exits.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 381.00 m 54.00 359.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 381.00 m 235.44 359.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 381.00 m 558.00 359.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 337.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 344.40 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 344.40 Tm
+(Chop: underlying never follows through; time decay hurts.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 359.00 m 54.00 337.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 359.00 m 235.44 337.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 359.00 m 558.00 337.00 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 327.00 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 99.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 109.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 137.00 428.00 134.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 281.00 Tm
+(Call Debit Spread Payoff \(example\)) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 117.00 Tm
+(Underlying Price ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 265.00 Tm
+(P/L) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+92.00 194.43 m 520.00 194.43 l S
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 460.00 197.43 Tm
+(P/L=0) Tj
+ET
+0.920 0.980 0.940 rg
+286.55 137.00 97.27 134.00 re f
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 290.55 259.00 Tm
+(Between strikes) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 156.14 m
+189.27 156.14 l
+286.55 156.14 l
+325.45 194.43 l
+383.82 251.86 l
+442.18 251.86 l
+520.00 251.86 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 74.00 123.00 Tm
+(K1=100, K2=105, debit=2.0 \(illustrative\)) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 91.00 Tm
+(Debit spread payoff is capped on both sides: max loss is known \(debit\), max profit is limited \(spread) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 79.00 Tm
+(width - debit\).) Tj
+ET
+
+endstream
+endobj
+41 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 42 0 R >>
+endobj
+42 0 obj
+<< /Length 6447 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(18) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Intraday - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(0DTE/1DTE Defined-Risk \(Index/ETF Only, Strict\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Ultra-short-dated defined-risk template for very liquid index/ETF products only. Strong) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(gating on regime + liquidity; no naked options.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(0DTE/1DTE trades have extreme gamma and theta. They can work in clean, liquid trend) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(moves, but they punish indecision. This is why the prompt is strict: if the environment) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(is not ideal, the correct output is NO TRADE.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm symbol is highly liquid \(index/ETF\) and chain is tight.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Require a clear underlying trigger \(ORB/VWAP pullback\) with strong trend evidence.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Use defined-risk verticals \(spreads\) to cap max loss.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Use smaller risk budgets and faster management \(profit targets + time stops\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Exit quickly if the underlying invalidates or VWAP flips against the trade.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Tight bid/ask; large volume; stable fills.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 416.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Regime) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(Only clear trend days; range days are whipsaw traps.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 416.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 394.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 401.90 Tm
+(Defined risk) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 401.90 Tm
+(Spreads only; max loss <= risk_per_trade_pct.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 416.50 m 54.00 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 416.50 m 235.44 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 416.50 m 558.00 394.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 372.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 379.90 Tm
+(Time stop) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 379.90 Tm
+(If no follow-through quickly, exit \(theta decay\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 394.50 m 54.00 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 394.50 m 235.44 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 394.50 m 558.00 372.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 350.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 357.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 357.90 Tm
+(VWAP chop: repeated flips destroy premium.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 372.50 m 54.00 350.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 372.50 m 235.44 350.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 372.50 m 558.00 350.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 340.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 112.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 122.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 150.50 428.00 134.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 294.50 Tm
+(Short Call Spread \(defined risk\) - example) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 130.50 Tm
+(Underlying Price ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 278.50 Tm
+(P/L) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+92.00 236.64 m 520.00 236.64 l S
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 460.00 239.64 Tm
+(P/L=0) Tj
+ET
+1.000 0.960 0.900 rg
+306.00 150.50 107.00 134.00 re f
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 310.00 272.50 Tm
+(Risk zone) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 265.36 m
+199.00 265.36 l
+306.00 265.36 l
+359.50 217.50 l
+413.00 169.64 l
+520.00 169.64 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 74.00 136.50 Tm
+(0DTE/1DTE is highly path-dependent \(gamma/theta\). Use only with strict gates.) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 104.50 Tm
+(Example of a defined-risk spread payoff. 0DTE/1DTE requires unusually strict regime and liquidity) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(filters.) Tj
+ET
+
+endstream
+endobj
+43 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 44 0 R >>
+endobj
+44 0 obj
+<< /Length 5349 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(19) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Intraday - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Credit Spread Fade at Extremes \(Defined Risk\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Defined-risk premium-selling setup after an exhaustion + rejection mean-reversion signal in) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(the underlying. Requires IV and chain liquidity context.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(This is short-volatility expression of mean reversion: you sell premium after a) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(stretched move when you expect price to revert and volatility to normalize. The key is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(strict gating: do not sell premium into a trend day.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm range-like regime and a clear exhaustion/rejection signal \(VWAP stretch +) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 566.50 Tm
+(reversal\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 551.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 551.00 Tm
+(Pick a credit spread \(short put spread for bullish MR; short call spread for bearish) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 537.50 Tm
+(MR\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 522.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 522.00 Tm
+(Use liquid strikes and define max loss; target a % of credit for profit \(e.g., 40-70%\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 506.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 506.50 Tm
+(Have a hard stop \(price level or spread value\) and time stop.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 491.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 491.00 Tm
+(Avoid selling premium into binary events \(earnings\) unless it is an earnings strategy.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 471.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 433.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 438.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 438.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 558.00 455.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 558.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 54.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 455.50 m 235.44 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 455.50 m 558.00 433.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 411.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 418.90 Tm
+(Regime) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 418.90 Tm
+(Must be range-like; avoid strong trends.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 54.00 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 433.50 m 235.44 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 433.50 m 558.00 411.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 389.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 396.90 Tm
+(Signal) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 396.90 Tm
+(Exhaustion + rejection, not just a small pullback.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 411.50 m 54.00 389.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 411.50 m 235.44 389.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 411.50 m 558.00 389.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 367.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 374.90 Tm
+(IV context) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 374.90 Tm
+(Premium selling is best when IV is elevated vs baseline.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 389.50 m 54.00 367.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 389.50 m 235.44 367.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 389.50 m 558.00 367.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 345.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 352.90 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 352.90 Tm
+(Tight bid/ask; avoid thin chains.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 367.50 m 54.00 345.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 367.50 m 235.44 345.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 367.50 m 558.00 345.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 323.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 330.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 330.90 Tm
+(A trend resumes and the spread goes ITM quickly.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 345.50 m 54.00 323.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 345.50 m 235.44 323.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 345.50 m 558.00 323.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 313.50 Tm
+(Example \(synthetic\)) Tj
+ET
+
+endstream
+endobj
+45 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 46 0 R >>
+endobj
+46 0 obj
+<< /Length 1282 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(20) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 528.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 538.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 566.00 428.00 134.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 710.00 Tm
+(Short Put Spread Payoff \(example\)) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 546.00 Tm
+(Underlying Price ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 694.00 Tm
+(P/L) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+92.00 647.36 m 520.00 647.36 l S
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 460.00 650.36 Tm
+(P/L=0) Tj
+ET
+0.920 0.980 0.940 rg
+289.54 566.00 65.85 134.00 re f
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 293.54 688.00 Tm
+(Between strikes) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 585.14 m
+190.77 585.14 l
+289.54 585.14 l
+322.46 633.00 l
+355.38 680.86 l
+421.23 680.86 l
+520.00 680.86 l
+S
+[] 0 d
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 520.00 Tm
+(Credit spread payoff: limited profit \(credit\) and limited loss \(spread width - credit\). Best used) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 508.00 Tm
+(after exhaustion in a range regime.) Tj
+ET
+
+endstream
+endobj
+47 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 48 0 R >>
+endobj
+48 0 obj
+<< /Length 6318 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(21) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Intraday - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Iron Condor \(Range Thesis Only\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Range-only premium selling on both sides \(defined risk\). Requires clear range boundaries and) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(strict breach/defense rules.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(An iron condor expresses a 'price stays inside a range' thesis. It benefits from time) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(decay and volatility normalization, but it can be damaged quickly by breakout moves.) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(This is why the prompt is range-only and requires explicit defense rules.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm range regime and define upper/lower range boundaries \(levels or profile\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Sell OTM call spread above resistance and sell OTM put spread below support.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Define max loss, profit target, and breach defense \(close, roll, or hedge\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Avoid building condors into scheduled catalysts \(earnings, Fed\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Exit early if range breaks; do not 'hope' a breakout returns.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 438.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(Regime) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(Range only; trend days are condor killers.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 438.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 438.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 416.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 423.90 Tm
+(Range width) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 423.90 Tm
+(Must be wide enough relative to expected move.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 438.50 m 54.00 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 438.50 m 235.44 416.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 438.50 m 558.00 416.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 394.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 401.90 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 401.90 Tm
+(All 4 legs need tight markets to avoid slippage.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 416.50 m 54.00 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 416.50 m 235.44 394.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 416.50 m 558.00 394.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 372.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 379.90 Tm
+(Defense) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 379.90 Tm
+(Predefined action if either side is threatened.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 394.50 m 54.00 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 394.50 m 235.44 372.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 394.50 m 558.00 372.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 350.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 357.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 357.90 Tm
+(Volatility expansion + breakout through short strike.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 372.50 m 54.00 350.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 372.50 m 235.44 350.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 372.50 m 558.00 350.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 340.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 112.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 122.50 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 150.50 428.00 134.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 294.50 Tm
+(Iron Condor Payoff \(stylized\)) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 130.50 Tm
+(Underlying Price ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 278.50 Tm
+(P/L) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+92.00 238.01 m 520.00 238.01 l S
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 460.00 241.01 Tm
+(P/L=0) Tj
+ET
+0.920 0.980 0.940 rg
+263.20 150.50 85.60 134.00 re f
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 267.20 272.50 Tm
+(Range thesis) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 169.64 m
+199.00 215.22 l
+263.20 260.80 l
+306.00 265.36 l
+348.80 260.80 l
+413.00 215.22 l
+520.00 169.64 l
+S
+[] 0 d
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 104.50 Tm
+(Iron condor payoff: profits if price stays inside the range; losses grow if price breaks beyond the) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(wings.) Tj
+ET
+
+endstream
+endobj
+49 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 50 0 R >>
+endobj
+50 0 obj
+<< /Length 6671 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(22) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Swing - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Trend Rider: Debit Spread vs Diagonal \(IV-aware\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Swing trend options framework that selects a debit spread or diagonal based on IV context) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(and the underlying trend trigger.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Diagonals \(or calendars\) are time-structure trades: you sell shorter-dated premium) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(against a longer-dated long option to reduce cost and partially hedge IV. Debit spreads) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(are simpler and define payoff at expiry. The prompt chooses based on IV and objectives.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm the swing trend trigger \(breakout or pullback-to-MA\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(If IV is high, prefer structures that reduce vega exposure \(spreads/diagonals\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 549.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 549.00 Tm
+(Pick expiries across time \(short near-term, long further out\) for diagonals.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 533.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 533.50 Tm
+(Define max loss, roll rules \(short leg\), and profit plan.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 518.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 518.00 Tm
+(Respect event risk \(earnings\): diagonals can behave unexpectedly around IV shocks.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 498.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 460.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 465.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 465.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 558.00 482.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 558.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 482.50 m 54.00 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 482.50 m 235.44 460.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 482.50 m 558.00 460.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 426.50 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 445.90 Tm
+(IV context) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 445.90 Tm
+(High IV -> spreads/diagonals; low IV -> long premium may be) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 433.90 Tm
+(ok.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 460.50 m 54.00 426.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 460.50 m 235.44 426.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 460.50 m 558.00 426.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 404.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 411.90 Tm
+(Chain required) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 411.90 Tm
+(Need multi-expiry chain to construct diagonals.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 426.50 m 54.00 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 426.50 m 235.44 404.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 426.50 m 558.00 404.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 382.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 389.90 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 389.90 Tm
+(Both expiries must be liquid enough to roll/manage.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 404.50 m 54.00 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 404.50 m 235.44 382.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 404.50 m 558.00 382.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 360.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 367.90 Tm
+(Roll plan) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 367.90 Tm
+(Define when to roll the short leg \(time/strike\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 382.50 m 54.00 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 382.50 m 235.44 360.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 382.50 m 558.00 360.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 338.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 345.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 345.90 Tm
+(Underlying chops and time decay overwhelms the thesis.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 360.50 m 54.00 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 360.50 m 235.44 338.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 360.50 m 558.00 338.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 328.50 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 100.50 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 110.50 484.00 190.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 282.50 Tm
+(Diagonal / Calendar Concept \(time-based\)) Tj
+ET
+2.00 w
+0.450 0.500 0.580 RG
+94.00 215.00 m 518.00 215.00 l S
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 94.00 225.00 Tm
+(Now) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 488.00 225.00 Tm
+(Later) Tj
+ET
+1.000 0.960 0.900 rg
+0.850 0.880 0.920 RG
+1.00 w
+134.00 235.00 169.40 24.00 re B
+BT
+/F1 9.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 142.00 243.00 Tm
+(Sell near-term option) Tj
+ET
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 142.00 231.00 Tm
+(\(collect theta\)) Tj
+ET
+0.920 0.980 0.940 rg
+0.850 0.880 0.920 RG
+1.00 w
+134.00 155.00 290.40 24.00 re B
+BT
+/F1 9.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 142.00 163.00 Tm
+(Buy longer-term option) Tj
+ET
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 142.00 151.00 Tm
+(\(keep exposure\)) Tj
+ET
+1.20 w
+0.450 0.500 0.580 RG
+303.40 247.00 m 508.00 247.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+424.40 167.00 m 508.00 167.00 l S
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 92.50 Tm
+(Diagonals/calendars are time-based. You sell near-term premium and buy longer-term exposure;) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 80.50 Tm
+(management \(rolls\) is part of the trade.) Tj
+ET
+
+endstream
+endobj
+51 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 52 0 R >>
+endobj
+52 0 obj
+<< /Length 6421 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(23) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Swing - Trend) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Protective Put / Collar \(Risk-First\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Hedging prompt for long stock exposure using protective puts or collars. Focuses on max) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(loss, hedge cost, and roll/remove rules.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(Institutions often express 'I want to own the stock but cap risk' using puts or collars.) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(The hedge is not free: you pay premium or give up upside \(collar\). This prompt forces) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(explicit tradeoffs and risk math.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Start with the stock thesis \(entry, size, timeframe\) and define worst-case acceptable) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 566.50 Tm
+(drawdown.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 551.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 551.00 Tm
+(Protective put: buy puts to define a floor; cost reduces expected return.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 535.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 535.50 Tm
+(Collar: finance the put by selling a call \(caps upside\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 520.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 520.00 Tm
+(Define when to roll: if stock moves, if time passes, or if volatility shifts.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 504.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 504.50 Tm
+(Avoid implementing/rolling collars into earnings without understanding IV effects.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 485.00 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 447.00 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 452.40 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 452.40 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 469.00 m 558.00 469.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 447.00 m 558.00 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 469.00 m 54.00 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 469.00 m 235.44 447.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 469.00 m 558.00 447.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 425.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 432.40 Tm
+(Max loss) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 432.40 Tm
+(Explicitly compute stock risk + option hedge effect.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 447.00 m 54.00 425.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 447.00 m 235.44 425.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 447.00 m 558.00 425.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 403.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 410.40 Tm
+(Cost) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 410.40 Tm
+(Track hedge drag \(premium\) or upside cap \(short call\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 425.00 m 54.00 403.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 425.00 m 235.44 403.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 425.00 m 558.00 403.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 381.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 388.40 Tm
+(Liquidity) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 388.40 Tm
+(Choose strikes/expiries with tight markets.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 403.00 m 54.00 381.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 403.00 m 235.44 381.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 403.00 m 558.00 381.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 359.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 366.40 Tm
+(Roll plan) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 366.40 Tm
+(Predefine roll triggers \(time, delta, price\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 381.00 m 54.00 359.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 381.00 m 235.44 359.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 381.00 m 558.00 359.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 337.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 344.40 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 344.40 Tm
+(Overpaying for protection when IV is extremely high.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 359.00 m 54.00 337.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 359.00 m 235.44 337.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 359.00 m 558.00 337.00 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 327.00 Tm
+(Example \(synthetic\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 99.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 109.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 137.00 428.00 134.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 281.00 Tm
+(Protective Put \(stock + long put\) - example) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 117.00 Tm
+(Underlying Price ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 265.00 Tm
+(P/L) Tj
+ET
+1.00 w
+0.450 0.500 0.580 RG
+92.00 182.94 m 520.00 182.94 l S
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 460.00 185.94 Tm
+(P/L=0) Tj
+ET
+1.000 0.960 0.900 rg
+-764.00 137.00 1016.50 134.00 re f
+BT
+/F3 8.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 -760.00 259.00 Tm
+(Downside floor) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 156.14 m
+199.00 156.14 l
+306.00 175.29 l
+413.00 213.57 l
+520.00 251.86 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 74.00 123.00 Tm
+(Illustrative numbers: entry=100, put strike=95, cost=2) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 91.00 Tm
+(Protective put payoff: downside is floored by the put, while upside remains \(minus hedge cost\).) Tj
+ET
+
+endstream
+endobj
+53 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 54 0 R >>
+endobj
+54 0 obj
+<< /Length 5400 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(24) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Swing - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(High IV Mean Reversion \(Premium Selling, Defined Risk\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Defined-risk premium selling when implied volatility is elevated; aims to benefit from IV) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(normalization plus a range/mean-reversion price thesis.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(What it is) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 646.00 Tm
+(When IV is high, option prices are inflated. If price remains within a range and IV) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(normalizes, premium sellers can profit. The key is to keep risk defined and avoid) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(selling premium into unknown binary events unless that is the explicit strategy.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 598.00 Tm
+(Mechanics \(high level\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 580.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 580.00 Tm
+(Confirm IV is elevated \(IV rank/percentile or IV vs historical baseline\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 564.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 564.50 Tm
+(Choose a defined-risk structure \(credit spread or iron condor\) aligned with a range/MR) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 551.00 Tm
+(thesis.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 535.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 535.50 Tm
+(Set profit target \(e.g., 40-70% of credit\) and a hard stop/adjustment plan.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 520.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 520.00 Tm
+(Avoid earnings/Fed unless you are explicitly trading the event and understand crush) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 506.50 Tm
+(risk.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 491.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 491.00 Tm
+(Position size conservatively; tail events can gap through strikes.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 471.50 Tm
+(Checklist) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 433.50 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 438.90 Tm
+(Item) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 438.90 Tm
+(Rule of thumb / notes) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 558.00 455.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 558.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 455.50 m 54.00 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 455.50 m 235.44 433.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 455.50 m 558.00 433.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 411.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 418.90 Tm
+(IV context) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 418.90 Tm
+(Premium selling makes most sense when IV is elevated.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 433.50 m 54.00 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 433.50 m 235.44 411.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 433.50 m 558.00 411.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 389.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 396.90 Tm
+(Defined risk) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 396.90 Tm
+(Use spreads/condors, not naked short options.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 411.50 m 54.00 389.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 411.50 m 235.44 389.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 411.50 m 558.00 389.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 367.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 374.90 Tm
+(Thesis) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 374.90 Tm
+(Range/MR thesis should have level support \(not wishful\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 389.50 m 54.00 367.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 389.50 m 235.44 367.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 389.50 m 558.00 367.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 345.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 352.90 Tm
+(Event risk) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 352.90 Tm
+(Know upcoming catalysts and decide: avoid vs trade.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 367.50 m 54.00 345.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 367.50 m 235.44 345.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 367.50 m 558.00 345.50 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 323.50 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 330.90 Tm
+(Failure mode) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 241.44 330.90 Tm
+(IV stays high and price trends through the short strike.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 345.50 m 54.00 323.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+235.44 345.50 m 235.44 323.50 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 345.50 m 558.00 323.50 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 313.50 Tm
+(Example \(synthetic\)) Tj
+ET
+
+endstream
+endobj
+55 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 56 0 R >>
+endobj
+56 0 obj
+<< /Length 1819 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(25) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 528.00 504.00 210.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 538.00 484.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 566.00 428.00 134.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 546.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 694.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 578.97 m
+145.50 594.98 l
+199.00 627.00 l
+252.50 687.03 l
+306.00 659.02 l
+359.50 635.00 l
+413.00 610.99 l
+466.50 598.98 l
+520.00 586.97 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 578.97 m
+145.50 589.60 l
+199.00 607.31 l
+252.50 655.14 l
+306.00 683.49 l
+359.50 687.03 l
+413.00 653.37 l
+466.50 626.80 l
+520.00 605.54 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 576.00 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+256.50 687.03 m
+256.50 689.24 254.71 691.03 252.50 691.03 c
+250.29 691.03 248.50 689.24 248.50 687.03 c
+248.50 684.82 250.29 683.03 252.50 683.03 c
+254.71 683.03 256.50 684.82 256.50 687.03 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 258.50 693.03 Tm
+(IV spike) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+470.50 598.98 m
+470.50 601.19 468.71 602.98 466.50 602.98 c
+464.29 602.98 462.50 601.19 462.50 598.98 c
+462.50 596.77 464.29 594.98 466.50 594.98 c
+468.71 594.98 470.50 596.77 470.50 598.98 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 472.50 604.98 Tm
+(Mean revert) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 520.00 Tm
+(IV tends to spike during uncertainty and can mean-revert. Premium sellers benefit if price behaves and) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 508.00 Tm
+(IV normalizes.) Tj
+ET
+
+endstream
+endobj
+57 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 58 0 R >>
+endobj
+58 0 obj
+<< /Length 7146 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(26) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Options - Swing - Mean Reversion) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Earnings Volatility Crush \(Event-Driven, Strict\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Description: Earnings volatility crush is a commonly observed phenomenon where implied) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(volatility \(IV\) collapses immediately after an earnings release, reducing option extrinsic) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 670.00 Tm
+(value even if price moves.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 650.00 Tm
+(Why it is event-driven and strict) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 632.00 Tm
+(This is not a general market condition. It is tied to a discrete catalyst: earnings) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 618.00 Tm
+(resolve uncertainty, so the market typically reprices options with lower forward) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 604.00 Tm
+(uncertainty. The only variable is magnitude: how much IV drops and how large the stock) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 590.00 Tm
+(move is versus what was priced in.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 570.00 Tm
+(1\) What happens \(mechanically\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 552.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 552.00 Tm
+(Before earnings: uncertainty rises -> IV rises -> options get expensive \(higher) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 538.50 Tm
+(extrinsic value\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 523.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 523.00 Tm
+(After earnings: uncertainty is resolved -> IV often collapses -> extrinsic value) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 509.50 Tm
+(compresses quickly.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 494.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 494.00 Tm
+(This can happen regardless of direction. A 'right direction' trade can still lose if) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 480.50 Tm
+(the move is smaller than what IV had priced.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 461.00 Tm
+(2\) Who gets hurt \(and why\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 443.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 443.00 Tm
+(Long option holders \(calls/puts/straddles\) are long volatility \(vega\). If IV collapses,) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 429.50 Tm
+(premium can drop fast.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 414.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 414.00 Tm
+(You can be correct on direction and still lose if the realized move is less than the) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 400.50 Tm
+(expected move priced by options.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 381.00 Tm
+(3\) Who benefits) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 363.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 363.00 Tm
+(Short volatility traders \(defined-risk credit spreads, iron condors\) can benefit if IV) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 349.50 Tm
+(collapses and price stays inside a range.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 334.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 334.00 Tm
+(They are effectively selling uncertainty before the event and buying it back cheaper) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 320.50 Tm
+(after, but tail risk is real \(surprise moves\).) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 301.00 Tm
+(4\) Expected move vs actual move) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 283.00 Tm
+(A simple mental model: options price in an expected move. If the actual move is smaller,) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 269.00 Tm
+(long options often lose; if larger, they can win despite the crush.) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 229.00 504.00 22.00 re B
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 234.40 Tm
+(Case) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 150.72 234.40 Tm
+(Actual move vs expected) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 150.72 222.40 Tm
+(move) Tj
+ET
+BT
+/F2 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 312.00 234.40 Tm
+(Typical outcome for long options) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 251.00 m 558.00 251.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 229.00 m 558.00 229.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+54.00 251.00 m 54.00 229.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+144.72 251.00 m 144.72 229.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+306.00 251.00 m 306.00 229.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 251.00 m 558.00 229.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 207.00 504.00 22.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 214.40 Tm
+(Most common) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 150.72 214.40 Tm
+(Actual < Expected) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 312.00 214.40 Tm
+(Often loses \(IV crush + insufficient move\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 229.00 m 54.00 207.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+144.72 229.00 m 144.72 207.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+306.00 229.00 m 306.00 207.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 229.00 m 558.00 207.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 173.00 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 192.40 Tm
+(Breakout) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 180.40 Tm
+(surprise) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 150.72 192.40 Tm
+(Actual > Expected) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 312.00 192.40 Tm
+(Can win \(move overcomes IV crush\).) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 207.00 m 54.00 173.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+144.72 207.00 m 144.72 173.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+306.00 207.00 m 306.00 173.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 207.00 m 558.00 173.00 l S
+0.850 0.880 0.920 RG
+1.00 w
+54.00 139.00 504.00 34.00 re S
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 60.00 158.40 Tm
+(In-line) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 150.72 158.40 Tm
+(Actual ~= Expected) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 312.00 158.40 Tm
+(May be near breakeven; depends on entry price) Tj
+ET
+BT
+/F1 9.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 312.00 146.40 Tm
+(and structure.) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 173.00 m 54.00 139.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+144.72 173.00 m 144.72 139.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+306.00 173.00 m 306.00 139.00 l S
+1.00 w
+0.850 0.880 0.920 RG
+558.00 173.00 m 558.00 139.00 l S
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 129.00 Tm
+(Example visuals \(synthetic\)) Tj
+ET
+
+endstream
+endobj
+59 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 60 0 R >>
+endobj
+60 0 obj
+<< /Length 5270 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(27) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 558.00 504.00 180.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 568.00 484.00 160.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 596.00 428.00 104.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 576.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 694.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 614.45 m
+153.14 622.84 l
+214.29 634.02 l
+275.43 656.39 l
+336.57 689.94 l
+397.71 628.43 l
+458.86 611.66 l
+520.00 606.06 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 606.06 m
+153.14 613.77 l
+214.29 623.18 l
+275.43 648.86 l
+336.57 689.94 l
+397.71 686.51 l
+458.86 659.13 l
+520.00 607.78 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 606.00 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+340.57 689.94 m
+340.57 692.14 338.78 693.94 336.57 693.94 c
+334.36 693.94 332.57 692.14 332.57 689.94 c
+332.57 687.73 334.36 685.94 336.57 685.94 c
+338.78 685.94 340.57 687.73 340.57 689.94 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 342.57 695.94 Tm
+(Pre-earnings IV) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+401.71 628.43 m
+401.71 630.64 399.92 632.43 397.71 632.43 c
+395.51 632.43 393.71 630.64 393.71 628.43 c
+393.71 626.22 395.51 624.43 397.71 624.43 c
+399.92 624.43 401.71 626.22 401.71 628.43 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 403.71 634.43 Tm
+(Post IV crush) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 550.00 Tm
+(IV often rises into earnings and collapses after the release. The shape and magnitude vary by ticker) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 538.00 Tm
+(and quarter.) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 340.00 504.00 180.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 350.00 484.00 160.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+92.00 378.00 428.00 104.00 re B
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 92.00 358.00 Tm
+(Time ->) Tj
+ET
+BT
+/F3 8.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 68.00 476.00 Tm
+(Price) Tj
+ET
+2.00 w
+0.120 0.460 0.800 RG
+[] 0 d
+92.00 424.53 m
+153.14 431.82 l
+214.29 446.41 l
+275.43 461.00 l
+336.57 471.94 l
+397.71 402.65 l
+458.86 391.71 l
+520.00 388.06 l
+S
+[] 0 d
+1.50 w
+0.550 0.290 0.780 RG
+[3.00 2.00] 0 d
+92.00 426.89 m
+153.14 431.55 l
+214.29 439.32 l
+275.43 454.85 l
+336.57 471.94 l
+397.71 453.30 l
+458.86 423.79 l
+520.00 388.06 l
+S
+[] 0 d
+BT
+/F3 8.50 Tf
+0.550 0.290 0.780 rg
+1 0 0 1 98.00 388.00 Tm
+(VWAP) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.950 0.550 0.100 RG
+340.57 471.94 m
+340.57 474.14 338.78 475.94 336.57 475.94 c
+334.36 475.94 332.57 474.14 332.57 471.94 c
+332.57 469.73 334.36 467.94 336.57 467.94 c
+338.78 467.94 340.57 469.73 340.57 471.94 c
+B
+BT
+/F3 8.50 Tf
+0.950 0.550 0.100 rg
+1 0 0 1 342.57 477.94 Tm
+(Peak extrinsic) Tj
+ET
+1.30 w
+1.000 1.000 1.000 rg
+0.120 0.700 0.320 RG
+401.71 402.65 m
+401.71 404.86 399.92 406.65 397.71 406.65 c
+395.51 406.65 393.71 404.86 393.71 402.65 c
+393.71 400.44 395.51 398.65 397.71 398.65 c
+399.92 398.65 401.71 400.44 401.71 402.65 c
+B
+BT
+/F3 8.50 Tf
+0.120 0.700 0.320 rg
+1 0 0 1 403.71 408.65 Tm
+(Extrinsic compresses) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 332.00 Tm
+(Extrinsic value \(time + IV\) can compress sharply after earnings. This is why long options can lose) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 320.00 Tm
+(even if price moves.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 302.00 Tm
+(How to trade it responsibly \(guidance\)) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 284.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 284.00 Tm
+(Use defined-risk structures if you sell premium \(credit spreads/condors\). Avoid naked) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 270.50 Tm
+(short options in prompts by default.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 255.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 255.00 Tm
+(Respect binary tail risk: surprises can gap through strikes; size small and predefine) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 241.50 Tm
+(exits.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 226.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 226.00 Tm
+(If buying options, compare implied expected move vs your forecast; prefer structures) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 212.50 Tm
+(that reduce vega risk \(spreads\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 197.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 197.00 Tm
+(Treat earnings as a separate category in your prompt database \(event-driven\).) Tj
+ET
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 177.50 Tm
+(Note: IV does not always drop 'normally' if guidance shocks, M&A rumors, or regulatory events) Tj
+ET
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 163.50 Tm
+(change forward uncertainty. The prompt should explicitly ask for the earnings date/time and) Tj
+ET
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 149.50 Tm
+(expected move/chain snapshot before proposing strikes.) Tj
+ET
+
+endstream
+endobj
+61 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 62 0 R >>
+endobj
+62 0 obj
+<< /Length 5706 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(28) Tj
+ET
+BT
+/F2 16.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Meta / Utilities) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 716.00 Tm
+(Regime Selector \(Picks Trend vs Mean Reversion Prompt\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 698.00 Tm
+(Description: Classifies intraday and swing regime \(trend/range/mixed\), selects the best) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 684.00 Tm
+(template, and outputs one setup only if thresholds pass.) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 664.00 Tm
+(This is the safety layer: it prevents applying mean reversion tools to trend regimes and) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 650.00 Tm
+(prevents forcing trades when quality gates are not met.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 630.00 Tm
+(Example \(flow\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 422.00 504.00 190.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 432.00 484.00 170.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 584.00 Tm
+(Regime Selector \(flow\)) Tj
+ET
+0.920 0.980 0.940 rg
+0.850 0.880 0.920 RG
+1.00 w
+80.00 532.00 203.28 34.00 re B
+BT
+/F2 9.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 88.00 552.00 Tm
+(1\) Determine regime) Tj
+ET
+BT
+/F3 8.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 88.00 540.00 Tm
+(Trend vs Range vs Mixed) Tj
+ET
+0.920 0.980 0.940 rg
+0.850 0.880 0.920 RG
+1.00 w
+80.00 477.00 203.28 34.00 re B
+BT
+/F2 9.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 88.00 497.00 Tm
+(2\) Pick template) Tj
+ET
+BT
+/F3 8.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 88.00 485.00 Tm
+(Trend or Mean Reversion prompt) Tj
+ET
+0.920 0.980 0.940 rg
+0.850 0.880 0.920 RG
+1.00 w
+80.00 422.00 203.28 34.00 re B
+BT
+/F2 9.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 88.00 442.00 Tm
+(3\) Gate quality) Tj
+ET
+BT
+/F3 8.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 88.00 430.00 Tm
+(Score >= needed_score & confidence >= min_confidence) Tj
+ET
+0.920 0.980 0.940 rg
+0.850 0.880 0.920 RG
+1.00 w
+80.00 367.00 203.28 34.00 re B
+BT
+/F2 9.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 88.00 387.00 Tm
+(4\) Output) Tj
+ET
+BT
+/F3 8.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 88.00 375.00 Tm
+(1 setup or NO TRADE) Tj
+ET
+1.20 w
+0.450 0.500 0.580 RG
+181.64 532.00 m 181.64 511.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 511.00 m 177.64 515.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 511.00 m 185.64 515.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 477.00 m 181.64 456.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 456.00 m 177.64 460.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 456.00 m 185.64 460.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 422.00 m 181.64 401.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 401.00 m 177.64 405.00 l S
+1.20 w
+0.450 0.500 0.580 RG
+181.64 401.00 m 185.64 405.00 l S
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 414.00 Tm
+(A simple decision flow: regime -> template -> quality gate -> output.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 396.00 Tm
+(Multi-Symbol Scanner \(1 Best Setup Across Watchlist\)) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 378.00 Tm
+(Description: From a provided watchlist, ranks candidates and returns the single best) Tj
+ET
+BT
+/F3 10.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 364.00 Tm
+(qualifying setup, excluding symbols with missing required inputs.) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 344.00 Tm
+(The scanner prompt is useful when you do not want 20 mediocre setups. It forces a) Tj
+ET
+BT
+/F1 11.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 330.00 Tm
+('winner-takes-all' selection under strict quality constraints.) Tj
+ET
+BT
+/F2 13.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 310.00 Tm
+(Example \(table\)) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+54.00 112.00 504.00 180.00 re B
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+64.00 122.00 484.00 160.00 re B
+BT
+/F2 10.50 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 70.00 264.00 Tm
+(Multi-Symbol Scanner \(ranking\) - example) Tj
+ET
+0.970 0.980 0.990 rg
+0.850 0.880 0.920 RG
+1.00 w
+72.00 224.00 468.00 18.00 re B
+BT
+/F2 8.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 76.00 228.00 Tm
+(Symbol) Tj
+ET
+BT
+/F2 8.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 221.20 228.00 Tm
+(Template) Tj
+ET
+BT
+/F2 8.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 390.60 228.00 Tm
+(Score) Tj
+ET
+BT
+/F2 8.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 477.72 228.00 Tm
+(Confidence) Tj
+ET
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+72.00 206.00 468.00 18.00 re B
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 76.00 211.00 Tm
+(AAPL) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 221.20 211.00 Tm
+(VWAP Pullback) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 390.60 211.00 Tm
+(9.0) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 477.72 211.00 Tm
+(72%) Tj
+ET
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+72.00 188.00 468.00 18.00 re B
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 76.00 193.00 Tm
+(MSFT) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 221.20 193.00 Tm
+(ORB+VWAP) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 390.60 193.00 Tm
+(8.0) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 477.72 193.00 Tm
+(67%) Tj
+ET
+1.000 1.000 1.000 rg
+0.850 0.880 0.920 RG
+1.00 w
+72.00 170.00 468.00 18.00 re B
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 76.00 175.00 Tm
+(TSLA) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 221.20 175.00 Tm
+(NO TRADE \(missing chain\)) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 390.60 175.00 Tm
+(-) Tj
+ET
+BT
+/F1 8.60 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 477.72 175.00 Tm
+(-) Tj
+ET
+BT
+/F3 9.50 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 104.00 Tm
+(Example output ranks symbols and excludes those missing required data \(e.g., options chain\).) Tj
+ET
+
+endstream
+endobj
+63 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 64 0 R >>
+endobj
+64 0 obj
+<< /Length 2179 >>
+stream
+BT
+/F3 9.00 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 558.00 32.00 Tm
+(29) Tj
+ET
+BT
+/F2 22.00 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 738.00 Tm
+(Glossary \(Quick\)) Tj
+ET
+1.00 w
+0.850 0.880 0.920 RG
+54.00 710.00 m 558.00 710.00 l S
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 698.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 698.00 Tm
+(VWAP: Volume-Weighted Average Price; used as intraday fair value / execution reference.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 682.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 682.50 Tm
+(ORB: Opening Range Break; breakout of early-session range.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 667.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 667.00 Tm
+(HOD/LOD: High/Low of day levels used for momentum triggers.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 651.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 651.50 Tm
+(ATR: Average True Range; volatility proxy used for stops and sizing.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 636.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 636.00 Tm
+(ADX: Trend strength indicator; used as a regime filter \(trend vs range\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 620.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 620.50 Tm
+(IV: Implied Volatility; market-implied future volatility in option prices.) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 605.00 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 605.00 Tm
+(Expected Move: Rough move implied by options around an event \(e.g., earnings\).) Tj
+ET
+BT
+/F2 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 54.00 589.50 Tm
+(-) Tj
+ET
+BT
+/F1 10.80 Tf
+0.100 0.120 0.160 rg
+1 0 0 1 66.00 589.50 Tm
+(DTE: Days To Expiration; time remaining on an option contract.) Tj
+ET
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 570.00 Tm
+(All examples are simplified. Real trading requires market data, slippage assumptions,) Tj
+ET
+BT
+/F3 10.20 Tf
+0.450 0.500 0.580 rg
+1 0 0 1 54.00 556.00 Tm
+(commissions, and consistent risk management.) Tj
+ET
+
+endstream
+endobj
+xref
+0 65
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000319 00000 n 
+0000000389 00000 n 
+0000000464 00000 n 
+0000000542 00000 n 
+0000000610 00000 n 
+0000000766 00000 n 
+0000004150 00000 n 
+0000004307 00000 n 
+0000007091 00000 n 
+0000007249 00000 n 
+0000012663 00000 n 
+0000012821 00000 n 
+0000015358 00000 n 
+0000015516 00000 n 
+0000020948 00000 n 
+0000021106 00000 n 
+0000023523 00000 n 
+0000023681 00000 n 
+0000030983 00000 n 
+0000031141 00000 n 
+0000036615 00000 n 
+0000036773 00000 n 
+0000039037 00000 n 
+0000039195 00000 n 
+0000046579 00000 n 
+0000046737 00000 n 
+0000054150 00000 n 
+0000054308 00000 n 
+0000061057 00000 n 
+0000061215 00000 n 
+0000068308 00000 n 
+0000068466 00000 n 
+0000075332 00000 n 
+0000075490 00000 n 
+0000082971 00000 n 
+0000083129 00000 n 
+0000090187 00000 n 
+0000090345 00000 n 
+0000096959 00000 n 
+0000097117 00000 n 
+0000103617 00000 n 
+0000103775 00000 n 
+0000109177 00000 n 
+0000109335 00000 n 
+0000110670 00000 n 
+0000110828 00000 n 
+0000117199 00000 n 
+0000117357 00000 n 
+0000124081 00000 n 
+0000124239 00000 n 
+0000130713 00000 n 
+0000130871 00000 n 
+0000136324 00000 n 
+0000136482 00000 n 
+0000138354 00000 n 
+0000138512 00000 n 
+0000145711 00000 n 
+0000145869 00000 n 
+0000151192 00000 n 
+0000151350 00000 n 
+0000157109 00000 n 
+0000157267 00000 n 
+trailer
+<< /Size 65 /Root 1 0 R >>
+startxref
+159499
+%%EOF

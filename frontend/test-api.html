@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>LEAPS Trader API Test</h1>
+    <button onclick="testHealth()">Test Health Endpoint</button>
+    <button onclick="testScreening()">Test Screening</button>
+    <pre id="result"></pre>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                document.getElementById('result').textContent = 'Health Check:\n' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function testScreening() {
+            try {
+                const response = await fetch(`${API_URL}/api/v1/screener/screen`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        symbols: ['AAPL'],
+                        top_n: 15
+                    })
+                });
+                const data = await response.json();
+                document.getElementById('result').textContent = 'Screening Result:\n' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
