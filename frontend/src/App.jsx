@@ -20,6 +20,7 @@ const Autopilot = lazy(() => import('./pages/Autopilot'));
 
 // Layout components (always loaded)
 import ErrorBoundary from './components/ErrorBoundary';
+import LoginGate from './components/LoginGate';
 import BotStatusBar from './components/bot/BotStatusBar';
 import { NewsTicker } from './components/command-center';
 import useScreenerStore from './stores/screenerStore';
@@ -282,39 +283,41 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-        <Navigation />
-        {/* Bot Status Bar — visible when bot is running */}
-        <BotStatusBar />
-        {/* Global News Ticker - appears on all pages */}
-        <NewsTicker speed={45} pauseOnHover={true} showSource={true} maxItems={15} />
-        <ErrorBoundary>
-          <Suspense fallback={<div className="flex items-center justify-center h-screen"><div className="text-gray-400">Loading...</div></div>}>
-            {/* ┌──────────────────────────────────────────────────────────┐
-                │ DOC UPDATE: Adding/removing a route here? Also update:   │
-                │   ARCHITECTURE.md → "Frontend Pages" table + Changelog   │
-                │   .claude/CLAUDE.md → "Key Entry Points" if major page   │
-                └──────────────────────────────────────────────────────────┘ */}
-            <Routes>
-              <Route path="/" element={<ErrorBoundary><CommandCenter /></ErrorBoundary>} />
-              <Route path="/command-center" element={<ErrorBoundary><CommandCenter /></ErrorBoundary>} />
-              <Route path="/screener" element={<ErrorBoundary><Screener /></ErrorBoundary>} />
-              <Route path="/saved-scans" element={<ErrorBoundary><SavedScans /></ErrorBoundary>} />
-              <Route path="/signals" element={<ErrorBoundary><SignalQueue /></ErrorBoundary>} />
-              <Route path="/portfolio" element={<ErrorBoundary><Portfolio /></ErrorBoundary>} />
-              <Route path="/macro-intelligence" element={<ErrorBoundary><MacroIntelligence /></ErrorBoundary>} />
-              <Route path="/heatmap" element={<ErrorBoundary><HeatMap /></ErrorBoundary>} />
-              <Route path="/trade-journal" element={<ErrorBoundary><TradeJournal /></ErrorBoundary>} />
-              <Route path="/bot-performance" element={<ErrorBoundary><BotPerformance /></ErrorBoundary>} />
-              <Route path="/autopilot" element={<ErrorBoundary><Autopilot /></ErrorBoundary>} />
-              <Route path="/backtesting" element={<ErrorBoundary><Backtesting /></ErrorBoundary>} />
-              <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
-      </div>
-    </BrowserRouter>
+    <LoginGate>
+      <BrowserRouter>
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+          <Navigation />
+          {/* Bot Status Bar — visible when bot is running */}
+          <BotStatusBar />
+          {/* Global News Ticker - appears on all pages */}
+          <NewsTicker speed={45} pauseOnHover={true} showSource={true} maxItems={15} />
+          <ErrorBoundary>
+            <Suspense fallback={<div className="flex items-center justify-center h-screen"><div className="text-gray-400">Loading...</div></div>}>
+              {/* ┌──────────────────────────────────────────────────────────┐
+                  │ DOC UPDATE: Adding/removing a route here? Also update:   │
+                  │   ARCHITECTURE.md → "Frontend Pages" table + Changelog   │
+                  │   .claude/CLAUDE.md → "Key Entry Points" if major page   │
+                  └──────────────────────────────────────────────────────────┘ */}
+              <Routes>
+                <Route path="/" element={<ErrorBoundary><CommandCenter /></ErrorBoundary>} />
+                <Route path="/command-center" element={<ErrorBoundary><CommandCenter /></ErrorBoundary>} />
+                <Route path="/screener" element={<ErrorBoundary><Screener /></ErrorBoundary>} />
+                <Route path="/saved-scans" element={<ErrorBoundary><SavedScans /></ErrorBoundary>} />
+                <Route path="/signals" element={<ErrorBoundary><SignalQueue /></ErrorBoundary>} />
+                <Route path="/portfolio" element={<ErrorBoundary><Portfolio /></ErrorBoundary>} />
+                <Route path="/macro-intelligence" element={<ErrorBoundary><MacroIntelligence /></ErrorBoundary>} />
+                <Route path="/heatmap" element={<ErrorBoundary><HeatMap /></ErrorBoundary>} />
+                <Route path="/trade-journal" element={<ErrorBoundary><TradeJournal /></ErrorBoundary>} />
+                <Route path="/bot-performance" element={<ErrorBoundary><BotPerformance /></ErrorBoundary>} />
+                <Route path="/autopilot" element={<ErrorBoundary><Autopilot /></ErrorBoundary>} />
+                <Route path="/backtesting" element={<ErrorBoundary><Backtesting /></ErrorBoundary>} />
+                <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+      </BrowserRouter>
+    </LoginGate>
   );
 }
 

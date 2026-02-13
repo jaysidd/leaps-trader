@@ -103,7 +103,7 @@ class FinancialNewsService:
         """Get or create aiohttp session"""
         if self._session is None or self._session.closed:
             self._session = aiohttp.ClientSession(
-                timeout=aiohttp.ClientTimeout(total=10),
+                timeout=aiohttp.ClientTimeout(total=5),
                 headers={
                     'Accept': 'application/rss+xml, application/xml, text/xml, */*',
                     'User-Agent': 'Mozilla/5.0 (compatible; LEAPS-Trader/1.0)',

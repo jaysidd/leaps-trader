@@ -37,6 +37,7 @@ from app.services.alerts.alert_service import alert_service
 from app.services.signals.signal_engine import signal_engine
 from app.database import SessionLocal
 from app.api.auth import require_trading_auth
+from app.api.endpoints.app_auth import router as app_auth_router, verify_token
 
 # Global scheduler instance
 scheduler = AsyncIOScheduler()
@@ -58,6 +59,44 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── App-wide password protection middleware ──────────────────────────────────
+# Skips: health check, auth endpoints, docs, OPTIONS (CORS preflight), WebSocket
+_AUTH_SKIP_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json", "/api/v1/auth/")
+
+
+@app.middleware("http")
+async def app_password_middleware(request: Request, call_next):
+    """Block unauthenticated requests when APP_PASSWORD is set."""
+    # Skip if no password configured
+    if not app_settings.APP_PASSWORD:
+        return await call_next(request)
+
+    path = request.url.path
+    method = request.method
+
+    # Always allow CORS preflight
+    if method == "OPTIONS":
+        return await call_next(request)
+
+    # Allow public paths
+    if any(path == p or path.startswith(p) for p in _AUTH_SKIP_PATHS):
+        return await call_next(request)
+
+    # Allow WebSocket (they do their own auth or are internal)
+    if path.startswith("/ws"):
+        return await call_next(request)
+
+    # Check token from header or query param (EventSource/SSE can't set headers)
+    token = request.headers.get("X-App-Token", "") or request.query_params.get("token", "")
+    if not verify_token(token):
+        return JSONResponse(
+            status_code=401,
+            content={"detail": "Authentication required. Please log in."},
+        )
+
+    return await call_next(request)
+
 
 # ── Rate limiting (simple in-memory, per-IP) ────────────────────────────────
 import time
@@ -119,6 +158,14 @@ async def request_timeout_middleware(request: Request, call_next):
 # │   ARCHITECTURE.md → "Backend API Routers" table + Changelog        │
 # │   .claude/CLAUDE.md → "Key Entry Points" if it's a major router    │
 # └─────────────────────────────────────────────────────────────────────┘
+
+# App auth (login/check) — must be before protected routes
+app.include_router(
+    app_auth_router,
+    prefix=f"{app_settings.API_V1_PREFIX}/auth",
+    tags=["auth"]
+)
+
 app.include_router(
     screener.router,
     prefix=f"{app_settings.API_V1_PREFIX}/screener",

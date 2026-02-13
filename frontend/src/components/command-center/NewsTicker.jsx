@@ -4,7 +4,7 @@
  * Uses CSS animation instead of requestAnimationFrame for better performance
  */
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { API_BASE_URL } from '../../api/axios';
+import { API_BASE_URL, authFetch } from '../../api/axios';
 
 // Category icons for visual distinction
 const CATEGORY_ICONS = {
@@ -43,7 +43,7 @@ export default function NewsTicker({
   // Fetch news from API
   const fetchNews = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/command-center/news/rss/market?limit=${maxItems}`);
+      const response = await authFetch(`${API_BASE_URL}/api/v1/command-center/news/rss/market?limit=${maxItems}`);
       if (!response.ok) throw new Error('Failed to fetch news');
 
       const data = await response.json();

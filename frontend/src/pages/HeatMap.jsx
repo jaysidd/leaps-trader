@@ -13,7 +13,7 @@ import { stocksAPI } from '../api/stocks';
 import { screenerAPI } from '../api/screener';
 import { savedScansAPI } from '../api/savedScans';
 
-import { API_BASE_URL } from '../api/axios';
+import { API_BASE_URL, authFetch } from '../api/axios';
 
 // Color scale for performance
 const getPerformanceColor = (change, darkMode = false) => {
@@ -275,7 +275,7 @@ export default function HeatMap() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/heatmap/market-overview`);
+      const response = await authFetch(`${API_BASE_URL}/api/v1/heatmap/market-overview`);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));

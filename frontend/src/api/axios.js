@@ -29,9 +29,17 @@ const apiClient = axios.create({
   timeout: 120000, // 2 minutes for screening requests
 });
 
-// Request interceptor
+// Auth token key (matches authStore)
+const TOKEN_KEY = 'leaps_auth_token';
+
+// Request interceptor — attach auth token + logging
 apiClient.interceptors.request.use(
   (config) => {
+    // Attach app auth token if present
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+      config.headers['X-App-Token'] = token;
+    }
     console.log('API Request:', config.method?.toUpperCase(), config.url);
     return config;
   },
@@ -137,6 +145,19 @@ export function cancellableRequest(method, url, options = {}) {
 export function createAbortController() {
   const controller = new AbortController();
   return { controller, signal: controller.signal };
+}
+
+/**
+ * Authenticated fetch wrapper — adds X-App-Token header automatically.
+ * Drop-in replacement for window.fetch() in components that bypass axios.
+ */
+export function authFetch(url, options = {}) {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const headers = { ...(options.headers || {}) };
+  if (token) {
+    headers['X-App-Token'] = token;
+  }
+  return fetch(url, { ...options, headers });
 }
 
 export default apiClient;

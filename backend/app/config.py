@@ -70,6 +70,10 @@ class Settings(BaseSettings):
     # Set via TRADING_API_TOKEN env var or .env file. If empty, protected endpoints are unrestricted.
     TRADING_API_TOKEN: str = ""
 
+    # App-wide password protection
+    # Set APP_PASSWORD to require login before accessing the app. If empty, app is open (local dev).
+    APP_PASSWORD: str = ""
+
     # Credential Encryption - Fernet key for encrypting stored broker passwords
     # Auto-generated on first run if empty. Persist in .env to survive restarts.
     CREDENTIAL_ENCRYPTION_KEY: str = ""
