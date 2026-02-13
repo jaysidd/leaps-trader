@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql://junaidsiddiqi@localhost/leaps_trader"
 
     # Redis
+    REDIS_URL: str = ""  # Full Redis URL (Railway provides this, e.g. redis://default:pw@host:port)
     REDIS_HOST: str = "localhost"
     REDIS_PORT: int = 6379
     REDIS_DB: int = 0
@@ -73,6 +74,9 @@ class Settings(BaseSettings):
     # Auto-generated on first run if empty. Persist in .env to survive restarts.
     CREDENTIAL_ENCRYPTION_KEY: str = ""
 
+    # Deployment
+    FRONTEND_URL: str = ""  # Production frontend URL (Railway domain), added to CORS automatically
+
     # CORS
     BACKEND_CORS_ORIGINS: list = [
         "http://localhost:3000",
@@ -104,6 +108,9 @@ class Settings(BaseSettings):
             dotenv_val = env_file_values.get(field, "")
             if not current and dotenv_val:
                 object.__setattr__(self, field, dotenv_val)
+        # Add production frontend URL to CORS origins if set
+        if self.FRONTEND_URL and self.FRONTEND_URL not in self.BACKEND_CORS_ORIGINS:
+            self.BACKEND_CORS_ORIGINS.append(self.FRONTEND_URL)
         return self
 
     class Config:
