@@ -63,13 +63,13 @@ app.add_middleware(
 # ── App-wide password protection middleware ──────────────────────────────────
 from starlette.middleware.base import BaseHTTPMiddleware
 
-_AUTH_SKIP_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json", "/api/v1/auth/")
+_AUTH_SKIP_PREFIXES = ("/health", "/docs", "/redoc", "/openapi.json", "/api/v1/auth/")
+_AUTH_SKIP_EXACT = ("/",)
 
 
 class AppPasswordMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         app_pw = _get_app_password()
-        logger.info(f"[AUTH_MW] dispatch called: {request.method} {request.url.path} pw_set={bool(app_pw)}")
         if not app_pw:
             return await call_next(request)
 
@@ -80,8 +80,8 @@ class AppPasswordMiddleware(BaseHTTPMiddleware):
         if method == "OPTIONS":
             return await call_next(request)
 
-        # Allow public paths
-        if any(path == p or path.startswith(p) for p in _AUTH_SKIP_PATHS):
+        # Allow public paths (exact match or prefix match)
+        if path in _AUTH_SKIP_EXACT or any(path.startswith(p) for p in _AUTH_SKIP_PREFIXES):
             return await call_next(request)
 
         # Allow WebSocket
@@ -90,9 +90,7 @@ class AppPasswordMiddleware(BaseHTTPMiddleware):
 
         # Check token from header or query param (EventSource/SSE can't set headers)
         token = request.headers.get("X-App-Token", "") or request.query_params.get("token", "")
-        is_valid = verify_token(token)
-        logger.info(f"[AUTH_MW] token='{token[:20]}...' valid={is_valid} path={path}")
-        if not is_valid:
+        if not verify_token(token):
             return JSONResponse(
                 status_code=401,
                 content={"detail": "Authentication required. Please log in."},
