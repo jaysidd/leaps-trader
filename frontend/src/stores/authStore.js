@@ -1,11 +1,13 @@
 /**
  * Auth Store — password + optional TOTP 2FA gate for app access
- * Stores session token in localStorage for persistence across refreshes
+ * Stores session token in localStorage for persistence across refreshes.
+ * Stores device trust token separately — skips TOTP on trusted devices (14 days).
  */
 import { create } from 'zustand';
 import { API_BASE_URL } from '../api/axios';
 
 const TOKEN_KEY = 'leaps_auth_token';
+const DEVICE_TOKEN_KEY = 'leaps_device_trust';
 
 const useAuthStore = create((set, get) => ({
   // State
@@ -60,7 +62,8 @@ const useAuthStore = create((set, get) => ({
   },
 
   /**
-   * Attempt login with password (+ optional TOTP code)
+   * Attempt login with password (+ optional TOTP code).
+   * Sends device_token if available to skip 2FA on trusted devices.
    */
   login: async (password, totpCode = null) => {
     set({ error: null });
@@ -68,6 +71,11 @@ const useAuthStore = create((set, get) => ({
       const body = { password };
       if (totpCode) {
         body.totp_code = totpCode;
+      }
+      // Send device trust token if we have one (allows skipping TOTP)
+      const deviceToken = localStorage.getItem(DEVICE_TOKEN_KEY);
+      if (deviceToken) {
+        body.device_token = deviceToken;
       }
 
       const res = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
@@ -92,6 +100,10 @@ const useAuthStore = create((set, get) => ({
 
       if (data.success && data.token) {
         localStorage.setItem(TOKEN_KEY, data.token);
+        // Store device trust token if issued (after successful 2FA)
+        if (data.device_token) {
+          localStorage.setItem(DEVICE_TOKEN_KEY, data.device_token);
+        }
         set({ isAuthenticated: true, needsTotp: false, _pendingPassword: null, error: null });
         return true;
       }
@@ -125,7 +137,9 @@ const useAuthStore = create((set, get) => ({
   },
 
   /**
-   * Log out and clear stored token
+   * Log out and clear stored session token.
+   * Device trust token is NOT cleared — it's device-bound, so
+   * re-login from the same device will still skip TOTP.
    */
   logout: () => {
     localStorage.removeItem(TOKEN_KEY);

@@ -28,6 +28,9 @@ router = APIRouter()
 # Token validity: 30 days (single user, convenience)
 TOKEN_TTL_SECONDS = 30 * 24 * 3600
 
+# Device trust: 14 days — skip TOTP on trusted devices
+DEVICE_TRUST_TTL = 14 * 24 * 3600
+
 
 # ── Env var helpers (Railway injects env vars; pydantic-settings may cache empty defaults) ──
 
@@ -80,6 +83,37 @@ def verify_token(token: str) -> bool:
         return False
 
 
+# ── Device Trust Token (2FA remember-me) ────────────────────────────────────
+
+def _make_device_token(password: str, timestamp: int) -> str:
+    """Create an HMAC-signed device trust token (prefixed to distinguish from session tokens)."""
+    msg = f"device:{timestamp}".encode()
+    key = password.encode()
+    sig = hmac.new(key, msg, hashlib.sha256).hexdigest()
+    return f"d.{timestamp}.{sig}"
+
+
+def verify_device_token(token: str) -> bool:
+    """Verify a device trust token is valid and not expired (14-day TTL)."""
+    password = _get_app_password()
+    if not password:
+        return True
+    if not token or not token.startswith("d."):
+        return False
+    try:
+        parts = token.split(".", 2)
+        if len(parts) != 3:
+            return False
+        _, timestamp_str, sig = parts
+        timestamp = int(timestamp_str)
+        if time.time() - timestamp > DEVICE_TRUST_TTL:
+            return False
+        expected = _make_device_token(password, timestamp)
+        return hmac.compare_digest(token, expected)
+    except (ValueError, TypeError):
+        return False
+
+
 # ── TOTP 2FA Helpers ─────────────────────────────────────────────────────────
 
 def _get_totp(secret: str) -> pyotp.TOTP:
@@ -101,6 +135,7 @@ def verify_totp(code: str) -> bool:
 class LoginRequest(BaseModel):
     password: str
     totp_code: Optional[str] = None
+    device_token: Optional[str] = None  # Device trust token to skip 2FA
 
 
 class LoginResponse(BaseModel):
@@ -108,6 +143,7 @@ class LoginResponse(BaseModel):
     token: str = ""
     message: str = ""
     requires_totp: bool = False
+    device_token: str = ""  # Issued after successful 2FA, valid 14 days
 
 
 # ── Endpoints ────────────────────────────────────────────────────────────────
@@ -124,20 +160,31 @@ async def login(body: LoginRequest):
     if body.password != app_pw:
         raise HTTPException(status_code=401, detail="Incorrect password")
 
-    # If 2FA is enabled, require TOTP code
+    # If 2FA is enabled, check device trust or require TOTP code
+    device_token_out = ""
     if totp_secret:
-        if not body.totp_code:
-            return LoginResponse(
-                success=False,
-                requires_totp=True,
-                message="2FA code required"
-            )
-        if not verify_totp(body.totp_code):
-            raise HTTPException(status_code=401, detail="Invalid 2FA code")
+        # Check if this device is trusted (skip TOTP)
+        trusted = body.device_token and verify_device_token(body.device_token)
+
+        if not trusted:
+            if not body.totp_code:
+                return LoginResponse(
+                    success=False,
+                    requires_totp=True,
+                    message="2FA code required"
+                )
+            if not verify_totp(body.totp_code):
+                raise HTTPException(status_code=401, detail="Invalid 2FA code")
+
+            # 2FA succeeded — issue a device trust token (14-day remember-me)
+            device_token_out = _make_device_token(app_pw, int(time.time()))
 
     timestamp = int(time.time())
     token = _make_token(app_pw, timestamp)
-    return LoginResponse(success=True, token=token, message="Authenticated")
+    return LoginResponse(
+        success=True, token=token, message="Authenticated",
+        device_token=device_token_out,
+    )
 
 
 @router.get("/check")

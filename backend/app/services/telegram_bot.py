@@ -205,7 +205,7 @@ class TelegramBotService:
             PRESETS = {
                 "conservative": {
                     "market_cap_min": 5_000_000_000,
-                    "market_cap_max": 500_000_000_000,
+                    "market_cap_max": 5_000_000_000_000,
                     "price_min": 10,
                     "price_max": 300,
                     "revenue_growth_min": 5,
