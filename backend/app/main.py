@@ -69,6 +69,7 @@ _AUTH_SKIP_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json", "/api/v1
 class AppPasswordMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         app_pw = _get_app_password()
+        logger.info(f"[AUTH_MW] dispatch called: {request.method} {request.url.path} pw_set={bool(app_pw)}")
         if not app_pw:
             return await call_next(request)
 
