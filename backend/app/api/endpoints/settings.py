@@ -17,6 +17,11 @@ class SettingUpdate(BaseModel):
     value: Any
 
 
+class SettingValueBody(BaseModel):
+    """Request body for updating a single setting by key path"""
+    value: Any
+
+
 class SettingsBatchUpdate(BaseModel):
     """Request model for updating multiple settings"""
     updates: Dict[str, Any]
@@ -106,17 +111,17 @@ async def get_setting(key: str):
 
 
 @router.put("/key/{key}")
-async def update_setting(key: str, value: Any):
+async def update_setting(key: str, body: SettingValueBody):
     """
     Update a single setting value.
 
     The value type should match the setting's expected type.
     """
     try:
-        success = settings_service.update_setting(key, value)
+        success = settings_service.update_setting(key, body.value)
         if not success:
             raise HTTPException(status_code=404, detail=f"Setting '{key}' not found")
-        return {"success": True, "key": key, "value": value}
+        return {"success": True, "key": key, "value": body.value}
     except HTTPException:
         raise
     except Exception as e:
