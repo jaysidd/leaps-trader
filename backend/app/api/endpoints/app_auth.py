@@ -9,10 +9,10 @@ code from an authenticator app (Google Authenticator, Authy, etc.).
 
 Tokens are simple HMAC-signed timestamps — no database, no sessions to manage.
 """
-import base64
 import hashlib
 import hmac
 import io
+import os
 import time
 from typing import Optional
 
@@ -29,6 +29,20 @@ router = APIRouter()
 TOKEN_TTL_SECONDS = 30 * 24 * 3600
 
 
+# ── Env var helpers (Railway injects env vars; pydantic-settings may cache empty defaults) ──
+
+def _get_app_password() -> str:
+    """Get APP_PASSWORD — prefer os.environ for Railway, fallback to Settings."""
+    return os.environ.get("APP_PASSWORD", "") or get_settings().APP_PASSWORD
+
+
+def _get_totp_secret() -> str:
+    """Get TOTP_SECRET — prefer os.environ for Railway, fallback to Settings."""
+    return os.environ.get("TOTP_SECRET", "") or get_settings().TOTP_SECRET
+
+
+# ── Token helpers ────────────────────────────────────────────────────────────
+
 def _make_token(password: str, timestamp: int) -> str:
     """Create an HMAC-signed token from password + timestamp."""
     msg = f"{timestamp}".encode()
@@ -39,8 +53,7 @@ def _make_token(password: str, timestamp: int) -> str:
 
 def verify_token(token: str) -> bool:
     """Verify a session token is valid and not expired."""
-    settings = get_settings()
-    password = settings.APP_PASSWORD
+    password = _get_app_password()
 
     if not password:
         return True  # No password set — everything passes
@@ -76,18 +89,18 @@ def _get_totp(secret: str) -> pyotp.TOTP:
 
 def verify_totp(code: str) -> bool:
     """Verify a TOTP code. Returns True if valid (with 30s tolerance window)."""
-    settings = get_settings()
-    if not settings.TOTP_SECRET:
+    secret = _get_totp_secret()
+    if not secret:
         return True  # No 2FA configured — skip
-    totp = _get_totp(settings.TOTP_SECRET)
-    return totp.verify(code, valid_window=1)  # Allow 1 step tolerance (30s before/after)
+    totp = _get_totp(secret)
+    return totp.verify(code, valid_window=1)
 
 
 # ── Request / Response Models ────────────────────────────────────────────────
 
 class LoginRequest(BaseModel):
     password: str
-    totp_code: Optional[str] = None  # 6-digit code from authenticator app
+    totp_code: Optional[str] = None
 
 
 class LoginResponse(BaseModel):
@@ -102,18 +115,18 @@ class LoginResponse(BaseModel):
 @router.post("/login", response_model=LoginResponse)
 async def login(body: LoginRequest):
     """Verify password (+ optional TOTP) and return a session token."""
-    settings = get_settings()
+    app_pw = _get_app_password()
+    totp_secret = _get_totp_secret()
 
-    if not settings.APP_PASSWORD:
+    if not app_pw:
         return LoginResponse(success=True, token="open", message="No password required")
 
-    if body.password != settings.APP_PASSWORD:
+    if body.password != app_pw:
         raise HTTPException(status_code=401, detail="Incorrect password")
 
     # If 2FA is enabled, require TOTP code
-    if settings.TOTP_SECRET:
+    if totp_secret:
         if not body.totp_code:
-            # Password correct, but need 2FA code
             return LoginResponse(
                 success=False,
                 requires_totp=True,
@@ -123,17 +136,18 @@ async def login(body: LoginRequest):
             raise HTTPException(status_code=401, detail="Invalid 2FA code")
 
     timestamp = int(time.time())
-    token = _make_token(settings.APP_PASSWORD, timestamp)
+    token = _make_token(app_pw, timestamp)
     return LoginResponse(success=True, token=token, message="Authenticated")
 
 
 @router.get("/check")
 async def check_auth():
     """Check if password protection and 2FA are enabled (no auth required)."""
-    settings = get_settings()
+    app_pw = _get_app_password()
+    totp_secret = _get_totp_secret()
     return {
-        "protected": bool(settings.APP_PASSWORD),
-        "totp_enabled": bool(settings.TOTP_SECRET),
+        "protected": bool(app_pw),
+        "totp_enabled": bool(totp_secret),
     }
 
 
@@ -141,25 +155,19 @@ async def check_auth():
 async def totp_setup():
     """
     Generate a TOTP setup QR code for the authenticator app.
-    Only works when TOTP_SECRET is configured on the server.
     Returns a PNG QR code image.
     """
-    settings = get_settings()
+    secret = _get_totp_secret()
 
-    if not settings.TOTP_SECRET:
+    if not secret:
         raise HTTPException(status_code=404, detail="2FA not configured on server")
 
-    # Verify caller has a valid session (must be logged in to see setup)
-    # This endpoint is still under /auth/ path which is whitelisted in middleware,
-    # so we rely on the frontend gating access to this page.
-
-    totp = _get_totp(settings.TOTP_SECRET)
+    totp = _get_totp(secret)
     uri = totp.provisioning_uri(
         name="leaps-trader",
         issuer_name="LEAPS Trader"
     )
 
-    # Generate QR code as PNG
     import qrcode
     qr = qrcode.QRCode(version=1, box_size=8, border=2)
     qr.add_data(uri)
@@ -176,12 +184,13 @@ async def totp_setup():
 @router.post("/totp/verify")
 async def totp_verify_code(body: LoginRequest):
     """Verify a TOTP code (for setup confirmation). Requires password."""
-    settings = get_settings()
+    secret = _get_totp_secret()
+    app_pw = _get_app_password()
 
-    if not settings.TOTP_SECRET:
+    if not secret:
         raise HTTPException(status_code=404, detail="2FA not configured")
 
-    if body.password != settings.APP_PASSWORD:
+    if body.password != app_pw:
         raise HTTPException(status_code=401, detail="Incorrect password")
 
     if not body.totp_code:

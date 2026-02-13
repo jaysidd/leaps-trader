@@ -37,7 +37,7 @@ from app.services.alerts.alert_service import alert_service
 from app.services.signals.signal_engine import signal_engine
 from app.database import SessionLocal
 from app.api.auth import require_trading_auth
-from app.api.endpoints.app_auth import router as app_auth_router, verify_token
+from app.api.endpoints.app_auth import router as app_auth_router, verify_token, _get_app_password
 
 # Global scheduler instance
 scheduler = AsyncIOScheduler()
@@ -68,8 +68,8 @@ _AUTH_SKIP_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json", "/api/v1
 @app.middleware("http")
 async def app_password_middleware(request: Request, call_next):
     """Block unauthenticated requests when APP_PASSWORD is set."""
-    # Skip if no password configured
-    if not app_settings.APP_PASSWORD:
+    # Skip if no password configured (check env var directly for Railway compatibility)
+    if not _get_app_password():
         return await call_next(request)
 
     path = request.url.path
