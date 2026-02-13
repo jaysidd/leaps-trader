@@ -72,8 +72,6 @@ async def app_password_middleware(request: Request, call_next):
     # Skip if no password configured
     if not app_pw:
         return await call_next(request)
-    logger.debug(f"Auth middleware: {request.method} {request.url.path} | pw_len={len(app_pw)}")
-
     path = request.url.path
     method = request.method
 
@@ -91,7 +89,9 @@ async def app_password_middleware(request: Request, call_next):
 
     # Check token from header or query param (EventSource/SSE can't set headers)
     token = request.headers.get("X-App-Token", "") or request.query_params.get("token", "")
-    if not verify_token(token):
+    is_valid = verify_token(token)
+    logger.warning(f"Auth middleware: {method} {path} | pw_len={len(app_pw)} token_present={bool(token)} valid={is_valid}")
+    if not is_valid:
         return JSONResponse(
             status_code=401,
             content={"detail": "Authentication required. Please log in."},
