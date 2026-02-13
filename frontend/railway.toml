@@ -1,2 +1,2 @@
 [deploy]
-startCommand = "npm run start"
+startCommand = "npx serve -s dist -l $PORT"
