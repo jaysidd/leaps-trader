@@ -424,3 +424,9 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Fixed**: `autopilot.py` — `/market-state` endpoint updated for new `_classify_condition(score, snapshot)` signature. Response now includes `composite_score` and `signal_scores` breakdown.
 - **Modified**: `main.py` — Auto-scan Smart mode logging now shows composite score and full reasoning string.
 - **Result**: With MRI=34.5, regime=bullish, F&G=70 (VIX fallback), readiness=yellow → composite +21.7 → `moderate_bull` (was `cautious`). Scanner now selects ["moderate", "blue_chip_leaps", "swing_breakout"] instead of just ["conservative", "blue_chip_leaps"].
+- **Fixed**: `main.py` — Added `scan_failed` autopilot event logging in exception handler + startup cleanup for orphaned `scan_started` events (from deploys that killed mid-scan).
+
+### 2026-02-13 — StrategySelector HIGH Confidence Fix
+- **Root cause**: 0 out of 486 scanned stocks reached HIGH confidence for auto-trading, despite 22 qualifying for 1d timeframe. Two issues: (1) "missing SMA data" from FMP rate limits (403 errors during heavy scanning) was classified as a serious edge case, blocking HIGH. (2) Single-timeframe HIGH threshold was 68 (too conservative for stocks that already passed 4-stage screening).
+- **Fixed**: `strategy_selector.py` — Removed "missing sma" from serious edge cases (missing data ≠ risk signal). Lowered single-timeframe HIGH score threshold from 68 to 65.
+- **Expected result**: Stocks with composite_score ≥ 65 and no real risk signals (overbought/oversold/weak trend) can now auto-queue for the trading pipeline.
