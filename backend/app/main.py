@@ -68,9 +68,11 @@ _AUTH_SKIP_PATHS = ("/", "/health", "/docs", "/redoc", "/openapi.json", "/api/v1
 @app.middleware("http")
 async def app_password_middleware(request: Request, call_next):
     """Block unauthenticated requests when APP_PASSWORD is set."""
-    # Skip if no password configured (check env var directly for Railway compatibility)
-    if not _get_app_password():
+    app_pw = _get_app_password()
+    # Skip if no password configured
+    if not app_pw:
         return await call_next(request)
+    logger.debug(f"Auth middleware: {request.method} {request.url.path} | pw_len={len(app_pw)}")
 
     path = request.url.path
     method = request.method
