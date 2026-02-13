@@ -365,9 +365,11 @@ class StrategySelector:
             return "LOW"
 
         # Count serious edge cases (exclude informational ones)
+        # Note: "missing sma" is NOT a serious risk — it just means data was
+        # unavailable (FMP rate limit / after hours). It shouldn't block HIGH.
         serious_edges = [e for e in edge_cases if any(
             kw in e.lower() for kw in
-            ("overbought", "oversold", "low volume", "spread", "missing sma", "weak trend")
+            ("overbought", "oversold", "low volume", "spread", "weak trend")
         )]
 
         # HIGH confidence thresholds
@@ -375,7 +377,7 @@ class StrategySelector:
             return "HIGH"
         if n_tf >= 2 and score >= 65 and len(serious_edges) <= 1:
             return "HIGH"
-        if n_tf == 1 and score >= 68 and serious_edges == []:
+        if n_tf == 1 and score >= 65 and serious_edges == []:
             return "HIGH"
 
         # MEDIUM: something qualified but there are concerns
