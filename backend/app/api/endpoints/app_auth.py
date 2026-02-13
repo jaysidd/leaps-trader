@@ -145,15 +145,9 @@ async def check_auth():
     """Check if password protection and 2FA are enabled (no auth required)."""
     app_pw = _get_app_password()
     totp_secret = _get_totp_secret()
-    # Debug info (temporary — remove after confirming Railway env vars work)
-    env_pw = os.environ.get("APP_PASSWORD", "")
-    settings_pw = get_settings().APP_PASSWORD
     return {
         "protected": bool(app_pw),
         "totp_enabled": bool(totp_secret),
-        "_debug_env_pw_len": len(env_pw),
-        "_debug_settings_pw_len": len(settings_pw),
-        "_debug_env_keys_sample": [k for k in sorted(os.environ.keys()) if "APP" in k or "TOTP" in k],
     }
 
 
