@@ -374,9 +374,10 @@ class ScreeningEngine:
             # (fundamental, technical, options) already demonstrate merit.
             # The composite score is a coverage-adjusted weighted average that
             # naturally produces lower values (25-60 range for passing stocks).
-            # A floor of 20 catches only the weakest gate-passers while letting
-            # the downstream AI validator and signal engine do the real filtering.
-            MIN_COMPOSITE_SCORE = 20
+            # Raised from 20 → 30: stocks scoring 20-29 were barely passing gates
+            # with weak momentum, creating noise downstream. 30 filters out the
+            # bottom ~20% of gate-passers while keeping genuinely qualified stocks.
+            MIN_COMPOSITE_SCORE = 30
             if composite['score'] < MIN_COMPOSITE_SCORE:
                 logger.info(
                     f"{symbol}: Composite score {composite['score']:.1f} < {MIN_COMPOSITE_SCORE} minimum — filtered out"

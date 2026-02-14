@@ -33,10 +33,10 @@ class TestFundamentalSectorBypass:
     """Tests for skip_sector_filter custom criteria."""
 
     def test_non_growth_sector_fails_without_bypass(self):
-        """Financials is not in GROWTH_SECTORS and should FAIL normally."""
+        """Utilities is not in GROWTH_SECTORS and should FAIL normally."""
         result = FundamentalAnalysis.evaluate(
             _fundamentals(),
-            _stock_info(sector='Financial Services'),
+            _stock_info(sector='Utilities'),
         )
         assert result.criteria['sector_ok'] == CriterionResult.FAIL
 

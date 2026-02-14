@@ -105,7 +105,8 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 - `services/command_center/market_data.py`, `news_service.py`, `news_feed.py`, `polymarket.py`, `copilot.py`
 
 **Automation:**
-- `services/automation/preset_selector.py` — Market-adaptive preset selection using MRI, regime, Fear & Greed, trade readiness
+- `data/presets_catalog.py` — LEAPS_PRESETS dict (29 presets + iv_crush alias), `_PRESET_DISPLAY_NAMES`, `resolve_preset()`, `get_catalog_hash()`. Single source of truth for all screening presets.
+- `services/automation/preset_selector.py` — Market-adaptive preset selection using weighted composite scoring (regime 35%, MRI 30%, F&G 20%, readiness 15%)
 
 **Infrastructure:**
 - `services/settings_service.py` — App-wide settings (Redis + DB)
@@ -113,7 +114,7 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 - `services/alerts/alert_service.py` — Price/technical alert checking
 - `services/cache.py` — Redis caching utilities
 
-### Database Models (27)
+### Database Models (28)
 
 | Model | Table | Key Fields | Purpose |
 |-------|-------|-----------|---------|
@@ -144,6 +145,7 @@ LEAPS Trader is a **stock screening and options trading automation platform** or
 | BrokerConnection | broker_connections | broker, credentials (encrypted) | Broker creds |
 | Settings | settings | key, value | App settings K/V store |
 | AutopilotLog | autopilot_logs | event_type, market_conditions, pipeline data | Autopilot activity log for scan events, market state, pipeline tracking |
+| ReplayAuditLog | replay_audit_logs | replay_session_id, stage, decision (JSON) | Captures every pipeline decision during historical replay for post-analysis |
 
 ### Zustand Stores (8)
 
@@ -372,16 +374,14 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Modified**: `App.jsx` — New /autopilot route + nav link
 - **Modified**: `Settings.jsx` — Smart scan toggle in AutomationTab
 
-### 2026-02-13 — Auto-Scan Fix + Logs Viewer + Sentry Integration
+### 2026-02-13 — Auto-Scan Fix + Logs Viewer
 - **Fixed**: Auto-scan not firing on Railway — `automation.auto_scan_enabled` defaulted to `false` with no UI toggle. Added one-time migration in `seed_defaults()` to force-update existing DB values via sentinel key `_internal.auto_scan_defaults_v2`.
 - **New service**: `services/log_sink.py` — Loguru custom sink pushing structured JSON logs to Redis list `app:logs` (5000 entry ring buffer via LPUSH+LTRIM).
 - **New API**: `api/endpoints/logs.py` — GET /api/v1/logs with level/search/module filtering and configurable limit.
 - **New page**: `frontend/src/pages/Logs.jsx` — Real-time log viewer with auto-refresh (5s), level filters, free-text search, module filter, color-coded monospace entries, follow-tail mode.
 - **Modified**: `autopilot.py` — /status endpoint now returns `auto_scan_enabled` and `auto_scan_presets` fields.
 - **Modified**: `Autopilot.jsx` — Added Auto-Scan master toggle (green) and multi-select preset pills fetched from GET /screener/presets.
-- **Modified**: `main.py` — Registered Redis log sink, logs router, and optional Sentry SDK init (via SENTRY_DSN env var).
-- **Modified**: `config.py` — Added `SENTRY_DSN` setting.
-- **Modified**: `requirements.txt` — Added `sentry-sdk[fastapi]>=2.0.0`.
+- **Modified**: `main.py` — Registered Redis log sink and logs router.
 - **Modified**: `App.jsx` — Added `/logs` route.
 - **Modified**: `Sidebar.jsx` — Added Logs to Tools nav section.
 
@@ -430,3 +430,69 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 - **Root cause**: 0 out of 486 scanned stocks reached HIGH confidence for auto-trading, despite 22 qualifying for 1d timeframe. Two issues: (1) "missing SMA data" from FMP rate limits (403 errors during heavy scanning) was classified as a serious edge case, blocking HIGH. (2) Single-timeframe HIGH threshold was 68 (too conservative for stocks that already passed 4-stage screening).
 - **Fixed**: `strategy_selector.py` — Removed "missing sma" from serious edge cases (missing data ≠ risk signal). Lowered single-timeframe HIGH score threshold from 68 to 65.
 - **Expected result**: Stocks with composite_score ≥ 65 and no real risk signals (overbought/oversold/weak trend) can now auto-queue for the trading pipeline.
+
+### 2026-02-13 — E2E Pipeline Tests + Quality Gate Fixes
+- **Root cause**: Stock SN scored 85% confidence from Signal Engine but only 3/10 from AI Batch Analyzer. The 7-layer pipeline was sequentially lenient — each layer let marginal stocks through. Five weak thresholds identified: (1) gate penalty cap -15 rescued 25 free confidence points, (2) MIN_COMPOSITE_SCORE=20 too low, (3) AI validator prompt said "be practical" (explicitly lenient), (4) auto-execute threshold 65 too low, (5) MIN_CONFIDENCE=60 too low.
+- **Fixed (5 threshold changes)**:
+  - `signal_engine.py` — Gate penalty cap -15 → -25; MIN_CONFIDENCE 60 → 62
+  - `engine.py` — MIN_COMPOSITE_SCORE 20 → 30
+  - `signal_validator.py` — CONFIDENCE_THRESHOLD 65 → 70; prompt rewritten to evaluate objectively (removed "be practical")
+- **New**: `backend/tests/pipeline/` — 109 tests across 10 files (conftest.py, helpers.py, mock_stocks.py, mock_market.py, test_layer1-7, test_quality_gates.py, test_full_pipeline.py). Tests cover all 7 pipeline layers with controlled mock data, zero external API calls, runs in ~1s.
+- **Result**: SN-like edge stocks now fail at signal engine (confidence ~35 vs MIN_CONFIDENCE 62) and strategy selector (score 32 < min_score 55). Strong stocks still pass all layers unchanged.
+
+### 2026-02-13 — Remove Sentry + Pipeline Diagnostic Tooling
+- **Removed**: Sentry SDK — never activated (no DSN configured). Removed from `requirements.txt`, `main.py` (init block), `config.py` (SENTRY_DSN setting). Uninstalled from venv.
+- **Fixed**: `user_alerts` table — 6 columns defined in SQLAlchemy model but missing from PostgreSQL (alert_scope, alert_params, severity, cooldown_minutes, dedupe_key, last_dedupe_at). `create_all()` doesn't ALTER existing tables. Fixed via `scripts/fix_user_alerts_columns.py`.
+- **New script**: `scripts/diagnose_pipeline.py` — Tests all 7 pipeline layers with real data, prints color-coded results. Supports `--layer N` for single-layer testing, `--execute` for paper trade placement, `--api-guide` for curl command reference. Identifies exactly where signals get stuck or silently filtered.
+- **New script**: `scripts/fix_user_alerts_columns.py` — Migration script adding 6 missing columns to user_alerts table.
+
+### 2026-02-13 — Historical Replay Harness
+- **New package**: `scripts/replay/` — Replay past trading days through the real signal pipeline using Alpaca Historical API. Pre-fetches bars, advances a simulated clock bar-by-bar, runs the REAL signal engine + risk gateway code at each tick.
+- **New module**: `scripts/replay/replay_services.py` — Three classes: `ReplayClock` (simulated time), `ReplayDataService` (patches AlpacaService with cached historical bars), `ReplayTradingService` (virtual account + simulated fills). `DatetimeProxy` intercepts `datetime.now()` in signal_engine/risk_gateway modules.
+- **New script**: `scripts/replay/replay_trading_day.py` — Main replay script. Usage: `python3 scripts/replay/replay_trading_day.py 2026-02-10 --symbols SSRM,NVDA --interval 30`. Supports `--equity`, `--no-cleanup`, `--timeframes`, `--start-time`/`--end-time`. Tags DB records with `source=replay` and cleans up on exit.
+- **Architecture**: Monkey-patches 7 methods on existing service singletons (alpaca_service: get_bars, get_snapshot, get_historical_prices, get_options_chain, get_opening_range; alpaca_trading_service: get_account, get_clock, get_all_positions, get_position, get_orders, place_market_order, place_limit_order) + patches datetime.now() in signal_engine and risk_gateway modules. No production code modified.
+
+### 2026-02-13 — Replay Harness: Full E2E Pipeline (Screening + AI + Risk + Sizing)
+- **Enhanced**: `scripts/replay/replay_trading_day.py` — Wired all 7 pipeline layers into the replay loop: PresetSelector → Screening → Signal Engine → AI Validation → Risk Gateway → Position Sizer → Execute → Position Monitor (SL/TP). New CLI flags: `--skip-screening` (bypass screening gate), `--no-ai` (skip Claude AI validation), `--no-risk-check` (skip 16-point Risk Gateway). Virtual `BotConfiguration` and `BotState` objects provide realistic trading limits for replay. Position sizing uses FIXED_DOLLAR mode with 5% or $500 cap. AI Validator falls back gracefully when Claude is unavailable (`manual_review` mode — still executes in replay). Verified: 2 signals, 2 trades, 2 wins, $22.90 P/L on SSRM replay 2026-02-10 with full pipeline.
+- **Enhanced**: `scripts/replay/replay_services.py` — `replay_get_options_chain` now returns synthetic LEAPS DataFrame (instead of `None`) to trigger screening engine's soft-pass path. Synthetic option: ATM strike, 300-day DTE, zero market data → triggers `leaps_available=True, known_count=0` → soft-pass.
+- **Audit stages expanded**: `ai_validation` and `risk_check` stages now logged alongside existing `preset_selection`, `screening`, `signal_generation`, `trade_execution`, `position_exit`, `summary`. Full pipeline decision chain is captured in `replay_audit_logs` table.
+
+### 2026-02-13 — Replay Harness: PresetSelector Integration + Audit Logging
+- **Enhanced**: `scripts/replay/replay_services.py` — Added `ReplayMarketIntelligence` class (~300 lines) that computes historical market intelligence directly from SPY daily bar cache. Computes regime (RSI+SMA200+VIX proxy from realized volatility), Fear & Greed (VIX-to-score formula), and Trade Readiness (MRI 40% + regime proxy 60%). Loads MRI from DB `mri_snapshots` table. Patches 4 service caches: `MacroSignalService._cached_mri`, `MarketRegimeDetector._cache`, `MarketDataService.get_fear_greed_index`, `CatalystService.calculate_trade_readiness`.
+- **Enhanced**: `scripts/replay/replay_trading_day.py` — Integrated PresetSelector into replay loop. Market intelligence is computed at startup, PresetSelector runs with patched data, prints condition/presets/composite score/signal breakdown. Extreme fear conditions (`skip`) trigger early exit.
+- **New model**: `app/models/replay_audit_log.py` — `ReplayAuditLog` captures every pipeline decision during replay (stage, symbol, decision JSON, pass/fail, score, reasoning). Stages: preset_selection, screening, signal_generation, risk_check, trade_execution, position_exit, summary. Indexed on replay_session_id + replay_date + stage.
+- **Gotcha fixed**: `^VIX` is not a valid Alpaca symbol — `MarketRegimeDetector.get_market_data()` fails silently. Solved by computing VIX proxy from SPY 20-day realized volatility (annualized std of daily returns).
+- **Gotcha fixed**: Regime detector cache expects top-level keys (`detector._cache.get("regime")`), not nested under `{"rules": ...}`. PresetSelector reads these directly.
+- **Verified**: Market intelligence now varies correctly across replay dates (e.g., Feb 4: MRI=57.7, F&G=96 vs Feb 10: MRI=48.6, F&G=91). 416 tests pass.
+
+### 2026-02-13 — Cross-Direction Signal Conflict Detection
+- **Root cause**: Historical replay revealed NVDA whipsaw loss — 3 SHORT signals (range_breakout, orb_breakout, vwap_pullback) preceded a conflicting LONG signal (trend_following) that was executed, then hit stop-loss from the short signal's SL level.
+- **Fixed**: `signal_engine.py` — Added step 8b: cross-direction conflict check. Before emitting a signal, checks for active opposing-direction signals for the same symbol (any timeframe, within 2 hours). Blocks BUY when active SELL signals exist, and vice versa.
+- **Fixed**: `risk_gateway.py` — Added check #15: `_check_opposing_position()`. Blocks execution of a signal when an open position in the opposing direction already exists for the same symbol. Added to the fail-fast check list after duplicate position check.
+- **Tests**: 2 new tests in `test_risk_gateway.py` (opposing position rejected + allowed when no conflict). 416 total tests pass.
+- **Replay results**: 4-day backtest (Feb 6-12) with SSRM+NVDA+AAPL: 35 signals, 17 trades, 76% win rate, +$46.55 cumulative P/L. Previously NVDA whipsaw caused a loss; now correctly blocked.
+
+### 2026-02-13 — Fix Robinhood 2FA Verification Flow
+- **Root cause**: robin_stocks' `_validate_sherrif_id()` calls Python's `input()` for SMS/email verification codes, blocking the FastAPI event loop forever. The `mfa_code` parameter only works for TOTP (authenticator apps), not Robinhood's newer `verification_workflow` (SMS/email/push) flow.
+- **Fixed**: `robinhood_service.py` — Added `VerificationRequired` exception class and `_patched_validate_sherrif_id()` that intercepts the SMS/email challenge and raises instead of calling `input()`. New `verify_and_login()` method submits the code directly to Robinhood's `/challenge/{id}/respond/` API and retries login. The monkey-patch is installed/restored around each `rh.login()` call.
+- **Fixed**: `portfolio.py` — New `/connections/{id}/verify` endpoint for SMS/email verification flow. Updated `_connect_robinhood()` to handle `requires_verification` response and store encrypted password for verification completion. Updated `submit_mfa()` to work with both TOTP and verification workflows.
+- **Fixed**: `Portfolio.jsx` — `ConnectBrokerModal` now properly routes to `submitMFA` store action (which auto-routes to verify endpoint) when MFA code is entered, instead of re-calling the initial connect endpoint. Shows correct verification method label (SMS/email).
+- **Fixed**: `portfolioStore.js` — `submitMFA` action auto-detects SMS/email vs TOTP flow and calls the appropriate API endpoint. Added `verificationData` state for tracking challenge details.
+- **Fixed**: `portfolio.js` (API) — Added `submitVerification()` method for the new `/verify` endpoint.
+
+### 2026-02-14 — PresetSelector Showstopper Fix + Comprehensive Tests
+- **New module**: `app/data/presets_catalog.py` — Extracted LEAPS_PRESETS dict (~29 presets + iv_crush alias) and `_PRESET_DISPLAY_NAMES` from `screener.py` into standalone data module. Eliminates circular import risk. Includes `resolve_preset()` fail-fast helper and `get_catalog_hash()` for version breadcrumbs.
+- **Fixed (B1)**: `preset_selector.py` — `"value_deep"` preset name in MARKET_CONDITIONS typo → `"deep_value"`. Neutral condition was silently falling back to "moderate" instead of scanning deep-value stocks.
+- **Fixed (B2)**: `preset_selector.py` — Regime cache TTL mismatch: selector checked 10 minutes but `MarketRegimeDetector` uses 5 minutes → aligned to 5 minutes.
+- **Fixed (B3)**: `preset_selector.py` — `if confidence` is falsy for 0 → changed to `if confidence is not None`. Zero confidence should mean zero signal, not default multiplier 0.7.
+- **Fixed (B4)**: `preset_selector.py` — Docstring falsely claimed "no API calls" → fixed to reflect that stale/missing cache triggers Alpaca fetches.
+- **Fixed (B5)**: `main.py`, `replay_trading_day.py` — Silent fallback to "moderate" preset in automation paths eliminated. Now uses `resolve_preset()` which either raises (strict mode) or logs error and skips. UI endpoints keep fallback but now log warnings.
+- **Added**: `preset_selector.py` — `SELECTOR_VERSION = "1.1.0"` + `catalog_hash` in `select_presets()` return dict for audit/replay debugging.
+- **Added**: `preset_selector.py` — `_validate_preset_catalog()` startup validation, called once from `get_preset_selector()`. In strict mode (`PRESET_CATALOG_STRICT=true`), raises ValueError on missing presets.
+- **Modified**: `screener.py` — Removed LEAPS_PRESETS and _PRESET_DISPLAY_NAMES definitions, imports from `presets_catalog`. UI fallback now logs warning.
+- **Modified**: `main.py` — Imports LEAPS_PRESETS + resolve_preset from `presets_catalog`. Auto-scan uses `resolve_preset(preset, "auto_scan", strict=False)`.
+- **Modified**: `replay_trading_day.py` — Imports from `presets_catalog`. Uses `resolve_preset(preset, "replay", strict=False)` with warning on unknown preset.
+- **New tests**: `tests/pipeline/test_preset_selector_comprehensive.py` — 86 tests (85 pass, 1 skip for hysteresis) across 13 test classes: boundary classification, confidence scaling, weight renormalization, readiness label fallback, panic override, preset mapping contracts, cache behavior, failure resilience, stability, scoring math, reasoning output, edge cases, classification integration.
+- **New doc**: `docs/PRESET_SELECTOR_TESTS.md` — Reusable test case document with 69 spec'd test cases, hand-verified math tables for all mock snapshots, bug documentation, and future migration recommendations.
+- **Modified**: `tests/pipeline/mock_market.py` — 8 new snapshot fixtures: NEAR_PANIC_MRI_ONLY, NEAR_PANIC_FG_ONLY, LABEL_FALLBACK_GREEN/YELLOW/RED, MAX_BULLISH/BEARISH_MARKET, BOUNDARY_AGGRESSIVE.
+- **Test count**: 194 pipeline tests (was 109), 211 total pipeline+scoring tests. Full regression: 492 passed, 1 skipped (9 pre-existing failures in test_engine_integration.py unrelated to this change).

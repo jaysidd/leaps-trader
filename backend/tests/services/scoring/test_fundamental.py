@@ -130,7 +130,23 @@ class TestFundamentalEvaluateTriState:
 
 
 class TestFundamentalEvaluateGate:
-    def test_gate_passes_3_of_5_with_4_known(self):
+    def test_gate_passes_4_of_5_with_5_known(self):
+        """Gate requires min_pass=4, min_known=4. 4 pass, 5 known → passes."""
+        result = FundamentalAnalysis.evaluate(
+            _fundamentals(
+                revenue_growth=0.25,    # PASS (>0.20)
+                earnings_growth=0.20,   # PASS (>0.15)
+                debt_to_equity=100,     # PASS (<150)
+                current_ratio=1.8,      # PASS (>1.2)
+            ),
+            _stock_info(sector='FinancialServices'),  # FAIL (not in growth list)
+        )
+        assert result.coverage.known_count == 5
+        assert result.coverage.pass_count == 4
+        assert result.passes_gate(GATE_CONFIGS["fundamental"]) is True
+
+    def test_gate_fails_3_of_5_pass(self):
+        """Gate requires min_pass=4. 3 pass is not enough."""
         result = FundamentalAnalysis.evaluate(
             _fundamentals(
                 revenue_growth=0.25,    # PASS (>0.20)
@@ -142,7 +158,7 @@ class TestFundamentalEvaluateGate:
         )
         assert result.coverage.known_count == 5
         assert result.coverage.pass_count == 3
-        assert result.passes_gate(GATE_CONFIGS["fundamental"]) is True
+        assert result.passes_gate(GATE_CONFIGS["fundamental"]) is False
 
     def test_gate_fails_3_pass_but_only_3_known(self):
         """3 pass but only 3 known (2 UNKNOWN) → fails coverage threshold."""

@@ -116,17 +116,17 @@ class TestBuildCoverageFromCriteria:
 
 class TestStageResultPassesGate:
     def test_fundamental_gate_passes(self):
-        """3 pass, 4 known out of 5: should pass."""
+        """4 pass, 4 known out of 5: should pass (min_pass=4, min_known=4)."""
         sr = StageResult(
             stage_id="fundamental",
             criteria={
                 "a": CriterionResult.PASS,
                 "b": CriterionResult.PASS,
                 "c": CriterionResult.PASS,
-                "d": CriterionResult.FAIL,
+                "d": CriterionResult.PASS,
                 "e": CriterionResult.UNKNOWN,
             },
-            coverage=CoverageInfo(known_count=4, pass_count=3, total_count=5),
+            coverage=CoverageInfo(known_count=4, pass_count=4, total_count=5),
         )
         assert sr.passes_gate(GATE_CONFIGS["fundamental"]) is True
 
@@ -170,18 +170,18 @@ class TestStageResultPassesGate:
 class TestGateConfigs:
     def test_fundamental_config(self):
         cfg = GATE_CONFIGS["fundamental"]
-        assert cfg.min_pass == 3
+        assert cfg.min_pass == 4
         assert cfg.min_known == 4
         assert cfg.total == 5
 
     def test_technical_config(self):
         cfg = GATE_CONFIGS["technical"]
         assert cfg.min_pass == 3
-        assert cfg.min_known == 6
+        assert cfg.min_known == 5
         assert cfg.total == 7
 
     def test_options_config(self):
         cfg = GATE_CONFIGS["options"]
         assert cfg.min_pass == 2
-        assert cfg.min_known == 3
+        assert cfg.min_known == 2
         assert cfg.total == 4

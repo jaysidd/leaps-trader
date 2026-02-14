@@ -361,6 +361,49 @@ def test_duplicate_position_rejected(mock_db):
 
 
 # =====================================================================
+# 20b. Opposing position check
+# =====================================================================
+
+@freeze_time("2025-01-15 15:00:00")  # 10:00 AM ET
+def test_opposing_position_rejected(mock_db):
+    """Cannot open BUY when an opposing SELL position exists -> rejected."""
+    gw = RiskGateway(mock_db)
+
+    # First call (duplicate check, direction=buy) -> None (no duplicate)
+    # Second call (opposing check, direction=sell) -> existing trade
+    existing_sell = make_trade(id=77, symbol="AAPL", direction="sell", status=TS_OPEN)
+
+    call_count = [0]
+    def side_effect_first():
+        call_count[0] += 1
+        if call_count[0] == 1:
+            return None  # No duplicate same-direction position
+        return existing_sell  # Opposing position exists
+
+    mock_db.query.return_value.filter.return_value.first.side_effect = side_effect_first
+
+    signal = make_signal(symbol="AAPL", direction="buy")
+
+    result = gw.check_trade(signal, make_bot_config(), make_bot_state(), make_account())
+
+    assert result.approved is False
+    assert "[Opposing position]" in result.reason
+    assert "AAPL" in result.reason
+
+
+@freeze_time("2025-01-15 15:00:00")  # 10:00 AM ET
+def test_opposing_position_allowed_when_no_conflict(mock_db):
+    """No opposing position -> passes this check (approved overall)."""
+    gw = RiskGateway(mock_db)
+    # Default mock: .first() returns None for all queries
+    signal = make_signal(symbol="AAPL", direction="buy")
+
+    result = gw.check_trade(signal, make_bot_config(), make_bot_state(), make_account())
+
+    assert result.approved is True
+
+
+# =====================================================================
 # 21-22. Options-specific: bid-ask spread and open interest
 # =====================================================================
 

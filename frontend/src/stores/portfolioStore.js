@@ -24,6 +24,7 @@ const usePortfolioStore = create((set, get) => ({
   connectingBroker: null,
   connectionPending: null, // For MFA flow
   connectionError: null,
+  verificationData: null, // For SMS/email verification flow
 
   // Portfolio Summary
   summary: null,
@@ -107,6 +108,7 @@ const usePortfolioStore = create((set, get) => ({
       connectingBroker: brokerType,
       connectionError: null,
       connectionPending: null,
+      verificationData: null,
     });
     try {
       const result = await portfolioAPI.connectBroker(
@@ -118,12 +120,19 @@ const usePortfolioStore = create((set, get) => ({
         accountName
       );
 
-      if (result.requires_mfa) {
+      if (result.requires_mfa || result.requires_verification) {
         set({
           connectionPending: result.connection,
+          verificationData: result.verification || null,
           connectingBroker: null,
         });
-        return { success: false, requires_mfa: true, connection: result.connection };
+        return {
+          success: false,
+          requires_mfa: true,
+          requires_verification: !!result.requires_verification,
+          verification: result.verification,
+          connection: result.connection,
+        };
       }
 
       if (result.success) {
@@ -135,6 +144,7 @@ const usePortfolioStore = create((set, get) => ({
         set({
           connectingBroker: null,
           connectionPending: null,
+          verificationData: null,
         });
         return { success: true, connection: result.connection };
       }
@@ -156,12 +166,28 @@ const usePortfolioStore = create((set, get) => ({
   },
 
   /**
-   * Submit MFA code
+   * Submit MFA/verification code.
+   * Automatically routes to the correct endpoint based on whether
+   * SMS/email verification data is present.
    */
   submitMFA: async (connectionId, mfaCode) => {
+    const { verificationData } = get();
     set({ connectingBroker: 'mfa' });
+
     try {
-      const result = await portfolioAPI.submitMFA(connectionId, mfaCode);
+      let result;
+
+      if (verificationData && verificationData.challenge_id) {
+        // SMS/email verification flow — use the dedicated verify endpoint
+        result = await portfolioAPI.submitVerification(
+          connectionId,
+          mfaCode,
+          verificationData
+        );
+      } else {
+        // TOTP MFA flow — use the standard MFA endpoint
+        result = await portfolioAPI.submitMFA(connectionId, mfaCode);
+      }
 
       if (result.success) {
         await get().fetchConnections();
@@ -171,8 +197,19 @@ const usePortfolioStore = create((set, get) => ({
         set({
           connectingBroker: null,
           connectionPending: null,
+          verificationData: null,
         });
         return { success: true };
+      }
+
+      // If it still needs verification (e.g., wrong code), keep verification data
+      if (result.requires_verification) {
+        set({
+          verificationData: result.verification || verificationData,
+          connectionError: result.message || 'Verification failed — check the code and try again',
+          connectingBroker: null,
+        });
+        return { success: false, error: result.message, requires_verification: true };
       }
 
       set({
@@ -247,6 +284,7 @@ const usePortfolioStore = create((set, get) => ({
     set({
       connectionPending: null,
       connectionError: null,
+      verificationData: null,
     });
   },
 

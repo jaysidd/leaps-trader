@@ -48,16 +48,6 @@ scheduler = AsyncIOScheduler()
 
 app_settings = get_settings()
 
-# ── Sentry error tracking (optional — set SENTRY_DSN env var) ─────────────
-import sentry_sdk
-if app_settings.SENTRY_DSN:
-    sentry_sdk.init(
-        dsn=app_settings.SENTRY_DSN,
-        traces_sample_rate=0.1,
-        environment="production",
-    )
-    logger.info("Sentry error tracking enabled")
-
 # ── Redis log sink (structured logs → Redis ring buffer) ──────────────────
 from app.services.log_sink import redis_log_sink
 try:
@@ -838,8 +828,9 @@ async def auto_scan_job(skip_market_check: bool = False):
         pass
 
     # Imports needed for screening + saving
+    from app.data.presets_catalog import LEAPS_PRESETS, _PRESET_DISPLAY_NAMES, resolve_preset
     from app.api.endpoints.screener import (
-        LEAPS_PRESETS, screening_engine, convert_numpy_types, _PRESET_DISPLAY_NAMES
+        screening_engine, convert_numpy_types
     )
     from app.data.stock_universe import get_dynamic_universe
     from app.models.saved_scan import SavedScanResult, SavedScanMetadata
@@ -853,10 +844,9 @@ async def auto_scan_job(skip_market_check: bool = False):
 
         for preset in presets:
             try:
-                # Validate preset exists
-                preset_data = LEAPS_PRESETS.get(preset)
+                # Validate preset exists (strict=False: skip unknown, don't crash)
+                preset_data = resolve_preset(preset, source="auto_scan", strict=False)
                 if not preset_data:
-                    logger.warning(f"[AutoScan] Unknown preset '{preset}', skipping")
                     continue
 
                 preset_criteria = {k: v for k, v in preset_data.items() if k != "description"}

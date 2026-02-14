@@ -7,12 +7,19 @@ and selects appropriate screening presets for current market conditions.
 Uses a WEIGHTED SCORING system — all signals contribute proportionally
 instead of any single signal vetoing the classification.
 
-Uses ONLY cached data — never triggers new API calls. Fast (<10ms).
+Reads cached data when available. Stale/missing cache triggers fresh Alpaca fetches.
 """
+import os
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from loguru import logger
 from sqlalchemy.orm import Session
+
+
+# ---------------------------------------------------------------------------
+# Version — bump when scoring logic, weights, or thresholds change
+# ---------------------------------------------------------------------------
+SELECTOR_VERSION = "1.1.0"
 
 
 # ---------------------------------------------------------------------------
@@ -31,7 +38,7 @@ MARKET_CONDITIONS = {
         "description": "Moderate bullish — balanced growth + quality",
     },
     "neutral": {
-        "presets": ["moderate", "low_iv_entry", "value_deep"],
+        "presets": ["moderate", "low_iv_entry", "deep_value"],
         "max_positions": 1,
         "description": "Mixed signals — focus on value and low IV",
     },
@@ -97,12 +104,17 @@ class PresetSelector:
 
         reasoning = self._build_reasoning(condition, score, signal_scores, snapshot)
 
+        # Lazy import to avoid circular deps at module load time
+        from app.data.presets_catalog import get_catalog_hash
+
         result = {
             "condition": condition,
             "presets": mapping["presets"],
             "max_positions": mapping["max_positions"],
             "reasoning": reasoning,
             "market_snapshot": {**snapshot, "composite_score": round(score, 1)},
+            "selector_version": SELECTOR_VERSION,
+            "catalog_hash": get_catalog_hash(),
         }
 
         logger.info(
@@ -147,7 +159,7 @@ class PresetSelector:
             # Check if cached
             if detector._cache and detector._cache_time:
                 from datetime import timedelta
-                if datetime.now() - detector._cache_time < timedelta(minutes=10):
+                if datetime.now() - detector._cache_time < timedelta(minutes=5):
                     snapshot["regime"] = detector._cache.get("regime")
                     snapshot["risk_mode"] = detector._cache.get("risk_mode")
                     snapshot["regime_confidence"] = detector._cache.get("confidence")
@@ -209,7 +221,7 @@ class PresetSelector:
         regime = snapshot.get("regime")
         if regime is not None:
             confidence = snapshot.get("regime_confidence")
-            conf_multiplier = min(confidence / 100.0, 1.0) if confidence else 0.7
+            conf_multiplier = min(confidence / 100.0, 1.0) if confidence is not None else 0.7
             regime_map = {
                 "bullish": 80,
                 "neutral": 0,
@@ -351,6 +363,45 @@ class PresetSelector:
 
 
 # ---------------------------------------------------------------------------
+# Startup validation — verify preset names exist in catalog
+# ---------------------------------------------------------------------------
+
+_catalog_validated = False
+
+
+def _validate_preset_catalog():
+    """Verify all preset names in MARKET_CONDITIONS exist in LEAPS_PRESETS.
+
+    In strict mode (PRESET_CATALOG_STRICT=true, default), raises ValueError
+    on missing presets. In non-strict mode, logs ERROR.
+    """
+    global _catalog_validated
+    if _catalog_validated:
+        return
+
+    try:
+        from app.data.presets_catalog import LEAPS_PRESETS
+        missing = []
+        for condition, mapping in MARKET_CONDITIONS.items():
+            for preset_name in mapping["presets"]:
+                if preset_name not in LEAPS_PRESETS:
+                    missing.append(f"{condition} -> {preset_name}")
+
+        if missing:
+            strict = os.environ.get("PRESET_CATALOG_STRICT", "true").lower() == "true"
+            msg = f"[PresetSelector] MISSING PRESETS in catalog: {missing}"
+            if strict:
+                raise ValueError(msg)
+            logger.error(msg)
+        else:
+            logger.info("[PresetSelector] All preset names validated against catalog")
+    except ImportError as e:
+        logger.warning(f"[PresetSelector] Cannot validate preset catalog: {e}")
+
+    _catalog_validated = True
+
+
+# ---------------------------------------------------------------------------
 # Singleton
 # ---------------------------------------------------------------------------
 
@@ -361,5 +412,6 @@ def get_preset_selector() -> PresetSelector:
     """Get the global PresetSelector instance."""
     global _preset_selector
     if _preset_selector is None:
+        _validate_preset_catalog()
         _preset_selector = PresetSelector()
     return _preset_selector

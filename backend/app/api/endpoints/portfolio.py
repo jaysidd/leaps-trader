@@ -36,7 +36,7 @@ class BrokerLoginRequest(BaseModel):
 
 
 class MFASubmitRequest(BaseModel):
-    """Submit MFA code for pending connection"""
+    """Submit MFA/verification code for pending connection"""
     connection_id: int
     mfa_code: str
 
@@ -47,6 +47,7 @@ class BrokerConnectionResponse(BaseModel):
     message: str
     connection: Optional[Dict[str, Any]] = None
     requires_mfa: bool = False
+    requires_verification: bool = False
 
 
 # =============================================================================
@@ -160,8 +161,50 @@ async def _connect_robinhood(request: BrokerLoginRequest, db: Session) -> Dict[s
         device_token=request.device_token,
     )
 
+    # Handle SMS/email verification flow (Robinhood's newer verification_workflow)
+    if login_result.get("requires_verification") and not login_result.get("success"):
+        verification = login_result.get("verification", {})
+
+        # Create or update connection with pending_verification status
+        if not existing:
+            connection = BrokerConnection(
+                broker_type="robinhood",
+                username=request.username,
+                account_name=request.account_name or f"Robinhood ({request.username})",
+                status="pending_mfa",
+            )
+            db.add(connection)
+            db.commit()
+            db.refresh(connection)
+        else:
+            existing.status = "pending_mfa"
+            db.commit()
+            connection = existing
+
+        # Store the encrypted password so we can re-login after verification
+        encrypted_pw = ""
+        if request.password:
+            try:
+                encrypted_pw = encrypt_value(request.password)
+            except Exception as e:
+                logger.warning(f"Could not encrypt password for verification flow: {e}")
+
+        if encrypted_pw:
+            connection.encrypted_password = encrypted_pw
+            db.commit()
+
+        challenge_type = verification.get("challenge_type", "SMS/email")
+        return {
+            "success": False,
+            "message": f"Verification code required. Check your {challenge_type}.",
+            "requires_mfa": True,
+            "requires_verification": True,
+            "verification": verification,
+            "connection": connection.to_dict(),
+        }
+
     if login_result.get("requires_mfa") and not login_result.get("success"):
-        # Create pending connection
+        # Create pending connection (TOTP/authenticator app flow)
         if not existing:
             connection = BrokerConnection(
                 broker_type="robinhood",
@@ -179,7 +222,7 @@ async def _connect_robinhood(request: BrokerLoginRequest, db: Session) -> Dict[s
 
         return {
             "success": False,
-            "message": "MFA code required. Check your authenticator app or SMS.",
+            "message": "MFA code required. Check your authenticator app.",
             "requires_mfa": True,
             "connection": connection.to_dict(),
         }
@@ -254,7 +297,14 @@ async def _connect_robinhood(request: BrokerLoginRequest, db: Session) -> Dict[s
 
 @router.post("/connections/{connection_id}/mfa")
 async def submit_mfa(connection_id: int, request: MFASubmitRequest, db: Session = Depends(get_db)):
-    """Submit MFA code for pending connection"""
+    """
+    Submit MFA/verification code for pending connection.
+
+    Handles two flows:
+    1. TOTP MFA: Re-attempts rh.login() with the mfa_code parameter
+    2. SMS/Email verification: Calls verify_and_login() which submits the code
+       directly to Robinhood's /challenge/ API and retries login
+    """
     connection = db.query(BrokerConnection).filter(BrokerConnection.id == connection_id).first()
 
     if not connection:
@@ -263,19 +313,192 @@ async def submit_mfa(connection_id: int, request: MFASubmitRequest, db: Session 
     if connection.status != "pending_mfa":
         raise HTTPException(status_code=400, detail="Connection is not pending MFA")
 
-    # Re-attempt login with MFA code
-    login_request = BrokerLoginRequest(
-        broker_type=connection.broker_type,
+    if connection.broker_type != "robinhood":
+        raise HTTPException(status_code=400, detail="Unsupported broker type")
+
+    robinhood_service = get_robinhood_service()
+
+    # Decrypt stored password
+    password = ""
+    if connection.encrypted_password:
+        try:
+            password = decrypt_value(connection.encrypted_password)
+        except Exception as e:
+            logger.error(f"Failed to decrypt password for verification: {e}")
+            raise HTTPException(
+                status_code=400,
+                detail="Could not decrypt stored password. Please disconnect and re-connect."
+            )
+
+    if not password:
+        raise HTTPException(
+            status_code=400,
+            detail="No stored password found. Please disconnect and re-connect your account."
+        )
+
+    # Check if this is an SMS/email verification flow (has verification data)
+    # The frontend passes verification data in the request body
+    verification_data = getattr(request, 'verification', None)
+
+    # Try SMS/email verification flow first if we have verification data
+    # The frontend stores verification data and sends it back
+    login_result = None
+
+    # First try: regular MFA (TOTP) re-attempt
+    login_result = robinhood_service.login(
         username=connection.username,
-        password="",  # Password stored in session
+        password=password,
         mfa_code=request.mfa_code,
         device_token=connection.device_token,
     )
 
-    if connection.broker_type == "robinhood":
-        return await _connect_robinhood(login_request, db)
+    if login_result.get("success"):
+        # Login succeeded — update connection
+        account_info = robinhood_service.get_account_info()
 
-    raise HTTPException(status_code=400, detail="Unsupported broker type")
+        connection.status = "connected"
+        connection.device_token = login_result.get("device_token")
+        connection.last_sync_at = datetime.now(timezone.utc)
+        connection.last_error = None
+        if account_info:
+            connection.account_type = account_info.get("account_type")
+            connection.buying_power = account_info.get("buying_power")
+            connection.portfolio_value = account_info.get("portfolio_value")
+            connection.cash_balance = account_info.get("cash")
+            connection.account_id = account_info.get("account_number")
+        db.commit()
+
+        # Sync positions
+        await _sync_robinhood_positions(connection.id, db)
+
+        return {
+            "success": True,
+            "message": "Successfully connected to Robinhood",
+            "requires_mfa": False,
+            "connection": connection.to_dict(),
+        }
+
+    # If it still requires verification, it means the MFA code was treated as TOTP
+    # but Robinhood needs SMS/email verification
+    if login_result.get("requires_verification"):
+        verification = login_result.get("verification", {})
+        return {
+            "success": False,
+            "message": f"Verification code required. Check your {verification.get('challenge_type', 'device')}.",
+            "requires_mfa": True,
+            "requires_verification": True,
+            "verification": verification,
+            "connection": connection.to_dict(),
+        }
+
+    # Login failed
+    error_msg = login_result.get("error", "MFA verification failed")
+    return {
+        "success": False,
+        "message": error_msg,
+        "requires_mfa": login_result.get("requires_mfa", False),
+        "connection": connection.to_dict(),
+    }
+
+
+@router.post("/connections/{connection_id}/verify")
+async def submit_verification(connection_id: int, request: dict, db: Session = Depends(get_db)):
+    """
+    Submit SMS/email verification code for Robinhood's verification_workflow.
+
+    This is separate from the TOTP MFA flow. It directly submits the code to
+    Robinhood's /challenge/ API and retries login.
+
+    Request body:
+      - verification_code: The 6-digit code from SMS/email
+      - challenge_id: From the verification response
+      - workflow_id: From the verification response
+      - machine_id: From the verification response
+      - device_token: From the verification response
+    """
+    connection = db.query(BrokerConnection).filter(BrokerConnection.id == connection_id).first()
+
+    if not connection:
+        raise HTTPException(status_code=404, detail="Connection not found")
+
+    if connection.status != "pending_mfa":
+        raise HTTPException(status_code=400, detail="Connection is not pending verification")
+
+    # Extract verification data from request
+    verification_code = request.get("verification_code") or request.get("mfa_code")
+    challenge_id = request.get("challenge_id")
+    workflow_id = request.get("workflow_id")
+    machine_id = request.get("machine_id")
+    device_token = request.get("device_token")
+
+    if not all([verification_code, challenge_id, workflow_id, machine_id]):
+        raise HTTPException(
+            status_code=400,
+            detail="Missing verification data. Please disconnect and re-connect."
+        )
+
+    # Decrypt stored password
+    password = ""
+    if connection.encrypted_password:
+        try:
+            password = decrypt_value(connection.encrypted_password)
+        except Exception as e:
+            logger.error(f"Failed to decrypt password for verification: {e}")
+            raise HTTPException(
+                status_code=400,
+                detail="Could not decrypt stored password. Please disconnect and re-connect."
+            )
+
+    if not password:
+        raise HTTPException(
+            status_code=400,
+            detail="No stored password found. Please disconnect and re-connect."
+        )
+
+    robinhood_service = get_robinhood_service()
+
+    # Call verify_and_login which submits the code to Robinhood's challenge API
+    result = robinhood_service.verify_and_login(
+        verification_code=verification_code,
+        challenge_id=challenge_id,
+        workflow_id=workflow_id,
+        machine_id=machine_id,
+        device_token=device_token or "",
+        username=connection.username,
+        password=password,
+    )
+
+    if result.get("success"):
+        # Login succeeded after verification
+        account_info = robinhood_service.get_account_info()
+
+        connection.status = "connected"
+        connection.device_token = result.get("device_token")
+        connection.last_sync_at = datetime.now(timezone.utc)
+        connection.last_error = None
+        if account_info:
+            connection.account_type = account_info.get("account_type")
+            connection.buying_power = account_info.get("buying_power")
+            connection.portfolio_value = account_info.get("portfolio_value")
+            connection.cash_balance = account_info.get("cash")
+            connection.account_id = account_info.get("account_number")
+        db.commit()
+
+        # Sync positions
+        await _sync_robinhood_positions(connection.id, db)
+
+        return {
+            "success": True,
+            "message": "Successfully connected to Robinhood",
+            "connection": connection.to_dict(),
+        }
+
+    # Verification failed
+    error_msg = result.get("error", "Verification failed")
+    connection.last_error = error_msg
+    db.commit()
+
+    raise HTTPException(status_code=401, detail=error_msg)
 
 
 @router.delete("/connections/{connection_id}")

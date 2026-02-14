@@ -32,7 +32,9 @@ class SignalEngine:
     """
 
     # Minimum confidence to emit a signal (primary tuning dial)
-    MIN_CONFIDENCE = 60
+    # Raised from 60 → 62: combined with tighter gate penalty cap (-25 vs -15),
+    # this filters out marginal signals that previously squeaked through.
+    MIN_CONFIDENCE = 62
 
     # Per-item cadence gating (seconds between scans per timeframe)
     SCAN_CADENCES_SECONDS = {
@@ -432,6 +434,27 @@ class SignalEngine:
                 ).first()
                 if existing:
                     logger.info(f"Skipping duplicate signal: {signal['symbol']} {signal['strategy']} already active (id={existing.id})")
+                    db.commit()
+                    return None
+
+                # 8b. Cross-direction conflict check — don't emit BUY if active SELL signals
+                #     exist for the same symbol (any timeframe), or vice versa.
+                #     Prevents whipsaw losses from conflicting multi-timeframe signals.
+                opposing_direction = "sell" if signal['direction'] == "buy" else "buy"
+                opposing_signals = db.query(TradingSignal).filter(
+                    TradingSignal.symbol == signal['symbol'],
+                    TradingSignal.direction == opposing_direction,
+                    TradingSignal.status == 'active',
+                    TradingSignal.generated_at >= datetime.now(timezone.utc) - timedelta(hours=2),
+                ).all()
+                if opposing_signals:
+                    opp_strats = ", ".join(
+                        f"{s.strategy}({s.timeframe})" for s in opposing_signals[:3]
+                    )
+                    logger.info(
+                        f"Skipping conflicting signal: {signal['symbol']} {signal['direction']} "
+                        f"blocked by {len(opposing_signals)} active {opposing_direction} signal(s): {opp_strats}"
+                    )
                     db.commit()
                     return None
 
@@ -1364,13 +1387,16 @@ class SignalEngine:
             if atr_percent > min_atr * 1.5:
                 score += 5
 
-            # Gate scores — cap total negative penalty at -15 to avoid
-            # crushing stocks that pass screening but have modest vol/ATR
+            # Gate scores — cap total negative penalty at -25.
+            # Previously capped at -15 which was too generous: a stock with
+            # raw gate penalty of -40 was getting 25 free points. At -25 cap,
+            # stocks with poor ATR/RVOL are penalized meaningfully but not
+            # completely killed. MIN_CONFIDENCE (62) catches truly weak stocks.
             if gate_scores:
                 atr_s = gate_scores.get('atr_score', 0)
                 rvol_s = gate_scores.get('rvol_score', 0)
                 combined_gate = atr_s + rvol_s
-                score += max(combined_gate, -15.0)
+                score += max(combined_gate, -25.0)
 
             # IV quality (-20 to +5)
             score += iv_score
