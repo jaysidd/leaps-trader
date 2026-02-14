@@ -2,3 +2,7 @@
 pythonpath = [".", ".."]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+markers = [
+    "replay: Replay harness integration tests (synthetic bar fixtures)",
+    "slow: Tests that take more than 1 second",
+]

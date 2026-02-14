@@ -778,6 +778,12 @@ class ReplayMarketIntelligence:
         elif spy_above_200:
             regime, risk_mode, confidence = "bullish", "mixed", 5
 
+        # Normalize confidence from 1-10 scale to 0-100 scale.
+        # PresetSelector does min(confidence/100, 1.0), so 1-10 values
+        # would be nearly zeroed out (8 → 0.08 instead of intended ~1.0).
+        # Scale: 5→63, 6→75, 7→88, 8→100
+        confidence = min(int(confidence * 12.5), 100)
+
         return {
             "regime": regime,
             "risk_mode": risk_mode,

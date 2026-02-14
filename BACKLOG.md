@@ -30,6 +30,7 @@
 | 8 | No frontend tests at all | `frontend/src/` | 50+ components, 8 stores, 18 API clients with zero unit tests. |
 | 9 | `MacroOverlayTest.jsx` temp page still in routes | `frontend/src/App.jsx` | Test/debug page accessible in production. Should be removed. |
 | 10 | DB connection exhaustion under load | Multiple endpoint files | Some endpoints still use manual `SessionLocal()` instead of `Depends(get_db)`. Audit all endpoint files. |
+| 11 | Live MarketRegimeDetector confidence scale 1-10 vs PresetSelector 0-100 | `services/ai/market_regime.py`, `preset_selector.py` | `analyze_regime_rules()` returns confidence on 1-10 scale (5,6,7,8) but PresetSelector does `min(confidence/100, 1.0)` — so confidence=8 → multiplier=0.08 instead of ~1.0. Regime signal (35% weight) is nearly zeroed out in production. Fixed in replay path only (`_compute_regime_from_bars()` now normalizes × 12.5). Live detector needs same fix. |
 
 ---
 
