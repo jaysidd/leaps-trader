@@ -16,9 +16,15 @@ and maps them to screening presets. Covers:
 - Exact scoring math against hand-verified values (PS-M01-05)
 - Reasoning output content (PS-O01-03)
 - Edge cases and quirks (PS-E01-07)
+- select_presets() end-to-end async orchestration (PS-E2E01-05)
+- _validate_preset_catalog() startup validation (PS-VAL01-06)
+- get_preset_selector() singleton pattern (PS-SNG01-03)
+- _gather_market_snapshot() edge cases (PS-GMS01-08)
+- _build_reasoning() edge cases (PS-BR01-06)
 
 Run:  python3 -m pytest tests/pipeline/test_preset_selector_comprehensive.py -v
 """
+import os
 import copy
 from datetime import datetime, timedelta
 from unittest.mock import patch, MagicMock, AsyncMock
@@ -1140,3 +1146,631 @@ class TestClassificationIntegration:
         """MAX_BEARISH (score ~-93.0) -> skip."""
         score, _ = selector._compute_composite_score(MAX_BEARISH_MARKET)
         assert selector._classify_condition(score, MAX_BEARISH_MARKET) == "skip"
+
+
+# ===========================================================================
+# 14. TestSelectPresetsE2E (PS-E2E01-05) — 5 async end-to-end tests
+# ===========================================================================
+
+class TestSelectPresetsE2E:
+    """PS-E2E01-05: Test the main select_presets() async orchestrator end-to-end.
+
+    This is the ONLY public method — everything else is internal. Tests verify:
+    - Full result structure with all required keys
+    - Version breadcrumbs (selector_version, catalog_hash)
+    - Correct condition → preset mapping in the result
+    - Behavior with fully populated vs. fully degraded market data
+    """
+
+    def _mock_all_services(self, mock_mri_svc, mock_regime, mock_fg_svc, mock_cat_svc,
+                           mri_data=None, regime_cache=None, fg_value=None, readiness_data=None):
+        """Helper to set up all 4 service mocks with configurable return data."""
+        # MRI
+        mock_mri_svc.return_value.get_cached_mri.return_value = mri_data
+
+        # Regime
+        detector = MagicMock()
+        if regime_cache:
+            detector._cache = regime_cache
+            detector._cache_time = datetime.now()  # fresh cache
+        else:
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {
+                "regime": None, "risk_mode": None, "confidence": None
+            }
+        mock_regime.return_value = detector
+
+        # F&G
+        fg_svc = AsyncMock()
+        fg_svc.get_fear_greed_index.return_value = {"value": fg_value} if fg_value is not None else None
+        mock_fg_svc.return_value = fg_svc
+
+        # Readiness
+        cat_svc = AsyncMock()
+        cat_svc.calculate_trade_readiness.return_value = readiness_data
+        mock_cat_svc.return_value = cat_svc
+
+    @pytest.mark.asyncio
+    async def test_result_has_all_required_keys(self, selector):
+        """PS-E2E01: select_presets() returns dict with all required keys."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            self._mock_all_services(m1, m2, m3, m4,
+                mri_data={"mri_score": 25, "regime": "low_risk"},
+                regime_cache={"regime": "bullish", "risk_mode": "risk_on", "confidence": 85},
+                fg_value=72,
+                readiness_data={"trade_readiness_score": 30, "readiness_label": "green"},
+            )
+
+            result = await selector.select_presets(MagicMock())
+
+            required_keys = {"condition", "presets", "max_positions", "reasoning",
+                           "market_snapshot", "selector_version", "catalog_hash"}
+            assert required_keys.issubset(result.keys()), (
+                f"Missing keys: {required_keys - set(result.keys())}"
+            )
+
+    @pytest.mark.asyncio
+    async def test_version_breadcrumbs_populated(self, selector):
+        """PS-E2E02: select_presets() includes correct version breadcrumbs."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            self._mock_all_services(m1, m2, m3, m4)
+
+            result = await selector.select_presets(MagicMock())
+
+            assert result["selector_version"] == SELECTOR_VERSION
+            assert isinstance(result["catalog_hash"], str)
+            assert len(result["catalog_hash"]) == 8
+
+    @pytest.mark.asyncio
+    async def test_bullish_market_returns_aggressive_presets(self, selector):
+        """PS-E2E03: Bullish market → aggressive_bull condition with correct presets."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            self._mock_all_services(m1, m2, m3, m4,
+                mri_data={"mri_score": 25, "regime": "low_risk"},
+                regime_cache={"regime": "bullish", "risk_mode": "risk_on", "confidence": 85},
+                fg_value=72,
+                readiness_data={"trade_readiness_score": 30, "readiness_label": "green"},
+            )
+
+            result = await selector.select_presets(MagicMock())
+
+            assert result["condition"] == "aggressive_bull"
+            assert result["presets"] == MARKET_CONDITIONS["aggressive_bull"]["presets"]
+            assert result["max_positions"] == MARKET_CONDITIONS["aggressive_bull"]["max_positions"]
+
+    @pytest.mark.asyncio
+    async def test_all_services_down_returns_neutral(self, selector):
+        """PS-E2E04: All services failing → neutral condition (score=0)."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.side_effect = RuntimeError("down")
+            m2.side_effect = RuntimeError("down")
+            m3.side_effect = RuntimeError("down")
+            m4.side_effect = RuntimeError("down")
+
+            result = await selector.select_presets(MagicMock())
+
+            assert result["condition"] == "neutral"
+            assert result["presets"] == MARKET_CONDITIONS["neutral"]["presets"]
+            assert result["market_snapshot"]["composite_score"] == 0.0
+
+    @pytest.mark.asyncio
+    async def test_snapshot_includes_composite_score(self, selector):
+        """PS-E2E05: market_snapshot in result includes composite_score field."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            self._mock_all_services(m1, m2, m3, m4,
+                mri_data={"mri_score": 25, "regime": "low_risk"},
+                regime_cache={"regime": "bullish", "risk_mode": "risk_on", "confidence": 85},
+                fg_value=72,
+                readiness_data={"trade_readiness_score": 30, "readiness_label": "green"},
+            )
+
+            result = await selector.select_presets(MagicMock())
+
+            assert "composite_score" in result["market_snapshot"]
+            # Should be rounded to 1 decimal
+            cs = result["market_snapshot"]["composite_score"]
+            assert cs == round(cs, 1)
+            # For this bullish setup, score should be ~53.6
+            assert cs == pytest.approx(53.6, abs=1.0)
+
+
+# ===========================================================================
+# 15. TestValidatePresetCatalog (PS-VAL01-06) — 6 tests
+# ===========================================================================
+
+class TestValidatePresetCatalog:
+    """PS-VAL01-06: Test _validate_preset_catalog() startup validation.
+
+    Tests strict mode, non-strict mode, idempotency, and error handling.
+    """
+
+    def test_validation_passes_with_current_catalog(self, monkeypatch):
+        """PS-VAL01: Current MARKET_CONDITIONS + LEAPS_PRESETS should pass validation."""
+        import app.services.automation.preset_selector as ps_module
+        # Reset validation flag
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "true")
+
+        # Should NOT raise — all preset names exist
+        ps_module._validate_preset_catalog()
+        assert ps_module._catalog_validated is True
+
+    def test_strict_mode_raises_on_missing_preset(self, monkeypatch):
+        """PS-VAL02: Strict mode raises ValueError when a preset name is missing."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "true")
+
+        # Temporarily add a bad preset name to MARKET_CONDITIONS
+        original = MARKET_CONDITIONS["neutral"]["presets"].copy()
+        MARKET_CONDITIONS["neutral"]["presets"] = ["nonexistent_preset_xyz"]
+        try:
+            with pytest.raises(ValueError, match="MISSING PRESETS"):
+                ps_module._validate_preset_catalog()
+        finally:
+            MARKET_CONDITIONS["neutral"]["presets"] = original
+            monkeypatch.setattr(ps_module, "_catalog_validated", False)
+
+    def test_non_strict_mode_logs_error_on_missing_preset(self, monkeypatch, caplog):
+        """PS-VAL03: Non-strict mode logs error but doesn't raise."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "false")
+
+        original = MARKET_CONDITIONS["neutral"]["presets"].copy()
+        MARKET_CONDITIONS["neutral"]["presets"] = ["nonexistent_preset_abc"]
+        try:
+            # Should NOT raise
+            ps_module._validate_preset_catalog()
+            assert ps_module._catalog_validated is True
+        finally:
+            MARKET_CONDITIONS["neutral"]["presets"] = original
+            monkeypatch.setattr(ps_module, "_catalog_validated", False)
+
+    def test_validation_is_idempotent(self, monkeypatch):
+        """PS-VAL04: Calling _validate_preset_catalog() twice only validates once."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "true")
+
+        ps_module._validate_preset_catalog()
+        assert ps_module._catalog_validated is True
+
+        # Second call should be a no-op (flag already True)
+        ps_module._validate_preset_catalog()
+        assert ps_module._catalog_validated is True
+
+    def test_validation_handles_import_error(self, monkeypatch):
+        """PS-VAL05: If presets_catalog can't be imported, validation logs warning."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+
+        # Patch the import to fail
+        with patch.dict("sys.modules", {"app.data.presets_catalog": None}):
+            # Monkey-patch the import inside the function
+            original_import = __builtins__.__import__ if hasattr(__builtins__, '__import__') else __import__
+
+            def fake_import(name, *args, **kwargs):
+                if name == "app.data.presets_catalog":
+                    raise ImportError("Fake import error")
+                return original_import(name, *args, **kwargs)
+
+            with patch("builtins.__import__", side_effect=fake_import):
+                # Should NOT raise, but should set _catalog_validated = True
+                ps_module._validate_preset_catalog()
+                assert ps_module._catalog_validated is True
+
+    def test_strict_env_var_default_is_true(self, monkeypatch):
+        """PS-VAL06: Without PRESET_CATALOG_STRICT env var, default behavior is strict."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.delenv("PRESET_CATALOG_STRICT", raising=False)
+
+        # With current valid catalog, it should pass even in strict mode
+        ps_module._validate_preset_catalog()
+        assert ps_module._catalog_validated is True
+
+
+# ===========================================================================
+# 16. TestGetPresetSelectorSingleton (PS-SNG01-03) — 3 tests
+# ===========================================================================
+
+class TestGetPresetSelectorSingleton:
+    """PS-SNG01-03: Test the get_preset_selector() singleton factory."""
+
+    def test_returns_preset_selector_instance(self, monkeypatch):
+        """PS-SNG01: get_preset_selector() returns a PresetSelector instance."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_preset_selector", None)
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "true")
+
+        from app.services.automation.preset_selector import get_preset_selector
+        instance = get_preset_selector()
+        assert isinstance(instance, PresetSelector)
+
+    def test_returns_same_instance_on_second_call(self, monkeypatch):
+        """PS-SNG02: Second call returns the exact same object (singleton)."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_preset_selector", None)
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "true")
+
+        from app.services.automation.preset_selector import get_preset_selector
+        first = get_preset_selector()
+        second = get_preset_selector()
+        assert first is second
+
+    def test_triggers_validation_on_first_call(self, monkeypatch):
+        """PS-SNG03: First call triggers _validate_preset_catalog()."""
+        import app.services.automation.preset_selector as ps_module
+        monkeypatch.setattr(ps_module, "_preset_selector", None)
+        monkeypatch.setattr(ps_module, "_catalog_validated", False)
+        monkeypatch.setenv("PRESET_CATALOG_STRICT", "true")
+
+        from app.services.automation.preset_selector import get_preset_selector
+        assert ps_module._catalog_validated is False
+
+        get_preset_selector()
+        assert ps_module._catalog_validated is True
+
+
+# ===========================================================================
+# 17. TestGatherSnapshotEdgeCases (PS-GMS01-08) — 8 async tests
+# ===========================================================================
+
+class TestGatherSnapshotEdgeCases:
+    """PS-GMS01-08: Edge cases for _gather_market_snapshot() service interactions.
+
+    Covers partial return dicts, empty dicts, no-cache paths, and the
+    asyncio.to_thread coroutine check.
+    """
+
+    @pytest.mark.asyncio
+    async def test_mri_returns_dict_without_mri_score_key(self, selector):
+        """PS-GMS01: MRI service returns dict but without 'mri_score' key → mri=None."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            # MRI returns dict without mri_score
+            m1.return_value.get_cached_mri.return_value = {"regime": "low_risk"}
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = None
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = None
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            # .get("mri_score") returns None when key is missing
+            assert snapshot["mri"] is None
+            assert snapshot["mri_regime"] == "low_risk"
+
+    @pytest.mark.asyncio
+    async def test_mri_returns_empty_dict(self, selector):
+        """PS-GMS02: MRI service returns {} → mri=None, mri_regime=None."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = {}
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = None
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = None
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            # Empty dict is truthy, so the `if mri_data:` check passes,
+            # but .get() returns None for missing keys
+            assert snapshot["mri"] is None
+            assert snapshot["mri_regime"] is None
+
+    @pytest.mark.asyncio
+    async def test_fg_returns_dict_without_value_key(self, selector):
+        """PS-GMS03: F&G service returns dict without 'value' key → fear_greed=None."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = None
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = {"timestamp": "2026-02-14"}  # no "value" key
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = None
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            assert snapshot["fear_greed"] is None
+
+    @pytest.mark.asyncio
+    async def test_fg_returns_empty_dict(self, selector):
+        """PS-GMS04: F&G service returns {} → fear_greed=None."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = None
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = {}
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = None
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            # Empty dict is truthy, `fg_data.get("value")` returns None
+            assert snapshot["fear_greed"] is None
+
+    @pytest.mark.asyncio
+    async def test_readiness_returns_only_score_no_label(self, selector):
+        """PS-GMS05: Readiness returns score but no label → readiness set, label=None."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = None
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = None
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = {
+                "trade_readiness_score": 40,
+                # No "readiness_label" key
+            }
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            assert snapshot["readiness"] == 40
+            assert snapshot["readiness_label"] is None
+
+    @pytest.mark.asyncio
+    async def test_readiness_returns_only_label_no_score(self, selector):
+        """PS-GMS06: Readiness returns label but no score → readiness=None, label set."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = None
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = None
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = {
+                "readiness_label": "yellow",
+                # No "trade_readiness_score" key
+            }
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            assert snapshot["readiness"] is None
+            assert snapshot["readiness_label"] == "yellow"
+
+    @pytest.mark.asyncio
+    async def test_readiness_returns_empty_dict(self, selector):
+        """PS-GMS07: Readiness returns {} → both None."""
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = None
+
+            detector = MagicMock()
+            detector._cache = None
+            detector._cache_time = None
+            detector.get_market_data = AsyncMock(return_value={})
+            detector.analyze_regime_rules.return_value = {"regime": None, "risk_mode": None, "confidence": None}
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = None
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = {}
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+            # Empty dict is truthy but .get() returns None
+            assert snapshot["readiness"] is None
+            assert snapshot["readiness_label"] is None
+
+    @pytest.mark.asyncio
+    async def test_no_cache_no_cache_time_uses_direct_await(self, selector):
+        """PS-GMS08: When detector has no cache AND no cache_time, takes
+        the 'else' branch (line 176) and calls await detector.get_market_data().
+        """
+        with patch("app.services.command_center.get_macro_signal_service") as m1, \
+             patch("app.services.ai.market_regime.get_regime_detector") as m2, \
+             patch("app.services.command_center.get_market_data_service") as m3, \
+             patch("app.services.command_center.get_catalyst_service") as m4:
+
+            m1.return_value.get_cached_mri.return_value = None
+
+            detector = MagicMock()
+            detector._cache = None     # No cache
+            detector._cache_time = None  # No cache time
+            # This path does: await detector.get_market_data() — must be AsyncMock
+            detector.get_market_data = AsyncMock(return_value={"spy": 500, "vix": 15})
+            detector.analyze_regime_rules.return_value = {
+                "regime": "bullish",
+                "risk_mode": "risk_on",
+                "confidence": 90,
+            }
+            m2.return_value = detector
+
+            fg_svc = AsyncMock()
+            fg_svc.get_fear_greed_index.return_value = None
+            m3.return_value = fg_svc
+
+            cat_svc = AsyncMock()
+            cat_svc.calculate_trade_readiness.return_value = None
+            m4.return_value = cat_svc
+
+            snapshot = await selector._gather_market_snapshot(MagicMock())
+
+            # Should have used fresh fetch path (no cache)
+            assert snapshot["regime"] == "bullish"
+            assert snapshot["regime_confidence"] == 90
+            # Verify get_market_data was actually awaited
+            detector.get_market_data.assert_awaited_once()
+
+
+# ===========================================================================
+# 18. TestBuildReasoningEdgeCases (PS-BR01-06) — 6 tests
+# ===========================================================================
+
+class TestBuildReasoningEdgeCases:
+    """PS-BR01-06: Edge cases for _build_reasoning() formatting.
+
+    Covers boundary F&G labels (fear/neutral/greed), missing signal formatting,
+    and unknown label fallbacks.
+    """
+
+    def test_fg_exactly_30_is_neutral(self, selector):
+        """PS-BR01: F&G=30 → label should be 'neutral' (not 'fear', which requires < 30)."""
+        snap = _snapshot(fear_greed=30, regime="neutral", regime_confidence=50, mri=50, readiness=50)
+        score, signals = selector._compute_composite_score(snap)
+        condition = selector._classify_condition(score, snap)
+        reasoning = selector._build_reasoning(condition, score, signals, snap)
+
+        assert "F&G: 30 (neutral)" in reasoning
+
+    def test_fg_29_is_fear(self, selector):
+        """PS-BR02: F&G=29 → label should be 'fear' (< 30)."""
+        snap = _snapshot(fear_greed=29, regime="neutral", regime_confidence=50, mri=50, readiness=50)
+        score, signals = selector._compute_composite_score(snap)
+        condition = selector._classify_condition(score, snap)
+        reasoning = selector._build_reasoning(condition, score, signals, snap)
+
+        assert "F&G: 29 (fear)" in reasoning
+
+    def test_fg_exactly_70_is_neutral(self, selector):
+        """PS-BR03: F&G=70 → label should be 'neutral' (not 'greed', which requires > 70)."""
+        snap = _snapshot(fear_greed=70, regime="neutral", regime_confidence=50, mri=50, readiness=50)
+        score, signals = selector._compute_composite_score(snap)
+        condition = selector._classify_condition(score, snap)
+        reasoning = selector._build_reasoning(condition, score, signals, snap)
+
+        assert "F&G: 70 (neutral)" in reasoning
+
+    def test_fg_71_is_greed(self, selector):
+        """PS-BR04: F&G=71 → label should be 'greed' (> 70)."""
+        snap = _snapshot(fear_greed=71, regime="neutral", regime_confidence=50, mri=50, readiness=50)
+        score, signals = selector._compute_composite_score(snap)
+        condition = selector._classify_condition(score, snap)
+        reasoning = selector._build_reasoning(condition, score, signals, snap)
+
+        assert "F&G: 71 (greed)" in reasoning
+
+    def test_reasoning_with_all_signals_missing(self, selector):
+        """PS-BR05: All signals missing → reasoning still includes F&G: unavailable."""
+        score, signals = selector._compute_composite_score(ALL_MISSING_MARKET)
+        condition = selector._classify_condition(score, ALL_MISSING_MARKET)
+        reasoning = selector._build_reasoning(condition, score, signals, ALL_MISSING_MARKET)
+
+        assert "Composite:" in reasoning
+        assert "F&G: unavailable" in reasoning
+        # Regime should show "unknown" with "?" confidence
+        assert "Regime:" in reasoning
+
+    def test_reasoning_confidence_missing_shows_none(self, selector):
+        """PS-BR06: When regime_confidence is None, reasoning shows 'None%'.
+
+        Note: snapshot.get("regime_confidence", "?") returns None (not "?")
+        because the key EXISTS with value None. The "?" default only fires
+        when the key is completely absent from the dict.
+        """
+        snap = _snapshot(regime="bullish", regime_confidence=None, mri=50, readiness=50)
+        score, signals = selector._compute_composite_score(snap)
+        condition = selector._classify_condition(score, snap)
+        reasoning = selector._build_reasoning(condition, score, signals, snap)
+
+        # Key exists with None → "None%" not "?%"
+        assert "Regime: bullish (None%)" in reasoning
