@@ -17,14 +17,18 @@ class CacheService:
         if settings.REDIS_URL:
             self.redis_client = redis.from_url(
                 settings.REDIS_URL,
-                decode_responses=True
+                decode_responses=True,
+                socket_connect_timeout=5,
+                socket_timeout=5,
             )
         else:
             self.redis_client = redis.Redis(
                 host=settings.REDIS_HOST,
                 port=settings.REDIS_PORT,
                 db=settings.REDIS_DB,
-                decode_responses=True
+                decode_responses=True,
+                socket_connect_timeout=5,
+                socket_timeout=5,
             )
 
     def get(self, key: str) -> Optional[Any]:
