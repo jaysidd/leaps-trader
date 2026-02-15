@@ -42,6 +42,15 @@ When the user says "save context", "sync", or "wrap up", OR when the session is 
 - Backend working dir: `/Users/junaidsiddiqi/leaps-trader/backend`
 - Frontend working dir: `/Users/junaidsiddiqi/leaps-trader/frontend`
 
+## Deployment Workflow
+
+- **Branches**: `main` = staging, `prod` = production
+- **Flow**: PR → merge to `main` → Staging auto-deploys → test on staging → PR `main`→`prod` → merge → Production auto-deploys
+- **Staging domains**: Backend: `leaps-trader-backend-staging.up.railway.app` | Frontend: `leaps-trader-frontend-staging.up.railway.app`
+- **Production domains**: Backend: `leaps-trader-backend-production.up.railway.app` | Frontend: `leaps-trader-frontend-production.up.railway.app`
+- Each environment has isolated PostgreSQL, Redis, and env vars (FRONTEND_URL, VITE_API_BASE_URL point to respective domains)
+- **Never push directly to `prod`** — always merge via PR from `main`
+
 ## Tech Stack
 
 FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zustand + Tailwind | Alpaca + FMP + Finviz + Claude AI + Telegram + FRED
@@ -122,6 +131,10 @@ FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zust
 - Replay audit log: `ReplayAuditLog` model (replay_audit_logs table) captures every pipeline decision during replay. Stages: preset_selection, screening, signal_generation, risk_check, trade_execution, position_exit, summary. Each entry has session UUID, decision JSON blob, pass/fail, score, reasoning.
 - robin_stocks 2FA: `_validate_sherrif_id()` calls `input()` for SMS/email codes — blocks forever in web server. Our `robinhood_service.py` monkey-patches it with `_patched_validate_sherrif_id()` that raises `VerificationRequired` instead. The verify flow uses Robinhood's `/challenge/{id}/respond/` API directly.
 - Robinhood verification has TWO flows: (1) TOTP `mfa_code` passed to `rh.login()` — works natively, (2) SMS/email `verification_workflow` — requires monkey-patching + our `/verify` endpoint. The `ConnectBrokerModal` → `submitMFA` store action auto-detects which flow to use.
+- Redis socket timeouts: `cache.py` sets `socket_connect_timeout=5` and `socket_timeout=5` on both URL-based and host-based Redis clients. Without these, the app hangs indefinitely when Redis is unreachable (Railway deploys, Redis restarts). Always keep these timeouts.
+- Redis log sink circuit breaker: `log_sink.py` skips all Redis log writes for 60s after any write failure (`_circuit_open_until` monotonic timestamp). Prevents log storms and cascading failures when Redis is temporarily down.
+- Railway healthcheck: Uses `healthcheckPath = "/"` not `/health`. The `/health` endpoint checks Redis-stored job statuses which can timeout during Redis issues, causing Railway to restart the container in a loop. Root `/` returns a simple FastAPI response.
+- Railway deploy triggers: Staging auto-deploys from `main` branch, Production auto-deploys from `prod` branch. Never push directly to `prod`.
 
 ## Reference Documents
 

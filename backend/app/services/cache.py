@@ -19,7 +19,7 @@ class CacheService:
                 settings.REDIS_URL,
                 decode_responses=True,
                 socket_connect_timeout=5,
-                socket_timeout=5,
+                socket_timeout=10,
             )
         else:
             self.redis_client = redis.Redis(
@@ -28,7 +28,7 @@ class CacheService:
                 db=settings.REDIS_DB,
                 decode_responses=True,
                 socket_connect_timeout=5,
-                socket_timeout=5,
+                socket_timeout=10,
             )
 
     def get(self, key: str) -> Optional[Any]:
