@@ -56,12 +56,16 @@ try:
 except Exception as e:
     logger.warning(f"Failed to register Redis log sink: {e}")
 
+import sys; print("[BOOT] Creating FastAPI app...", flush=True, file=sys.stderr)
+
 # Create FastAPI app
 app = FastAPI(
     title=app_settings.PROJECT_NAME,
     version="1.0.0",
     description="Stock screening tool for identifying 5x LEAPS opportunities"
 )
+
+print("[BOOT] FastAPI app created", flush=True, file=sys.stderr)
 
 # Configure CORS
 app.add_middleware(
@@ -71,6 +75,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+print("[BOOT] CORS middleware added", flush=True, file=sys.stderr)
 
 # ── App-wide password protection middleware ──────────────────────────────────
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -113,6 +119,7 @@ class AppPasswordMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(AppPasswordMiddleware)
 
+print("[BOOT] All middleware added", flush=True, file=sys.stderr)
 
 # ── Rate limiting (simple in-memory, per-IP) ────────────────────────────────
 import time
@@ -326,6 +333,8 @@ app.include_router(
     prefix="/api/v1/health",
     tags=["health"],
 )
+
+print("[BOOT] All routers registered, defining endpoints...", flush=True, file=sys.stderr)
 
 
 @app.get("/")
@@ -1447,6 +1456,8 @@ async def shutdown_event():
     if sessions_closed:
         logger.info(f"Closed {sessions_closed} aiohttp session(s)")
 
+
+print("[BOOT] Module fully loaded, ready for uvicorn", flush=True, file=sys.stderr)
 
 if __name__ == "__main__":
     import uvicorn
