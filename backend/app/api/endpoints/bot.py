@@ -269,6 +269,14 @@ def preview_signal(signal_id: int, db: Session = Depends(get_db)):
     Preview what would happen if a signal were executed through the bot pipeline.
     Returns risk check results, sizing preview, and account info — no order placed.
     """
+    # Defense-in-depth: reject manual preview during full_auto
+    config = auto_trader._get_config(db)
+    if config and config.execution_mode == ExecutionMode.FULL_AUTO.value:
+        raise HTTPException(
+            403,
+            "Manual trade preview is disabled during Full Auto mode. "
+            "Switch to Signal Only or Semi-Auto to preview trades manually.",
+        )
     result = auto_trader.preview_signal(signal_id, db)
     if "error" in result:
         raise HTTPException(400, result["error"])
@@ -282,6 +290,14 @@ def execute_signal(signal_id: int, db: Session = Depends(get_db)):
     Does NOT require the bot to be in RUNNING state.
     Called from the "Trade" button in the Trading Signals UI.
     """
+    # Defense-in-depth: reject manual execution during full_auto
+    config = auto_trader._get_config(db)
+    if config and config.execution_mode == ExecutionMode.FULL_AUTO.value:
+        raise HTTPException(
+            403,
+            "Manual trade execution is disabled during Full Auto mode. "
+            "Switch to Signal Only or Semi-Auto to execute trades manually.",
+        )
     result = auto_trader.execute_manual_signal(signal_id, db)
     if "error" in result:
         raise HTTPException(400, result["error"])

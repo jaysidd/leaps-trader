@@ -5,9 +5,11 @@
 import { useEffect, useState, useMemo } from 'react';
 import useSignalsStore from '../stores/signalsStore';
 import Card from '../components/common/Card';
+import FullAutoBanner from '../components/common/FullAutoBanner';
 import SignalDetailModal from '../components/signals/SignalDetailModal';
 import StrategyDetailModal from '../components/signals/StrategyDetailModal';
 import SendToBotModal from '../components/signals/SendToBotModal';
+import useFullAutoLock from '../hooks/useFullAutoLock';
 import { stocksAPI } from '../api/stocks';
 import { aiAPI } from '../api/ai';
 import { getChangeColor, formatChangePercent } from '../utils/formatters';
@@ -206,6 +208,8 @@ export default function SignalQueue() {
 
   const [selectedQueueIds, setSelectedQueueIds] = useState(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+
+  const { isLocked, lockManualTrades } = useFullAutoLock();
 
   const queueItems = useSignalsStore(state => state.queueItems);
   const queueLoading = useSignalsStore(state => state.queueLoading);
@@ -484,6 +488,11 @@ export default function SignalQueue() {
           </div>
         )}
       </div>
+
+      {/* Full Auto Lockdown Banner */}
+      {isLocked && (
+        <FullAutoBanner message="Full Auto mode is active. Manual trade execution is disabled." />
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -866,7 +875,13 @@ export default function SignalQueue() {
                           {!signal.trade_executed ? (
                             <button
                               onClick={() => setSendToBotSignal(signal)}
-                              className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 text-sm font-medium"
+                              disabled={lockManualTrades}
+                              title={lockManualTrades ? 'Disabled: Full Auto mode active' : 'Execute via bot pipeline'}
+                              className={`text-sm font-medium ${
+                                lockManualTrades
+                                  ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                  : 'text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300'
+                              }`}
                             >
                               Trade
                             </button>

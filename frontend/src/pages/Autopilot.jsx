@@ -12,6 +12,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { autopilotApi } from '../api/autopilot';
 import apiClient from '../api/axios';
+import FullAutoBanner from '../components/common/FullAutoBanner';
+import useFullAutoLock from '../hooks/useFullAutoLock';
 
 // =============================================================================
 // Helpers
@@ -164,6 +166,9 @@ export default function Autopilot() {
   // Auto-scan preset selector
   const [availablePresets, setAvailablePresets] = useState([]);
   const [savingPresets, setSavingPresets] = useState(false);
+
+  // Full Auto lockdown
+  const { isFullAuto, lockAccountToggle } = useFullAutoLock();
 
   // Confirmation dialogs
   const [confirmDialog, setConfirmDialog] = useState(null);
@@ -530,6 +535,14 @@ export default function Autopilot() {
           </div>
         )}
 
+        {/* Full Auto Active Info Banner */}
+        {isFullAuto && (
+          <FullAutoBanner
+            variant="info"
+            message="Full Auto mode is active. The bot manages scanning, signals, and execution automatically. Use the controls below to change mode or stop the bot."
+          />
+        )}
+
         {/* ================================================================= */}
         {/* A. STATUS BANNER                                                  */}
         {/* ================================================================= */}
@@ -545,8 +558,11 @@ export default function Autopilot() {
                 ]}
                 value={isPaper}
                 onChange={(val) => handleAccountToggle(val)}
-                disabled={togglingAccount}
+                disabled={togglingAccount || lockAccountToggle}
               />
+              {lockAccountToggle && (
+                <p className="text-xs text-amber-500 mt-1">Stop bot first to change account</p>
+              )}
             </div>
 
             {/* Automation Level Toggle */}
@@ -709,16 +725,17 @@ export default function Autopilot() {
             <div className="flex flex-wrap gap-2">
               {availablePresets.length > 0 ? availablePresets.map((p) => {
                 const isSelected = selectedPresets.includes(p.id);
+                const presetDisabled = savingPresets || isFullAuto;
                 return (
                   <button
                     key={p.id}
                     onClick={() => handlePresetToggle(p.id)}
-                    disabled={savingPresets}
+                    disabled={presetDisabled}
                     className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors border ${
                       isSelected
                         ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 border-green-300 dark:border-green-700'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    } ${savingPresets ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                    } ${presetDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                   >
                     {isSelected && '\u2713 '}{p.name}
                   </button>

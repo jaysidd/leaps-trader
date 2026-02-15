@@ -6,6 +6,8 @@
  */
 import { useState, useEffect } from 'react';
 import useBotStore from '../../stores/botStore';
+import FullAutoBanner from '../common/FullAutoBanner';
+import useFullAutoLock from '../../hooks/useFullAutoLock';
 
 const EXECUTION_MODES = [
   { value: 'signal_only', label: 'Signal Only', desc: 'Generate signals for dashboard + Telegram. No auto-trading.' },
@@ -21,6 +23,7 @@ const SIZING_MODES = [
 
 export default function AutoTradingSettings() {
   const { config, fetchConfig, updateConfig, status, fetchStatus } = useBotStore();
+  const { isFullAuto, lockTradingParams } = useFullAutoLock();
   const [localConfig, setLocalConfig] = useState(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -100,10 +103,15 @@ export default function AutoTradingSettings() {
       )}
 
       {/* Full Auto Warning */}
-      {isAutoMode && (
+      {isAutoMode && !lockTradingParams && (
         <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg">
           <p className="text-amber-800 dark:text-amber-400 font-medium">Full Auto mode: Trades execute without human approval.</p>
         </div>
+      )}
+
+      {/* Full Auto Lockdown Banner */}
+      {lockTradingParams && (
+        <FullAutoBanner message="Full Auto mode is active with bot running. Trading parameters are locked. Stop the bot first to modify settings." />
       )}
 
       {/* ── Section 1: Execution Mode ──────────────────────── */}
@@ -142,6 +150,9 @@ export default function AutoTradingSettings() {
           />
         </div>
       </Section>
+
+      {/* ── Sections 2-7: Locked when Full Auto + bot running ── */}
+      <div className={lockTradingParams ? 'opacity-50 pointer-events-none' : ''}>
 
       {/* ── Section 2: Per-Trade Limits ────────────────────── */}
       <Section title="Per-Trade Limits" icon="$">
@@ -255,6 +266,8 @@ export default function AutoTradingSettings() {
           <NumberInput label="Min Volume" value={localConfig.min_option_volume} onChange={v => handleChange('min_option_volume', v)} min={0} max={10000} step={10} />
         </div>
       </Section>
+
+      </div>{/* end lockTradingParams wrapper */}
 
       {/* ── Save Button ────────────────────────────────────── */}
       {(hasChanges || error || saved) && (

@@ -11,6 +11,7 @@
  */
 import { useState, useEffect } from 'react';
 import useBotStore from '../../stores/botStore';
+import useFullAutoLock from '../../hooks/useFullAutoLock';
 
 // ─── State machine ──────────────────────────────────────────────────────────
 const PHASE = {
@@ -29,6 +30,33 @@ export default function SendToBotModal({ signal, onClose, onSuccess }) {
   const [errorMsg, setErrorMsg] = useState('');
 
   const { previewSignal, executeSignal } = useBotStore();
+  const { lockManualTrades } = useFullAutoLock();
+
+  // ── Defense-in-depth: block if Full Auto is active ─────────────────────
+  if (lockManualTrades) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-6 text-center">
+          <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+            <svg className="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v.01M12 12V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Full Auto Mode Active</h3>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+            Manual trade execution is disabled while Full Auto mode is active.
+            Switch to Signal Only or Semi-Auto on the Autopilot page to trade manually.
+          </p>
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // ── Load preview on mount ────────────────────────────────────────────────
   useEffect(() => {
