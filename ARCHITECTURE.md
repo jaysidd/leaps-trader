@@ -248,7 +248,7 @@ Config (symbol, strategy, dates, capital) → POST /run → DB record → asynci
 - **CORS**: Configured for localhost ports + leapstraders.com
 - **Shutdown Cleanup**: Closes 6 aiohttp sessions on app shutdown (FMP, market_data, news, news_feed, polymarket, FRED)
 - **Polling**: botStore + signalsStore use exponential backoff (setTimeout-based, doubles on error, capped)
-- **Redis Socket Timeouts**: 5s connect + 5s read/write timeouts (`cache.py`) — prevents app hang on Redis unavailability
+- **Redis Socket Timeouts**: 5s connect + 10s read/write timeouts (`cache.py`) — prevents app hang on Redis unavailability
 - **Redis Log Sink Circuit Breaker**: Skips log writes for 60s after Redis failure (`log_sink.py`) — prevents cascading failures when Redis is down
 
 ---
@@ -549,12 +549,17 @@ See `docs/TEST_STRATEGY.md` for the comprehensive test plan.
 ### 2026-02-14 — Full Auto Lockdown Mode
 - **Modified**: Frontend lockdown mode — read-only UI during `full_auto` execution mode.
 
+### 2026-02-15 — Staging Redis Crash-Loop Fix + Telegram Isolation
+- **Fixed**: Staging Redis crash-loop caused by corrupted volume config. Railway `--duplicate` creates a new Redis volume but the original Redis had written a `redis.conf` to it — the new instance inherited a corrupted config. Fix: staging Redis start command now cleans `*.conf` files before starting.
+- **Fixed**: `services/cache.py` — Increased Redis `socket_timeout` from 5s to 10s to reduce transient timeout errors during staging Redis restarts.
+- **Fixed**: Disabled Telegram bot in staging by clearing `TELEGRAM_BOT_TOKEN` — only one bot instance can poll `getUpdates` at a time, so staging and production cannot both run the bot.
+
 ### 2026-02-15 — Staging Environment + Infrastructure Hardening
 - **New environment**: `staging` Railway environment cloned from production with isolated DB, Redis, and domains.
 - **New branch**: `prod` branch created from `main` — production now deploys from `prod`, staging deploys from `main`.
 - **Deployment workflow**: PR → merge to main → Staging auto-deploys → test → PR main→prod → merge → Production auto-deploys.
 - **Staging domains**: Backend: `leaps-trader-backend-staging.up.railway.app`, Frontend: `leaps-trader-frontend-staging.up.railway.app`.
-- **Fixed**: `services/cache.py` — Added `socket_connect_timeout=5` and `socket_timeout=5` to both Redis client constructors. Previously had infinite timeouts which caused app hang when Redis was unavailable.
+- **Fixed**: `services/cache.py` — Added `socket_connect_timeout=5` and `socket_timeout=10` to both Redis client constructors. Previously had infinite timeouts which caused app hang when Redis was unavailable.
 - **Fixed**: `services/log_sink.py` — Added circuit breaker pattern to Redis log sink. After a Redis write failure, skips all log writes for 60 seconds to prevent cascading failures and log storms.
 - **Fixed**: `railway.toml` — Changed `healthcheckPath` from `/health` to `/`. The `/health` endpoint checks Redis job statuses which can timeout during Redis issues, causing Railway to kill the container. Root `/` is a simple FastAPI response.
 - **Merged**: PR #3 (main→prod) to promote all infrastructure fixes to production.
