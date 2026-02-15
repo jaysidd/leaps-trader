@@ -1,10 +1,19 @@
 """
 Robinhood broker integration service using robin_stocks library.
 Handles authentication, portfolio data, and positions sync.
+
+2FA Verification Flow:
+  robin_stocks' _validate_sherrif_id() calls Python's input() for SMS/email
+  codes, which blocks forever in a web server.  We monkey-patch that function
+  before calling rh.login() so it raises VerificationRequired instead.  The
+  web server catches this, returns challenge details to the frontend, and the
+  user enters the code in the browser.  Then verify_and_login() submits the
+  code directly to Robinhood's /challenge/ API and retries login.
 """
 import logging
 import os
 import pickle
+import time
 import uuid
 from pathlib import Path
 from typing import Optional, Dict, List, Any
@@ -16,6 +25,9 @@ logger = logging.getLogger(__name__)
 # Check if robin_stocks is available
 try:
     import robin_stocks.robinhood as rh
+    from robin_stocks.robinhood.helper import request_post, request_get, update_session, set_login_state
+    from robin_stocks.robinhood.urls import login_url, positions_url
+    from robin_stocks.robinhood.authentication import generate_device_token, _get_sherrif_id
     ROBINHOOD_AVAILABLE = True
 except ImportError:
     logger.warning("robin_stocks not installed. Install with: pip install robin_stocks")
@@ -23,6 +35,33 @@ except ImportError:
 
 # robin_stocks default pickle file location
 _PICKLE_PATH = Path.home() / ".tokens" / "robinhood.pickle"
+
+
+class VerificationRequired(Exception):
+    """
+    Raised when Robinhood requires SMS/email verification during login.
+
+    Carries the workflow details needed to complete verification later:
+      - workflow_id: Robinhood's verification workflow ID
+      - device_token: The device token used for this login attempt
+      - machine_id: The pathfinder machine ID for polling
+      - challenge_id: The specific challenge to respond to
+      - challenge_type: 'sms' or 'email'
+      - login_payload: The original login payload for retry after verification
+    """
+
+    def __init__(self, workflow_id, device_token, machine_id, challenge_id,
+                 challenge_type, login_payload):
+        self.workflow_id = workflow_id
+        self.device_token = device_token
+        self.machine_id = machine_id
+        self.challenge_id = challenge_id
+        self.challenge_type = challenge_type
+        self.login_payload = login_payload
+        super().__init__(
+            f"Robinhood {challenge_type} verification required "
+            f"(workflow={workflow_id}, challenge={challenge_id})"
+        )
 
 
 def _validate_pickle_file() -> dict:
@@ -111,6 +150,82 @@ class RobinhoodService:
             "error": pickle_info["error"],
         }
 
+    def _patched_validate_sherrif_id(self, device_token: str, workflow_id: str):
+        """
+        Replacement for robin_stocks' _validate_sherrif_id that does NOT call
+        input().  Instead, it polls Robinhood to discover the challenge details
+        and raises VerificationRequired with all the info needed to complete
+        verification later.
+
+        For 'prompt' (app-based push approval), it still polls and waits since
+        no user text input is needed.
+        """
+        logger.info("Robinhood verification required — intercepting challenge...")
+
+        pathfinder_url = "https://api.robinhood.com/pathfinder/user_machine/"
+        machine_payload = {
+            "device_id": device_token,
+            "flow": "suv",
+            "input": {"workflow_id": workflow_id},
+        }
+        machine_data = request_post(url=pathfinder_url, payload=machine_payload, json=True)
+        machine_id = _get_sherrif_id(machine_data)
+        inquiries_url = f"https://api.robinhood.com/pathfinder/inquiries/{machine_id}/user_view/"
+
+        start_time = time.time()
+
+        while time.time() - start_time < 30:  # 30s timeout (shorter for web)
+            time.sleep(3)
+            inquiries_response = request_get(inquiries_url)
+
+            if not inquiries_response:
+                logger.warning("No response from Robinhood pathfinder API, retrying...")
+                continue
+
+            if "context" not in inquiries_response:
+                continue
+            if "sheriff_challenge" not in inquiries_response["context"]:
+                continue
+
+            challenge = inquiries_response["context"]["sheriff_challenge"]
+            challenge_type = challenge.get("type", "")
+            challenge_status = challenge.get("status", "")
+            challenge_id = challenge.get("id", "")
+
+            # App-based push approval — wait for it (no text input needed)
+            if challenge_type == "prompt":
+                logger.info("Robinhood push approval requested — waiting for user to approve in app...")
+                prompt_url = f"https://api.robinhood.com/push/{challenge_id}/get_prompts_status/"
+                while time.time() - start_time < 120:
+                    time.sleep(5)
+                    prompt_status = request_get(url=prompt_url)
+                    if prompt_status and prompt_status.get("challenge_status") == "validated":
+                        logger.info("Push approval validated!")
+                        return  # Let rh.login() continue normally
+                raise TimeoutError("Push approval timed out")
+
+            # Already validated (e.g., from a previous attempt)
+            if challenge_status == "validated":
+                logger.info("Challenge already validated")
+                return
+
+            # SMS or email challenge — raise so the web server can ask the user
+            if challenge_type in ["sms", "email"] and challenge_status == "issued":
+                logger.info(
+                    f"Robinhood {challenge_type} challenge issued "
+                    f"(challenge_id={challenge_id}). Raising VerificationRequired."
+                )
+                raise VerificationRequired(
+                    workflow_id=workflow_id,
+                    device_token=device_token,
+                    machine_id=machine_id,
+                    challenge_id=challenge_id,
+                    challenge_type=challenge_type,
+                    login_payload=self._current_login_payload,
+                )
+
+        raise TimeoutError("Timed out waiting for Robinhood verification challenge")
+
     def login(
         self,
         username: str,
@@ -124,11 +239,13 @@ class RobinhoodService:
         Args:
             username: Robinhood username (email)
             password: Account password
-            mfa_code: 2FA code if MFA is enabled
+            mfa_code: 2FA code if MFA is enabled (TOTP only)
             device_token: Stored device token for MFA bypass
 
         Returns:
-            Dict with login status and any required actions
+            Dict with login status and any required actions.
+            If SMS/email verification is needed, returns:
+              requires_verification=True + workflow details
         """
         if not ROBINHOOD_AVAILABLE:
             return {
@@ -138,38 +255,72 @@ class RobinhoodService:
             }
 
         try:
-            # Build login kwargs
-            # robin_stocks uses pickle files for session persistence
-            login_kwargs = {
+            # Store login payload so the patched validator can attach it to the exception
+            self._current_login_payload = {
                 "username": username,
                 "password": password,
-                "expiresIn": 86400 * 30,  # 30 days
+                "expiresIn": 86400 * 30,
                 "store_session": True,
             }
-
             if mfa_code:
-                login_kwargs["mfa_code"] = mfa_code
+                self._current_login_payload["mfa_code"] = mfa_code
 
-            # Attempt login
-            login_result = rh.login(**login_kwargs)
+            # Monkey-patch _validate_sherrif_id to avoid blocking input()
+            import robin_stocks.robinhood.authentication as rh_auth
+            original_validate = rh_auth._validate_sherrif_id
+            rh_auth._validate_sherrif_id = self._patched_validate_sherrif_id
 
-            if login_result:
-                self._logged_in = True
-                self._username = username
-                # Generate a device token for our own tracking
-                self._device_token = device_token or str(uuid.uuid4())
-
-                return {
-                    "success": True,
-                    "device_token": self._device_token,
-                    "requires_mfa": False,
+            try:
+                # Build login kwargs
+                login_kwargs = {
+                    "username": username,
+                    "password": password,
+                    "expiresIn": 86400 * 30,  # 30 days
+                    "store_session": True,
                 }
-            else:
+                if mfa_code:
+                    login_kwargs["mfa_code"] = mfa_code
+
+                # Attempt login
+                login_result = rh.login(**login_kwargs)
+
+                if login_result and isinstance(login_result, dict) and "access_token" in login_result:
+                    self._logged_in = True
+                    self._username = username
+                    self._device_token = device_token or str(uuid.uuid4())
+
+                    return {
+                        "success": True,
+                        "device_token": self._device_token,
+                        "requires_mfa": False,
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "error": "Login failed. Check credentials or MFA code.",
+                        "requires_mfa": True,
+                    }
+
+            except VerificationRequired as vr:
+                logger.info(f"Verification required: {vr.challenge_type} (challenge={vr.challenge_id})")
                 return {
                     "success": False,
-                    "error": "Login failed. Check credentials or MFA code.",
-                    "requires_mfa": True,
+                    "requires_mfa": False,
+                    "requires_verification": True,
+                    "verification": {
+                        "workflow_id": vr.workflow_id,
+                        "device_token": vr.device_token,
+                        "machine_id": vr.machine_id,
+                        "challenge_id": vr.challenge_id,
+                        "challenge_type": vr.challenge_type,
+                    },
+                    "error": f"Enter the verification code sent via {vr.challenge_type}.",
                 }
+
+            finally:
+                # Always restore the original function
+                rh_auth._validate_sherrif_id = original_validate
+                self._current_login_payload = None
 
         except Exception as e:
             error_msg = str(e)
@@ -187,6 +338,144 @@ class RobinhoodService:
                 "success": False,
                 "error": error_msg,
                 "requires_mfa": False,
+            }
+
+    def verify_and_login(
+        self,
+        verification_code: str,
+        challenge_id: str,
+        workflow_id: str,
+        machine_id: str,
+        device_token: str,
+        username: str,
+        password: str,
+    ) -> Dict[str, Any]:
+        """
+        Complete SMS/email verification and re-attempt login.
+
+        This is called after login() returned requires_verification=True and
+        the user has entered their verification code in the browser.
+
+        Steps:
+          1. POST the code to /challenge/{id}/respond/
+          2. POST to pathfinder inquiries to confirm workflow approval
+          3. Re-attempt rh.login() (now verification is done, no challenge)
+
+        Args:
+            verification_code: The 6-digit SMS/email code from the user
+            challenge_id: From the VerificationRequired data
+            workflow_id: From the VerificationRequired data
+            machine_id: From the VerificationRequired data
+            device_token: From the VerificationRequired data
+            username: Robinhood username
+            password: Robinhood password
+
+        Returns:
+            Dict with login status
+        """
+        if not ROBINHOOD_AVAILABLE:
+            return {"success": False, "error": "robin_stocks library not installed"}
+
+        try:
+            # Step 1: Submit the verification code to Robinhood
+            challenge_url = f"https://api.robinhood.com/challenge/{challenge_id}/respond/"
+            challenge_payload = {"response": verification_code}
+            challenge_response = request_post(url=challenge_url, payload=challenge_payload)
+
+            if not challenge_response:
+                return {
+                    "success": False,
+                    "error": "No response from Robinhood verification API.",
+                }
+
+            challenge_status = challenge_response.get("status", "")
+            logger.info(f"Challenge response status: {challenge_status}")
+
+            if challenge_status != "validated":
+                return {
+                    "success": False,
+                    "error": f"Verification failed: {challenge_status}. Check the code and try again.",
+                }
+
+            # Step 2: Confirm workflow approval via pathfinder
+            inquiries_url = f"https://api.robinhood.com/pathfinder/inquiries/{machine_id}/user_view/"
+            start_time = time.time()
+            approved = False
+
+            while time.time() - start_time < 30:
+                try:
+                    inquiries_payload = {"sequence": 0, "user_input": {"status": "continue"}}
+                    inquiries_response = request_post(
+                        url=inquiries_url, payload=inquiries_payload, json=True
+                    )
+
+                    if not inquiries_response:
+                        time.sleep(3)
+                        continue
+
+                    # Check for approval in type_context
+                    type_context = inquiries_response.get("type_context", {})
+                    if type_context.get("result") == "workflow_status_approved":
+                        approved = True
+                        break
+
+                    # Check for approval in verification_workflow
+                    vw = inquiries_response.get("verification_workflow", {})
+                    if vw.get("workflow_status") == "workflow_status_approved":
+                        approved = True
+                        break
+
+                    time.sleep(3)
+                except Exception as e:
+                    logger.warning(f"Pathfinder poll error: {e}")
+                    time.sleep(3)
+
+            if not approved:
+                logger.warning("Workflow approval polling timed out — proceeding with login anyway")
+
+            # Step 3: Re-attempt login (verification is now complete)
+            # Monkey-patch again to no-op since verification is done
+            import robin_stocks.robinhood.authentication as rh_auth
+            original_validate = rh_auth._validate_sherrif_id
+
+            def _noop_validate(*args, **kwargs):
+                logger.info("Verification already completed — skipping challenge")
+                return
+
+            rh_auth._validate_sherrif_id = _noop_validate
+
+            try:
+                login_result = rh.login(
+                    username=username,
+                    password=password,
+                    expiresIn=86400 * 30,
+                    store_session=True,
+                )
+
+                if login_result and isinstance(login_result, dict) and "access_token" in login_result:
+                    self._logged_in = True
+                    self._username = username
+                    self._device_token = device_token or str(uuid.uuid4())
+                    logger.info("Robinhood login successful after verification!")
+
+                    return {
+                        "success": True,
+                        "device_token": self._device_token,
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "error": "Login failed after verification. Please try again.",
+                    }
+            finally:
+                rh_auth._validate_sherrif_id = original_validate
+
+        except Exception as e:
+            error_msg = str(e)
+            logger.error(f"Robinhood verify_and_login error: {error_msg}")
+            return {
+                "success": False,
+                "error": f"Verification error: {error_msg}",
             }
 
     def logout(self) -> bool:

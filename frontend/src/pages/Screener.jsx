@@ -11,9 +11,11 @@ import ResultsTable from '../components/screener/ResultsTable';
 import StockDetail from '../components/screener/StockDetail';
 import CriteriaForm from '../components/screener/CriteriaForm';
 import Loading from '../components/common/Loading';
+import FullAutoBanner from '../components/common/FullAutoBanner';
 import { MarketRegimeBanner } from '../components/ai';
 import useScreenerStore from '../stores/screenerStore';
 import useSavedScansStore from '../stores/savedScansStore';
+import useFullAutoLock from '../hooks/useFullAutoLock';
 import { AlertsTab, AlertDetail } from '../components/alerts';
 
 // Tab configuration
@@ -296,6 +298,9 @@ export default function Screener() {
     clearScan,
   } = useScreenerStore();
 
+  // Full Auto lockdown
+  const { isLocked } = useFullAutoLock();
+
   // Get saved scans store for auto-save and indicators
   const {
     scanStatus,
@@ -477,6 +482,13 @@ export default function Screener() {
           </div>
         </div>
 
+        {/* Full Auto Lockdown Banner */}
+        {isLocked && (
+          <div className="mb-6">
+            <FullAutoBanner message="Full Auto mode is active. Screener actions are locked to prevent interference with automation." />
+          </div>
+        )}
+
         {/* Scan Status Banner - Shows when there's an active scan or recent results */}
         {(loading || (results.length > 0 && lastScanTime)) && (
           <div className={`mb-6 rounded-lg p-4 ${loading ? 'bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800' : 'bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800'}`}>
@@ -570,7 +582,7 @@ export default function Screener() {
                             key={preset.id}
                             preset={preset}
                             onClick={startStreamingScan}
-                            disabled={loading}
+                            disabled={loading || isLocked}
                             isActive={activePreset === preset.id}
                             hasSavedResults={metadata.has_results}
                             stockCount={metadata.stock_count}
@@ -588,7 +600,7 @@ export default function Screener() {
                 </div>
                 <button
                   onClick={startScanAllPresets}
-                  disabled={loading}
+                  disabled={loading || isLocked}
                   className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                 >
                   Scan All Presets
@@ -604,14 +616,16 @@ export default function Screener() {
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Fine-tune your filters to find the perfect opportunities. Adjust the sliders below and run a market scan.
               </p>
-              <CriteriaForm
-                onCriteriaChange={setCriteria}
-                initialCriteria={criteria}
-              />
+              <div className={isLocked ? 'opacity-50 pointer-events-none' : ''}>
+                <CriteriaForm
+                  onCriteriaChange={setCriteria}
+                  initialCriteria={criteria}
+                />
+              </div>
               <div className="mt-6">
                 <button
                   onClick={() => startBatchScan(criteria)}
-                  disabled={loading}
+                  disabled={loading || isLocked}
                   className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Scanning...' : '🌐 Run Market Scan with Custom Criteria'}
@@ -664,7 +678,7 @@ export default function Screener() {
                     onChange={(e) => setSymbols(e.target.value)}
                     placeholder="Enter stock symbols (e.g., AAPL, MSFT, GOOGL, NVDA, TSLA)"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                    disabled={loading}
+                    disabled={loading || isLocked}
                   />
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     Example: AAPL, MSFT, GOOGL or AAPL MSFT GOOGL
@@ -684,7 +698,7 @@ export default function Screener() {
                     value={topN}
                     onChange={(e) => setTopN(parseInt(e.target.value))}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                    disabled={loading}
+                    disabled={loading || isLocked}
                   />
                 </div>
 
@@ -692,7 +706,7 @@ export default function Screener() {
                 <div className="flex gap-3">
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || isLocked}
                     className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? 'Screening...' : 'Screen Selected Stocks'}

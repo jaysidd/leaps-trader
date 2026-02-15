@@ -169,17 +169,24 @@ class TestMacroBiasScore:
 
     def test_sector_weights_applied_correctly(self, service):
         """Different sectors produce different scores for same inputs."""
+        # Provide all components with varied values so different sector weights
+        # produce genuinely different weighted sums.
+        # Tech vs Healthcare have very different weight distributions.
         inputs = {
-            "liquidity_score": 60,
-            "mri_score": 40,
+            "liquidity_score": 30,
+            "mri_score": 70,
+            "earnings_risk_score": 20,
+            "options_positioning_score": 80,
+            "event_risk_score": 40,
         }
 
         tech_result = service._compute_macro_bias_score(sector="Technology", **inputs)
-        fin_result = service._compute_macro_bias_score(sector="Financials", **inputs)
+        health_result = service._compute_macro_bias_score(sector="Healthcare", **inputs)
 
-        # Scores should differ because weights differ
-        assert tech_result["score"] != fin_result["score"]
-        assert tech_result["sector_weights"] != fin_result["sector_weights"]
+        # Weights should differ between sectors
+        assert tech_result["sector_weights"] != health_result["sector_weights"]
+        # Scores should differ because weights differ with varied inputs
+        assert tech_result["score"] != health_result["score"]
 
     def test_component_contributions_included(self, service):
         """Response includes component contribution breakdown."""

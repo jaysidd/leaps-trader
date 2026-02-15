@@ -46,8 +46,8 @@ def _indicators(**overrides):
 
 class TestDataSufficiency:
     def test_insufficient_data_returns_all_unknown(self, engine):
-        """< 252 trading days → all UNKNOWN, score=None."""
-        short_data = _make_price_data(200)
+        """< 200 trading days → all UNKNOWN, score=None."""
+        short_data = _make_price_data(199)  # Below 200-day minimum
         result = engine._evaluate_technical(_indicators(), short_data)
         assert result.reason == "insufficient_price_history"
         assert result.score_pct is None

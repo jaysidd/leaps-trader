@@ -101,6 +101,7 @@ class RiskGateway:
             ("AI analysis filter", lambda: self._check_ai_analysis(bot_config, signal)),
             ("Strategy filter", lambda: self._check_strategy(bot_config, signal)),
             ("Duplicate position", lambda: self._check_duplicate_position(signal)),
+            ("Opposing position", lambda: self._check_opposing_position(signal)),
         ]
 
         # Options-specific checks
@@ -395,6 +396,32 @@ class RiskGateway:
             return (
                 False,
                 f"Already have an open {signal.direction} position in {signal.symbol} (trade #{existing.id})",
+                None,
+            )
+        return True, "", None
+
+    def _check_opposing_position(self, signal: TradingSignal):
+        """Prevent opening a position that opposes an existing open position.
+
+        If we have an open BUY/LONG position, block SELL/SHORT signals.
+        If we have an open SELL/SHORT position, block BUY/LONG signals.
+        Prevents whipsaw losses from conflicting multi-timeframe signals.
+        """
+        opposing_direction = "sell" if signal.direction == "buy" else "buy"
+        existing = (
+            self.db.query(ExecutedTrade)
+            .filter(
+                ExecutedTrade.symbol == signal.symbol,
+                ExecutedTrade.direction == opposing_direction,
+                ExecutedTrade.status == TradeStatus.OPEN.value,
+            )
+            .first()
+        )
+        if existing:
+            return (
+                False,
+                f"Cannot open {signal.direction} position — opposing {opposing_direction} "
+                f"position already open in {signal.symbol} (trade #{existing.id})",
                 None,
             )
         return True, "", None

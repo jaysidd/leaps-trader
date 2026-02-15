@@ -2,7 +2,8 @@
 import pytest
 
 # Import directly — the function and LEAPS_PRESETS are module-level
-from backend.app.api.endpoints.screener import _matches_preset, LEAPS_PRESETS
+from backend.app.data.presets_catalog import LEAPS_PRESETS
+from backend.app.api.endpoints.screener import _matches_preset
 
 
 def _result(**overrides):

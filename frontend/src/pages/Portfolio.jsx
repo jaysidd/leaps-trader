@@ -83,26 +83,50 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
   const [mfaCode, setMfaCode] = useState('');
   const [accountName, setAccountName] = useState('');
   const [showMFA, setShowMFA] = useState(false);
+  const [verificationInfo, setVerificationInfo] = useState(null);
+  const [pendingConnection, setPendingConnection] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { submitMFA } = usePortfolioStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    // If we're in the MFA/verification step, use submitMFA from the store
+    if (showMFA && pendingConnection) {
+      const result = await submitMFA(pendingConnection.id, mfaCode);
+      setLoading(false);
+
+      if (result.success) {
+        onClose();
+        return;
+      }
+
+      setError(result.error || 'Verification failed. Check the code and try again.');
+      setMfaCode('');
+      return;
+    }
+
+    // Initial connection attempt
     const result = await onConnect(
       broker.type,
       username,
       password,
-      showMFA ? mfaCode : null,
+      null, // Don't pass MFA code on initial attempt
       accountName || null
     );
 
     setLoading(false);
 
-    if (result.requires_mfa) {
+    if (result.requires_mfa || result.requires_verification) {
       setShowMFA(true);
+      setPendingConnection(result.connection);
+      if (result.verification) {
+        setVerificationInfo(result.verification);
+      }
       return;
     }
 
@@ -114,6 +138,13 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
   };
 
   const config = BROKER_CONFIG[broker.type] || {};
+
+  // Determine the verification method label
+  const verifyLabel = verificationInfo?.challenge_type === 'email'
+    ? 'email'
+    : verificationInfo?.challenge_type === 'sms'
+      ? 'SMS'
+      : 'authenticator app or SMS';
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -127,7 +158,9 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
                 Connect to {config.name}
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Enter your credentials to link your account
+                {showMFA
+                  ? 'Enter the verification code to continue'
+                  : 'Enter your credentials to link your account'}
               </p>
             </div>
           </div>
@@ -187,10 +220,10 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
           ) : (
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                2FA Code
+                Verification Code
               </label>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Enter the code from your authenticator app or SMS
+                Enter the code sent via {verifyLabel}
               </p>
               <input
                 type="text"
@@ -199,6 +232,7 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
                 className="w-full px-4 py-3 text-center text-2xl tracking-widest border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="000000"
                 maxLength={6}
+                autoFocus
                 required
               />
             </div>
@@ -208,7 +242,6 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
           <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
             <p className="text-xs text-blue-700 dark:text-blue-400">
               🔒 Your credentials are encrypted and only used to establish a secure connection.
-              We never store your password.
             </p>
           </div>
 
@@ -236,7 +269,7 @@ function ConnectBrokerModal({ broker, onClose, onConnect }) {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Connecting...
+                  {showMFA ? 'Verifying...' : 'Connecting...'}
                 </span>
               ) : showMFA ? (
                 'Verify'

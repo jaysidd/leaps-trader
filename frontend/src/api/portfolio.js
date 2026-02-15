@@ -43,12 +43,26 @@ export const portfolioAPI = {
   },
 
   /**
-   * Submit MFA code for pending connection
+   * Submit MFA code for pending connection (TOTP flow)
    */
   async submitMFA(connectionId, mfaCode) {
     const response = await axios.post(`${API_PREFIX}/connections/${connectionId}/mfa`, {
       connection_id: connectionId,
       mfa_code: mfaCode,
+    });
+    return response.data;
+  },
+
+  /**
+   * Submit SMS/email verification code (Robinhood verification_workflow flow)
+   */
+  async submitVerification(connectionId, verificationCode, verificationData) {
+    const response = await axios.post(`${API_PREFIX}/connections/${connectionId}/verify`, {
+      verification_code: verificationCode,
+      challenge_id: verificationData.challenge_id,
+      workflow_id: verificationData.workflow_id,
+      machine_id: verificationData.machine_id,
+      device_token: verificationData.device_token,
     });
     return response.data;
   },

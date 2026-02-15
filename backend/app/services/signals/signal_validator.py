@@ -27,9 +27,10 @@ from app.services.ai.claude_service import get_claude_service
 
 # Confidence threshold: signals at or above this score auto-execute,
 # below this score get queued for manual review.
-# Lowered from 75 to 65 — stocks reaching this layer have already passed
-# screening gates, strategy selection, and signal engine (3 quality layers).
-CONFIDENCE_THRESHOLD = 65
+# History: 75 → 65 → 70. Raised back to 70: while stocks have passed
+# 3 quality layers, only genuinely strong setups should auto-execute.
+# Signals scoring 65-69 go to manual review where the user can decide.
+CONFIDENCE_THRESHOLD = 70
 
 
 class SignalValidator:
@@ -329,10 +330,12 @@ Respond with JSON only:
 {{"confidence": <0-100>, "reasoning": "<2-3 sentences max>"}}
 
 Rules:
-- confidence >= 65 = auto-execute (high conviction, already passed 3 quality layers)
-- confidence 40-64 = manual review needed
+- confidence >= 70 = auto-execute (high conviction)
+- confidence 40-69 = manual review needed
 - confidence < 40 = reject the trade
-- These signals already passed screening, strategy selection, and signal engine. Be practical — only reject if you see a clear red flag."""
+- Evaluate objectively. Consider volume confirmation, momentum alignment, and risk/reward.
+- Flag weak setups even if they technically passed prior screening layers.
+- Key red flags: weak volume (<1x avg), oversold/overbought RSI, missing VWAP context, wide spreads, earnings proximity."""
 
         try:
             result = await claude.call_claude(

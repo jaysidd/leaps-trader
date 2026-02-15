@@ -84,12 +84,14 @@ FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zust
 - Alpaca option snapshots often return empty off-hours / rate limited — IV=0.0 and OI=0 treated as UNKNOWN, not PASS/FAIL
 - Options IV gate threshold: 70% — LEAPS with IV above 70% are overpaying for time value
 - Options liquidity minimum: 100 OI — minimum open interest for acceptable LEAPS liquidity
-- Composite score minimum: 20 (engine.py) — low bar since 4-stage gates already filter heavily
+- Composite score minimum: 30 (engine.py) — raised from 20 to filter marginal stocks that barely pass gates
 - Market cap max: No default upper limit — presets control their own caps. Only small-cap/aggressive presets have explicit caps.
 - Options spread threshold: 15% (options.py) — bid-ask spread max for acceptable LEAPS fills
 - Options premium threshold: 20% (options.py) — max premium as % of stock price for LEAPS entry
-- Signal engine gate penalty cap: -15 total (was -40 uncapped) — prevents vol/ATR from crushing valid setups
-- AI validator auto-execute threshold: 65 (not 75) — stocks here passed 3 quality layers already
+- Signal engine gate penalty cap: -25 total (was -15, originally -40 uncapped) — tighter than before but still prevents total score destruction
+- Signal engine MIN_CONFIDENCE: 62 (raised from 60) — combined with gate penalty cap change, filters more marginal signals
+- AI validator auto-execute threshold: 70 (raised from 65) — only genuinely strong setups auto-execute; 40-69 goes to manual review
+- AI validator prompt: evaluates objectively (removed old "be practical" lenient phrasing) — flags weak setups even if they passed screening
 - DB endpoints: use `Depends(get_db)` not manual `SessionLocal()` to prevent connection leaks
 - FMP screener universe cached 4h in Redis (`fmp:screener_universe:*`) — flush after changing screener params
 - Auto-scan runs in interval mode (default 30min) with market-hours guard — requires server restart to change mode
@@ -100,6 +102,26 @@ FastAPI + SQLAlchemy + APScheduler + PostgreSQL + Redis | React 19 + Vite + Zust
 - PresetSelector uses WEIGHTED composite scoring (-100 to +100): regime 35%, MRI 30%, F&G 20%, readiness 15%. Score thresholds: ≥50 aggressive_bull, ≥20 moderate_bull, ≥0 neutral, ≥-20 cautious, ≥-50 defensive. No single signal can veto the classification (except extreme panic MRI>80 + F&G<10).
 - CNN Fear & Greed API returns 418 (bot detection) — `get_fear_greed_index()` falls through to VIX-based fallback via `_get_fear_greed_fallback()`. F&G should almost always be available now.
 - PresetSelector `_classify_condition()` takes TWO args `(score, snapshot)` — any external callers (autopilot.py) must call `_compute_composite_score()` first
+- LEAPS_PRESETS lives in `app/data/presets_catalog.py` (extracted from screener.py to avoid circular imports). Use `from app.data.presets_catalog import LEAPS_PRESETS, resolve_preset` everywhere. Never import LEAPS_PRESETS from screener.py.
+- `resolve_preset(name, source, strict)` is the single gatekeeper for preset resolution outside UI endpoints. Strict mode (default: `PRESET_CATALOG_STRICT=true` env var) raises `ValueError` on unknown presets. Use `strict=False` when graceful skip is OK (auto_scan). UI endpoints still use `LEAPS_PRESETS.get()` with fallback but now log warnings.
+- PresetSelector startup validation: `_validate_preset_catalog()` runs once on first `get_preset_selector()` call. In strict mode, raises `ValueError` if any preset name in `MARKET_CONDITIONS` is missing from `LEAPS_PRESETS`. Set `PRESET_CATALOG_STRICT=false` when running tests that don't need the full catalog.
+- PresetSelector `confidence=0` gotcha (B3 fix): Use `if confidence is not None` not `if confidence` — zero confidence should mean zero signal contribution, not default to 0.7.
+- Pipeline E2E tests: 222 tests in `backend/tests/pipeline/` covering all 7 layers + comprehensive PresetSelector tests with mock data — run with `python3 -m pytest tests/pipeline/ -v` (~1s, zero API calls)
+- Replay E2E tests: 6 tests in `backend/tests/replay/` — fixture-based, no API calls. Synthetic SPY DataFrames (bull/neutral/bear/panic/mild_bull + parameterized mid-band) feed through ReplayMarketIntelligence → PresetSelector. Run with `python3 -m pytest tests/replay/ -v -m replay`. Tests 01-05 use corner fixtures; Test 06 uses discovery approach (tries 7 candidate parameterizations, asserts ≥1 hits moderate_bull, validates score↔condition consistency for all). Assertions use condition buckets (not exact scores) to avoid flakiness.
+- Replay confidence scale fix: `_compute_regime_from_bars()` in replay_services.py normalizes confidence from 1-10 → 0-100 via `confidence = min(int(confidence * 12.5), 100)`. Without this, regime signal (35% weight) is nearly zeroed out. The LIVE `MarketRegimeDetector.analyze_regime_rules()` has the SAME bug (P1 in BACKLOG.md) — not yet fixed.
+- Replay fixture VIX proxy gotcha: Daily noise % in synthetic fixtures gets amplified by the 20-day trailing std window. Original bear fixture used 1.6% daily noise → VIX proxy 52 (2008-level), F&G=0. Tuned to 1.0% → VIX ~32, F&G ~29. When designing fixtures, always verify the actual VIX proxy output, not just the noise parameter.
+- Replay missing MRI: Without DB, MRI=None for all replay scenarios (except when injected). This redistributes MRI's 30% weight to other signals — regime jumps from 35% → 50%. Also disables panic override (requires both MRI>80 AND F&G<10). Production may behave differently when MRI data is available.
+- Replay mid-band testing: The cautious band (-20 to 0) is extremely narrow to hit from bar-derived signals alone (without MRI injection). Without MRI, the 30% weight redistributes to regime/F&G/readiness, making regime dominant (~50%). Gentle downtrends stay in neutral (not enough VIX push) or jump to defensive (VIX threshold triggers bearish regime). Use discovery approach: try multiple parameterizations and assert ≥1 hits the target band, rather than pinning a single fragile fixture.
+- Signal engine cross-direction conflict check (step 8b): Blocks BUY signals when active SELL signals exist for the same symbol (any timeframe, within 2h), and vice versa. Prevents whipsaw losses from conflicting multi-timeframe signals.
+- Risk gateway opposing position check (#15): Blocks execution if an open position in the opposing direction already exists. Defense-in-depth alongside signal engine conflict check.
+- Historical replay harness: `scripts/replay/replay_trading_day.py` — replays past trading days through all 7 pipeline layers. Usage: `python3 scripts/replay/replay_trading_day.py 2026-02-10 --symbols SSRM,NVDA --interval 15`. Flags: `--skip-screening` (bypass screening), `--no-ai` (skip Claude validation), `--no-risk-check` (skip Risk Gateway). AI Validator falls back to `manual_review` if Claude unavailable.
+- Replay synthetic options chain: `replay_get_options_chain` returns DataFrame with single LEAPS call (ATM strike, 300 DTE, zero market data) to trigger screening soft-pass. Returning `None` causes hard-fail with `no_options_data`.
+- Replay virtual trading: Virtual BotConfiguration (max_per_stock_trade=$500, max_daily_loss=2%, max_concurrent=5) and BotState track trades/P&L/circuit breaker during replay. Position sizing uses FIXED_DOLLAR mode.
+- Replay market intelligence: `ReplayMarketIntelligence` computes regime/F&G/readiness from SPY daily bar cache (not live services). `^VIX` is NOT a valid Alpaca symbol — VIX is approximated from SPY 20-day realized volatility. Patches 4 caches: MRI, regime detector, F&G, readiness.
+- Regime detector cache format: `MarketRegimeDetector._cache` stores keys at TOP LEVEL (`detector._cache.get("regime")`), NOT nested under `{"rules": ...}`. PresetSelector reads these directly.
+- Replay audit log: `ReplayAuditLog` model (replay_audit_logs table) captures every pipeline decision during replay. Stages: preset_selection, screening, signal_generation, risk_check, trade_execution, position_exit, summary. Each entry has session UUID, decision JSON blob, pass/fail, score, reasoning.
+- robin_stocks 2FA: `_validate_sherrif_id()` calls `input()` for SMS/email codes — blocks forever in web server. Our `robinhood_service.py` monkey-patches it with `_patched_validate_sherrif_id()` that raises `VerificationRequired` instead. The verify flow uses Robinhood's `/challenge/{id}/respond/` API directly.
+- Robinhood verification has TWO flows: (1) TOTP `mfa_code` passed to `rh.login()` — works natively, (2) SMS/email `verification_workflow` — requires monkey-patching + our `/verify` endpoint. The `ConnectBrokerModal` → `submitMFA` store action auto-detects which flow to use.
 
 ## Reference Documents
 
